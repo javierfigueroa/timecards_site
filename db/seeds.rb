@@ -18,8 +18,8 @@ puts 'user: ' << user.name
 user.add_role :admin
 user2 = User.find_or_create_by_email :name => 'Silver User', :email => 'user2@example.com', :password => 'changeme', :password_confirmation => 'changeme'
 user2.add_role :silver
-user3 = User.find_or_create_by_email :name => 'Gold User', :email => 'user3@example.com', :password => 'changeme', :password_confirmation => 'changeme'
-user3.add_role :gold
-user4 = User.find_or_create_by_email :name => 'Platinum User', :email => 'user4@example.com', :password => 'changeme', :password_confirmation => 'changeme'
-user4.add_role :platinum
-puts "users: #{user2.name}, #{user3.name}, #{user4.name}"
+# user3 = User.find_or_create_by_email :name => 'Gold User', :email => 'user3@example.com', :password => 'changeme', :password_confirmation => 'changeme'
+# user3.add_role :gold
+# user4 = User.find_or_create_by_email :name => 'Platinum User', :email => 'user4@mainloop.us', :password => 'changeme', :password_confirmation => 'changeme'
+# user4.add_role :platinum
+puts "users: #{user2.name}"#", #{user3.name}, #{user4.name}"
