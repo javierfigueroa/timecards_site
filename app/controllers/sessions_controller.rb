@@ -21,17 +21,4 @@ class SessionsController < Devise::SessionsController
       end
     end
   end
-  
-  def destroy
-      respond_to do |format|
-       format.json {
-         return sign_out_and_redirect(resource_name)
-       }
-      end
-  end
-
-  def sign_out_and_redirect(resource_or_scope)
-       warden.logout
-       return render :json => {:status => :signed_out}
-  end
 end 

@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '1.9.3'
 gem 'rails', '3.2.3'
-gem 'sqlite3'
+gem 'pg'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -17,6 +17,7 @@ gem 'simple_form'
 gem 'stripe'
 gem 'stripe_event'
 gem 'thin'
+gem 'apartment'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]

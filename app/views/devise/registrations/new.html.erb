@@ -9,13 +9,15 @@
   <%= hidden_field_tag 'plan', params[:plan] %>
   <%= f.error_notification %>
   <%= display_base_errors resource %>
-  <%= f.input :name, :autofocus => true %> 
+  <%= f.input :first_name, :autofocus => true %>
+  <%= f.input :last_name %> 
   <%= f.input :email, :required => true %>
   <%= f.input :password, :required => true %>
   <%= f.input :password_confirmation, :required => true %>
+  <%= f.input :company_name, :required => true  %>
   <% if @user.stripe_token %>
     <p>Credit card acceptance is pending.</p>
-  <% else %>
+  <% elsif @current_tenant.nil? %>
     <div class="field">
       <%= label_tag :card_number, "Credit Card Number" %>
       <%= text_field_tag :card_number, nil, name: nil %>
@@ -30,7 +32,6 @@
       <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>
     </div>
     <div class="field">
-      <%= f.input :coupon, :label => 'Promotional Coupon (if any)' %>
     </div>
   <% end %>
   <%= f.hidden_field :stripe_token %>

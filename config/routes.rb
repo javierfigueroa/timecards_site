@@ -6,6 +6,7 @@ RailsStripeMembershipSaas::Application.routes.draw do
   authenticated :user do
     root :to => 'home#index'
   end
+  match '', to: 'home#index', constraints: lambda { |r| r.subdomain.present? && r.subdomain != 'www' }
   root :to => "home#index"
   devise_for :users, :controllers => { :registrations => 'registrations', :sessions => "sessions" }
   devise_scope :user do
@@ -16,21 +17,4 @@ RailsStripeMembershipSaas::Application.routes.draw do
     end
   end
   resources :users
-  
-  
-  # authenticated :user do
-    # root :to => 'jobs#index'
-  # end
-#   
-  # root :to => "jobs#index"
-  # devise_for  :users, 
-              # :path => '', 
-              # :path_names => { :sign_in => "login", :sign_out => "logout", :sign_up => "register" },
-              # :controllers => { :sessions => "sessions" }
-# 
-  # devise_scope :user do
-    # namespace :api do
-      # resources :sessions, :only => [:create, :destroy]
-    # end
-  # end
 end

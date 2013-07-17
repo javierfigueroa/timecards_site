@@ -7,10 +7,22 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable, :token_authenticatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :stripe_token, :coupon
+  attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :stripe_token, :company_name, :encrypted_password
   attr_accessor :stripe_token, :coupon
   before_save :update_stripe
   before_destroy :cancel_subscription
+  after_create :create_tenant
+  
+  def create_tenant
+    if @current_tenant.nil? && !roles.first.name.include?("admin")
+      tenant = Tenant.find_or_create_by_subdomain(
+        :subdomain => self.company_name,
+        :user => self
+      )
+      
+      tenant.save
+    end
+  end
 
   def update_plan(role)
     self.role_ids = []
