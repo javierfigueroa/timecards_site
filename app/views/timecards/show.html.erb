@@ -1,20 +1,44 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <b>Latitude:</b>
-  <%= @timecard.latitude %>
+  <b>Photo in:</b>
+  <img src="<%= @timecard.photo_in %>" width="300px" height="300px" />
 </p>
 
 <p>
-  <b>Longitude:</b>
-  <%= @timecard.longitude %>
+  <b>Latitude in:</b>
+  <%= @timecard.latitude_in %>
 </p>
 
 <p>
-  <b>Timestamp:</b>
-  <%= @timecard.timestamp %>
+  <b>Longitude in:</b>
+  <%= @timecard.longitude_in %>
 </p>
 
+<p>
+  <b>Timestamp in:</b>
+  <%= @timecard.timestamp_in %>
+</p>
+
+<p>
+  <b>Photo out:</b>
+  <img src="<%= @timecard.photo_out %>" width="300px" height="300px" />
+</p>
+ 	
+<p>
+  <b>Latitude out:</b>
+  <%= @timecard.latitude_out %>
+</p>
+
+<p>
+  <b>Longitude out:</b>
+  <%= @timecard.longitude_out %>
+</p>
+
+<p>
+  <b>Timestamp out:</b>
+  <%= @timecard.timestamp_out %>
+</p>
 
 <%= link_to 'Edit', edit_timecard_path(@timecard) %> |
 <%= link_to 'Back', timecards_path %>

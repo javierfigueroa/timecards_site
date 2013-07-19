@@ -17,7 +17,10 @@ gem 'simple_form'
 gem 'stripe'
 gem 'stripe_event'
 gem 'thin'
+gem 'aws-sdk'
 gem 'paperclip'
+gem 'aws-s3'
+gem 'date_validator'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]

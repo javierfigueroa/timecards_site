@@ -41,7 +41,8 @@ class TimecardsController < ApplicationController
   # POST /timecards.json
   def create
     @timecard = Timecard.new(params[:timecard])
-
+    @timecard.user = current_user
+    
     respond_to do |format|
       if @timecard.save
         format.html { redirect_to @timecard, notice: 'Timecard was successfully created.' }

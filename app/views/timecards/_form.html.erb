@@ -2,9 +2,25 @@
   <%= f.error_notification %>
 
   <div class="form-inputs">
-    <%= f.input :latitude %>
-    <%= f.input :longitude %>
-    <%= f.input :timestamp %>
+  	<div class="control-group">
+		<%= f.label "Clock in photo" , :class => 'control-label' %>
+		<div class="controls">
+			<%= f.file_field :photo_in %>
+		</div>
+	</div>
+    <%= f.input :latitude_in %>
+    <%= f.input :longitude_in %>
+    <%= f.input :timestamp_in %>
+    
+    <div class="control-group">
+		<%= f.label "Clock in photo" , :class => 'control-label' %>
+		<div class="controls">
+			<%= f.file_field :photo_out %>
+		</div>
+	</div>
+    <%= f.input :latitude_out %>
+    <%= f.input :longitude_out %>
+    <%= f.input :timestamp_out %>
   </div>
 
   <div class="form-actions">

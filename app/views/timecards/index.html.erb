@@ -12,9 +12,12 @@
 
 <% @timecards.each do |timecard| %>
   <tr>
-    <td><%= timecard.latitude %></td>
-    <td><%= timecard.longitude %></td>
-    <td><%= timecard.timestamp %></td>
+    <td><%= timecard.latitude_in %></td>
+    <td><%= timecard.longitude_in %></td>
+    <td><%= timecard.timestamp_in %></td>
+    <td><%= timecard.latitude_out %></td>
+    <td><%= timecard.longitude_out %></td>
+    <td><%= timecard.timestamp_out %></td>
     <td><%= link_to 'Show', timecard %></td>
     <td><%= link_to 'Edit', edit_timecard_path(timecard) %></td>
     <td><%= link_to 'Destroy', timecard, confirm: 'Are you sure?', method: :delete %></td>
