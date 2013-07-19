@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @timecard.latitude %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @timecard.longitude %>
+</p>
+
+<p>
+  <b>Timestamp:</b>
+  <%= @timecard.timestamp %>
+</p>
+
+
+<%= link_to 'Edit', edit_timecard_path(@timecard) %> |
+<%= link_to 'Back', timecards_path %>

@@ -12,7 +12,7 @@ GMAIL_PASSWORD: Your_Password
 ADMIN_FIRST_NAME: Javier
 ADMIN_LAST_NAME: Javier
 ADMIN_EMAIL: figueroa7@gmail.com
-ADMIN_PASSWORD: Hurricanes09!
+ADMIN_PASSWORD: changeme
 ROLES: [admin, silver]
 STRIPE_API_KEY: sk_test_ZrVlmCcTHt3fGqX9Fq0XuV0e
 STRIPE_PUBLIC_KEY: pk_test_OAUlOmf9HhQh7g4qkI8rWSMZ

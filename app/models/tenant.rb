@@ -2,9 +2,8 @@ require 'PgTools'
 
 class Tenant < ActiveRecord::Base
   attr_accessible :subdomain, :user
-  belongs_to :user
+  has_many :users
   after_create :create_schema
-  after_commit :create_admin
   
   #create new schema once the schema is created
   def create_schema
@@ -12,23 +11,10 @@ class Tenant < ActiveRecord::Base
     scope_schema do
       load Rails.root.join("db/schema.rb")
       connection.execute("drop table #{self.class.table_name}")
-    end
-  end
-  
-  #used to crete first user and admin of the tenant scheme
-  def create_admin
-    user = User.find_by_id(self.user_id)
-    scope_schema do
-      tenant_admin = User.new(
-         :first_name => user.first_name, 
-         :last_name => user.last_name,   
-         :email => user.email, 
-         :encrypted_password => user.encrypted_password,
-         :company_name => user.company_name
-      )
-      tenant_admin.add_role :admin
-      tenant_admin.save(:validate=> false)
-      sign_in tenant_admin, :bypass => true 
+      connection.execute("drop table sessions")
+      YAML.load(ENV['ROLES']).each do |role|
+        Role.find_or_create_by_name({ :name => role }, :without_protection => true)
+      end
     end
   end
   
@@ -38,6 +24,6 @@ class Tenant < ActiveRecord::Base
     connection.schema_search_path = path
     yield if block_given?
   ensure
-    connection.schema_search_path = original_search_path
+    connection.schema_search_path = original_search_path if block_given?
   end
 end

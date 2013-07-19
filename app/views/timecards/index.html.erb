@@ -1,0 +1,27 @@
+<h1>Listing timecards</h1>
+
+<table>
+  <tr>
+    <th>Latitude</th>
+    <th>Longitude</th>
+    <th>Timestamp</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @timecards.each do |timecard| %>
+  <tr>
+    <td><%= timecard.latitude %></td>
+    <td><%= timecard.longitude %></td>
+    <td><%= timecard.timestamp %></td>
+    <td><%= link_to 'Show', timecard %></td>
+    <td><%= link_to 'Edit', edit_timecard_path(timecard) %></td>
+    <td><%= link_to 'Destroy', timecard, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Timecard', new_timecard_path %>

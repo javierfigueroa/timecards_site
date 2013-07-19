@@ -3,8 +3,8 @@ require 'PgTools'
 class ApplicationController < ActionController::Base
   protect_from_forgery
 
-  #before_filter works here instead of around_filter because of the devise session check
-  before_filter :scope_current_tenant
+  prepend_before_filter :scope_current_tenant #used for devise sessions
+  around_filter :scope_current_tenant #general tenancy scope
   
   private
   
@@ -23,6 +23,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
+  def current_subdomain
+      if request.subdomains.first.present? && request.subdomains.first != "www"
+        current_subdomain = current_tenant.company_name
+      else 
+        current_subdomain = nil
+      end
+      return current_subdomain
+  end   
+  
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
@@ -33,13 +42,12 @@ class ApplicationController < ActionController::Base
         users_path
       when 'silver'
         content_silver_path
-      when 'gold'
-        content_gold_path
-      when 'platinum'
-        content_platinum_path
+      # when 'gold'
+        # content_gold_path
+      # when 'platinum'
+        # content_platinum_path
       else
         root_path
     end
   end
-  
 end

@@ -1,4 +1,6 @@
 RailsStripeMembershipSaas::Application.routes.draw do
+  resources :timecards
+
   mount StripeEvent::Engine => '/stripe'
   get "content/gold"
   get "content/silver"

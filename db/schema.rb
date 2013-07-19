@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130717020015) do
+ActiveRecord::Schema.define(:version => 20130718185432) do
 
   create_table "roles", :force => true do |t|
     t.string   "name"
@@ -35,14 +35,33 @@ ActiveRecord::Schema.define(:version => 20130717020015) do
   add_index "sessions", ["updated_at"], :name => "index_sessions_on_updated_at"
 
   create_table "tenants", :force => true do |t|
-    t.integer  "user_id"
     t.string   "subdomain"
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "timecards", :force => true do |t|
+    t.float    "latitude_in"
+    t.float    "longitude_in"
+    t.date     "timestamp_in"
+    t.string   "photo_in_file_name"
+    t.string   "photo_in_content_type"
+    t.integer  "photo_in_file_size"
+    t.datetime "photo_in_updated_at"
+    t.float    "latitude_out"
+    t.float    "longitude_out"
+    t.date     "timestamp_out"
+    t.string   "photo_out_file_name"
+    t.string   "photo_out_content_type"
+    t.integer  "photo_out_file_size"
+    t.datetime "photo_out_updated_at"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
   create_table "users", :force => true do |t|
+    t.integer  "tenant_id"
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
     t.string   "reset_password_token"
@@ -65,9 +84,9 @@ ActiveRecord::Schema.define(:version => 20130717020015) do
     t.datetime "updated_at",                             :null => false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "company_name"
     t.string   "customer_id"
     t.string   "last_4_digits"
-    t.string   "company_name"
   end
 
   add_index "users", ["authentication_token"], :name => "index_users_on_authentication_token", :unique => true
