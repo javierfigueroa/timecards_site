@@ -15,8 +15,8 @@ class Timecard < ActiveRecord::Base
                   :photo_out_content_type, 
                   :photo_out_file_size
                   
-  validates_attachment :photo_in, :content_type => { :content_type => "image/jpeg" }      
-  validates_attachment :photo_out, :content_type => { :content_type => "image/jpeg" }
+  # validates_attachment :photo_in, :content_type => { :content_type => "image/jpeg" }      
+  # validates_attachment :photo_out, :content_type => { :content_type => "image/jpeg" }
     
   # validates :timestamp_out, :date => {:after => :timestamp_in, :message => 'check out time must be after check in time'}
   # validates :timestamp_in, :date => {:before => :timestamp_out, :message => 'check in time must be after check out time'} 

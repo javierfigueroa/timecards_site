@@ -3,9 +3,7 @@ RailsStripeMembershipSaas::Application.routes.draw do
   resources :timecards
 
   mount StripeEvent::Engine => '/stripe'
-  get "content/gold"
-  get "content/silver"
-  get "content/platinum"
+  get "content/silver" => "timecards#show"
   
   authenticated :user do
     root :to => 'home#index'
