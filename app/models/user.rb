@@ -1,3 +1,5 @@
+require 'PgTools'
+
 class User < ActiveRecord::Base
   rolify
   has_many :timecards
@@ -32,7 +34,8 @@ class User < ActiveRecord::Base
          :email => user.email, 
          :encrypted_password => user.encrypted_password,
          :company_name => user.company_name,
-         :tenant_id => tenant.id
+         :tenant_id => tenant.id,
+         :stripe_token => @stripe_token
       )
       tenant_admin.add_role("admin")
       tenant_admin.save(:validate=> false)
@@ -55,7 +58,7 @@ class User < ActiveRecord::Base
   
   def update_stripe
     return if email.include?(ENV['ADMIN_EMAIL'])
-    return if !@current_tenant.nil?
+    return if PgTools.search_path != PgTools.default_search_path
     return if email.include?('@example.com') and not Rails.env.production?
     if customer_id.nil?
       if !stripe_token.present?
@@ -64,14 +67,14 @@ class User < ActiveRecord::Base
       if coupon.blank?
         customer = Stripe::Customer.create(
           :email => email,
-          :description => name,
+          :description => [first_name, last_name].join(' '),
           :card => stripe_token,
           :plan => roles.first.name
         )
       else
         customer = Stripe::Customer.create(
           :email => email,
-          :description => name,
+          :description => [first_name, last_name].join(' '),
           :card => stripe_token,
           :plan => roles.first.name,
           :coupon => coupon
@@ -83,7 +86,7 @@ class User < ActiveRecord::Base
         customer.card = stripe_token
       end
       customer.email = email
-      customer.description = name
+      customer.description = [first_name, last_name].join(' ')
       customer.save
     end
     self.last_4_digits = customer.active_card.last4
