@@ -16,7 +16,8 @@ class SessionsController < Devise::SessionsController
         render :json => {
           :token => current_user.authentication_token, 
           :id => current_user.id,
-          :name => current_user.name,
+          :first_name => current_user.first_name,
+          :last_name => current_user.last_name,
           :email => current_user.email }, :status => :ok
       end
     end

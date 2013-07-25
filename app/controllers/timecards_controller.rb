@@ -1,4 +1,5 @@
 class TimecardsController < ApplicationController
+  before_filter :authenticate_user!
   # GET /timecards
   # GET /timecards.json
   def index
@@ -6,7 +7,7 @@ class TimecardsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @timecards }
+      format.json { render json: @timecards.to_json(:methods => [:photo_in_url, :photo_out_url]) }
     end
   end
 
@@ -17,7 +18,25 @@ class TimecardsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @timecard }
+      format.json { render json: @timecard.to_json(:methods => [:photo_in_url, :photo_out_url]) }
+    end
+  end
+  
+  # GET /timecards/today
+  # GET /timecards/today.json
+  def today
+    @timecard = Timecard.on_today.first
+
+    if @timecard.nil?
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: {} }
+      end
+    else
+      respond_to do |format|
+        format.html # show.html.erb
+        format.json { render json: @timecard.to_json(:methods => [:photo_in_url, :photo_out_url]) }
+      end
     end
   end
 
@@ -62,7 +81,7 @@ class TimecardsController < ApplicationController
     respond_to do |format|
       if @timecard.update_attributes(params[:timecard])
         format.html { redirect_to @timecard, notice: 'Timecard was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render json: @timecard }
       else
         format.html { render action: "edit" }
         format.json { render json: @timecard.errors, status: :unprocessable_entity }

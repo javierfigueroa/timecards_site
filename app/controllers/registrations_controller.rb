@@ -12,14 +12,16 @@ class RegistrationsController < Devise::RegistrationsController
   
   # POST /resource
   def create    
+    #we are in the main website, let devise handle it
     if @current_tenant.nil?
       super
+    #we have a defined tenant, create a user within the tenant
     else      
       build_resource
       
       resource.company_name = current_user.company_name
       resource.tenant_id = @current_tenant.id
-      resource.add_role("silver")
+      resource.add_role("employee")
       
       if resource.save
         expire_session_data_after_sign_in!

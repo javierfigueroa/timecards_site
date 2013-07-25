@@ -1,10 +1,12 @@
 RailsStripeMembershipSaas::Application.routes.draw do
+  get 'timecards/today', :to => 'timecards#today' 
   resources :timecards
 
   mount StripeEvent::Engine => '/stripe'
   get "content/gold"
   get "content/silver"
   get "content/platinum"
+  
   authenticated :user do
     root :to => 'home#index'
   end
@@ -19,4 +21,5 @@ RailsStripeMembershipSaas::Application.routes.draw do
     end
   end
   resources :users
+  
 end

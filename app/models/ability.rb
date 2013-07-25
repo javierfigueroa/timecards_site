@@ -7,8 +7,8 @@ class Ability
       can :manage, :all
     else
       can :view, :silver if user.has_role? :silver
-      can :view, :gold if user.has_role? :gold
-      can :view, :platinum if user.has_role? :platinum
+      can :view, :employee if user.has_role? :employee
+      can :update, Timecard, :employee if user.has_role? :employee
     end
   end
 end

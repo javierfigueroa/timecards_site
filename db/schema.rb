@@ -42,16 +42,17 @@ ActiveRecord::Schema.define(:version => 20130718185432) do
   end
 
   create_table "timecards", :force => true do |t|
+    t.integer  "user_id"
     t.float    "latitude_in"
     t.float    "longitude_in"
-    t.date     "timestamp_in"
+    t.datetime "timestamp_in"
     t.string   "photo_in_file_name"
     t.string   "photo_in_content_type"
     t.integer  "photo_in_file_size"
     t.datetime "photo_in_updated_at"
     t.float    "latitude_out"
     t.float    "longitude_out"
-    t.date     "timestamp_out"
+    t.datetime "timestamp_out"
     t.string   "photo_out_file_name"
     t.string   "photo_out_content_type"
     t.integer  "photo_out_file_size"
