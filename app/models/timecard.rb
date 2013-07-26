@@ -1,6 +1,6 @@
 class Timecard < ActiveRecord::Base
   belongs_to :user
-  scope :on_today, lambda { where('timestamp_in > ? AND timestamp_out IS NULL', 24.hours.ago) }
+  scope :on_today, proc { |user| where('user_id = ? AND timestamp_in > ? AND timestamp_out IS NULL', user.id, 24.hours.ago) }
   
   attr_accessible :latitude_in, 
                   :longitude_in, 

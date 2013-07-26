@@ -3,7 +3,7 @@ class TimecardsController < ApplicationController
   # GET /timecards
   # GET /timecards.json
   def index
-    @timecards = Timecard.all
+    @timecards = Timecard.accessible_by(current_ability, :read)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -25,7 +25,7 @@ class TimecardsController < ApplicationController
   # GET /timecards/today
   # GET /timecards/today.json
   def today
-    @timecard = Timecard.on_today.first
+    @timecard = Timecard.on_today(current_user).first
 
     if @timecard.nil?
       respond_to do |format|
