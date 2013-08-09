@@ -1,5 +1,7 @@
 class TimecardsController < ApplicationController
   before_filter :authenticate_user!
+  respond_to :json
+  
   # GET /timecards
   # GET /timecards.json
   def index
@@ -7,7 +9,12 @@ class TimecardsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @timecards.to_json(:methods => [:photo_in_url, :photo_out_url]) }
+      format.json { 
+        render json: @timecards.to_json(
+          :methods => [:photo_in_url, :photo_out_url],
+          :include => { :user => { :only => [:first_name, :last_name] } }
+          ) 
+      }
     end
   end
 

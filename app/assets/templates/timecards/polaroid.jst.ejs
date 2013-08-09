@@ -1,0 +1,3 @@
+<img src="<%= timecard.get('photo_in_url') %>" width="300px" height="300px" />
+<label><%= timecard.get('user')["first_name"]%> <%= timecard.get('user')["last_name"]  %></label>
+<label><%= countdown(moment(timecard.get('timestamp_out')), moment(timecard.get('timestamp_in'))) %></label>

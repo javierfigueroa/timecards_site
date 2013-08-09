@@ -1,5 +1,15 @@
-//= require_self
 //= require jquery
 //= require jquery_ujs
+//= require underscore
+//= require backbone
 //= require bootstrap
-//= require_directory
+//= require jquery.externalscript
+//= require jquery.readyselector
+//= require ./timecards
+//= require_tree ../templates
+//= require_tree ./models
+//= require_tree ./collections
+//= require_tree ./views
+//= require_tree ./routers
+//= require moment.min
+//= require countdown.min

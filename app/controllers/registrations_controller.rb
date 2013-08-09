@@ -1,5 +1,11 @@
 class RegistrationsController < Devise::RegistrationsController
+  before_filter :update_sanitized_params, if: :devise_controller?
   skip_before_filter :require_no_authentication, :only => [ :new, :create ]
+  
+  def update_sanitized_params
+    devise_parameter_sanitizer.for(:sign_up) {|u| u.permit( :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :stripe_token, :company_name, :encrypted_password, :tenant_id)}
+  end
+    
   def new
     @plan = params[:plan]
     if !@current_tenant.nil? || @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
@@ -17,7 +23,7 @@ class RegistrationsController < Devise::RegistrationsController
       super
     #we have a defined tenant, create a user within the tenant
     else      
-      build_resource
+      build_resource(sign_up_params)  
       
       resource.company_name = current_user.company_name
       resource.tenant_id = @current_tenant.id

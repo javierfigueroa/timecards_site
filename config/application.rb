@@ -4,7 +4,7 @@ require File.expand_path('../boot', __FILE__)
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
+# require "active_resource/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
@@ -72,10 +72,14 @@ module RailsStripeMembershipSaas
 
     # Enable the asset pipeline
     config.assets.enabled = true
+        
+    config.assets.paths << Rails.root.join("app", "assets")
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
     
+    config.assets.initialize_on_precompile = false
+        
     config.session_store :active_record_store, :domain => :all
   end
 end

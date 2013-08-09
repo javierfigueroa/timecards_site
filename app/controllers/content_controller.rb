@@ -1,8 +1,8 @@
 class ContentController < ApplicationController
   before_filter :authenticate_user!
   
-  def silver
-    authorize! :view, :silver, :message => 'Access limited to Silver Plan subscribers.'
+  def index
+    # authorize! :view, :silver, :message => 'Access limited to Silver Plan subscribers.'
   end
   
   def gold

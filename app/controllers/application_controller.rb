@@ -41,7 +41,9 @@ class ApplicationController < ActionController::Base
       when 'admin'
         users_path
       when 'silver'
-        content_silver_path
+        authenticated_root_path
+      when 'employee'
+        authenticated_root_path
       # when 'gold'
         # content_gold_path
       # when 'platinum'
