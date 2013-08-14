@@ -5,14 +5,13 @@ class ApplicationController < ActionController::Base
 
   prepend_before_filter :scope_current_tenant #used for devise sessions
   around_filter :scope_current_tenant #general tenancy scope
+  helper_method :current_tenant
   
   private
   
   def current_tenant
-    puts request.subdomain
     @current_tenant ||= Tenant.find_by_subdomain(request.subdomain)
   end
-  helper_method :current_tenant
   
   def scope_current_tenant(&block)
     if !current_tenant.nil?

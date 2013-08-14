@@ -2,7 +2,7 @@ development:
   host: localhost
   adapter: postgresql
   encoding: unicode
-  database: timescards_dev
+  database: timecards_dev
   schema_search_path: 'public'
   pool: 5
   username: javier
@@ -11,7 +11,7 @@ test:
   host: localhost
   adapter: postgresql
   encoding: unicode
-  database: timescards_test
+  database: timecards_test
   schema_search_path: 'public'
   pool: 5
   username: javier
@@ -21,7 +21,7 @@ production:
   host: localhost
   adapter: postgresql
   encoding: unicode
-  database: timescards_prod
+  database: timecards_prod
   schema_search_path: 'public'
   pool: 5
   username: javier

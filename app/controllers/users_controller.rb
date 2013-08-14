@@ -10,6 +10,23 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
   end
   
+  # GET /users/in_date/out_date.json
+  def date
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+    @users = User.on_dates(in_date, out_date).accessible_by(current_ability, :read)
+
+   respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { 
+        render json: @users.to_json(
+          :methods => [:photo_url],
+          :include => [:timecards]
+          ) 
+      }
+    end
+  end
+  
   def update
     authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])

@@ -46,6 +46,43 @@ class TimecardsController < ApplicationController
       end
     end
   end
+  
+  
+  # GET /timecards/in_date/out_date.json
+  def date
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+    
+    @timecards = Timecard.on_dates(in_date, out_date).accessible_by(current_ability, :read)
+
+   respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { 
+        render json: @timecards.to_json(
+          :methods => [:photo_in_url, :photo_out_url],
+          :include => { :user => { :only => [:first_name, :last_name] } }
+          ) 
+      }
+    end
+  end
+  
+  # GET /timecards/in_date/out_date/user_id.json
+  def date_and_user_id
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+ 
+    @timecards = Timecard.on_dates_and_user_id(in_date, out_date, params[:user_id]).accessible_by(current_ability, :read)
+
+   respond_to do |format|
+      format.html { redirect_to root_path }
+      format.json { 
+        render json: @timecards.to_json(
+          :methods => [:photo_in_url, :photo_out_url],
+          :include => { :user => { :only => [:first_name, :last_name] } }
+          ) 
+      }
+    end
+  end
 
   # GET /timecards/new
   # GET /timecards/new.json

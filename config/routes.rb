@@ -1,10 +1,8 @@
 RailsStripeMembershipSaas::Application.routes.draw do
-  get 'timecards/today', :to => 'timecards#today' 
   get 'dashboard', :to => 'content#index'
-  
-  resources :timecards
-  
+ 
   mount StripeEvent::Engine => '/stripe'
+  
   authenticated :user do
     root :to => 'content#index', as: :authenticated_root
   end
@@ -18,6 +16,12 @@ RailsStripeMembershipSaas::Application.routes.draw do
       resources :sessions, :only => [:create, :destroy]
     end
   end
-  resources :users
   
+  get 'users/:in_date/:out_date', :to => 'users#date' 
+  resources :users
+  # get '*path', :to => 'content#index'
+  get 'timecards/today', :to => 'timecards#today' 
+  get 'timecards/:in_date/:out_date', :to => 'timecards#date' 
+  get 'timecards/:in_date/:out_date/:user_id', :to => 'timecards#date_and_user_id' 
+  resources :timecards 
 end

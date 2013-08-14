@@ -19,11 +19,11 @@ class Tenant < ActiveRecord::Base
   end
   
   def scope_schema(*paths)
-    original_search_path = connection.schema_search_path
+    original_search_path = self.class.connection.schema_search_path
     path = ["tenant#{id}", *paths].join(",")
-    connection.schema_search_path = path
+    self.class.connection.schema_search_path = path
     yield if block_given?
   ensure
-    connection.schema_search_path = original_search_path if block_given?
+    self.class.connection.schema_search_path = original_search_path if block_given?
   end
 end

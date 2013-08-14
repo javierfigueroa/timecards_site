@@ -5,10 +5,10 @@ class Ability
     user ||= User.new # guest user (not logged in)
     if user.has_role? :admin
       can :manage, :all
-    else
+    elsif user.has_role? :employee
       can :manage, Timecard, :user_id => user.id
-      can :view, :silver if user.has_role? :silver
-      can :view, :employee if user.has_role? :employee
+    else
+      can :view, Timecard
     end
   end
 end

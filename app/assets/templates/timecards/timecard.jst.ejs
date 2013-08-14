@@ -1,0 +1,12 @@
+<div class="timecard_header">
+	<h1><%= model.getFullName()  %></h1>
+	<label><%= model.getTimespanLabel() %></label>
+</div>
+<div class="timecard_body">
+	<label><%= moment(model.get('timestamp_in')) %></label>
+	<img src="<%= model.get('photo_in_url') %>" style="width:250px;height:250px" />
+	<div id="map_in" style="width:250px;height:250px"></div>
+	<label><%= moment(model.get('timestamp_out')) %></label>
+	<img src="<%= model.get('photo_out_url') %>" style="width:250px;height:250px" />
+	<div id="map_out" style="width:250px;height:250px"></div>
+</div>

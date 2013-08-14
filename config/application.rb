@@ -81,5 +81,7 @@ module RailsStripeMembershipSaas
     config.assets.initialize_on_precompile = false
         
     config.session_store :active_record_store, :domain => :all
+    
+    ActiveRecord::Base.logger = Logger.new(STDOUT)
   end
 end

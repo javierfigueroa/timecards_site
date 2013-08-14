@@ -1,7 +1,9 @@
 //= require jquery
+//= require jquery.ui.all
 //= require jquery_ujs
 //= require underscore
 //= require backbone
+//= require backbone-relational
 //= require bootstrap
 //= require jquery.externalscript
 //= require jquery.readyselector
@@ -13,3 +15,4 @@
 //= require_tree ./routers
 //= require moment.min
 //= require countdown.min
+//= require bootstrap-datepicker

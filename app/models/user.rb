@@ -3,6 +3,8 @@ require 'PgTools'
 class User < ActiveRecord::Base
   rolify
   has_many :timecards
+  scope :on_dates, ->(in_date, out_date) { where(:id => Timecard.select(:user_id).where('timestamp_in >= ? AND timestamp_out <= ?', in_date, out_date)) }
+ 
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -117,5 +119,9 @@ class User < ActiveRecord::Base
   def expire
     UserMailer.expire_email(self).deliver
     destroy
+  end
+  
+  def photo_url
+    timecards.first ? timecards.first.photo_in_url : ""
   end
 end
