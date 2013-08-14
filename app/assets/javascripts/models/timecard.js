@@ -1,6 +1,6 @@
 Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   urlRoot: function() {
-  	return location.protocol + '//' + location.host;
+  	return location.protocol + '//' + location.host + "/timecards";
   },
   
   idAttribute: "id",

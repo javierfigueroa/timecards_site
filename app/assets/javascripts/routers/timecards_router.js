@@ -1,9 +1,9 @@
 Timecards.Routers.Timecards = Backbone.Router.extend({
 	routes: {
     	'' : 'index',
-    	'timecard/:id' : 'getTimecardById',
 		':in_date/:out_date' : 'getUsersByDate',
 		':in_date/:out_date/:user_id' : 'getTimecardsByDate',
+    	':in_date/:out_date/:user_id/:id' : 'getTimecardById'
 	},
 
 	index: function() {
@@ -13,7 +13,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	},
 	
 	getUsersByDate: function(from, to) {
-  		var url = "/users/" + from + "/" + to;
+  		var dates = from + "/" + to,
+  			url = "/users/" + dates,
   			fromDate = moment(from),
   			toDate = moment(to);
   			
@@ -24,12 +25,17 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			remove: false
   		});
   		
-  		this.addMainView(fromDate, toDate);
-  		this.addBreadcrumb("dafdafsd", url);
+  		this._addMainView(fromDate, toDate);
+  		this._addBreadcrumbs([{
+  			title:"Users", 
+  			url: dates
+		}]);
   	},
   	
   	getTimecardsByDate: function(from, to, userId) {
-  		var url = "/timecards/" + from + "/" + to +"/" + userId;
+  		var dates = from + "/" + to;
+  			suffix = dates +"/" + userId,
+  			url = "/timecards/" + suffix,
   			fromDate = moment(from),
   			toDate = moment(to);
   			
@@ -39,43 +45,81 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			reset: true,
   			remove: false
   		});
-  		
-  		this.addMainView(fromDate, toDate);
-  		this.addBreadcrumb("Timecards", url);
+  		  		
+  		this._addMainView(fromDate, toDate);
+  		this._addBreadcrumbs([{
+  			title:"Users", 
+  			url: dates
+		} , {
+			title:"Timecards", 
+			url: suffix
+		}]);
   	},
   	
-  	getTimecardById: function(id) {
+  	getTimecardById: function(from, to, userId, timecardId) {
+  		var dates = from + "/" + to;
+  			user = dates +"/" + userId,
+  			url = user + "/" + timecardId;
+  			
+  		if (!this.collection) {
+	  		model = new Timecards.Models.Timecard({	id: timecardId });
+	  		model.fetch({
+	  			success: this._addTimecardView
+	  		});
+  		}else{
+  			this._addTimecardView(this.collection.get(timecardId));
+  		}
+  		
+  		this._addBreadcrumbs([{
+  			title:"Users", 
+  			url: dates
+		} , {
+			title:"Timecards", 
+			url: user
+		}, {
+			title: "Details", 
+			url: url
+		}]);
+  	},
+  	
+  	_addTimecardView: function(model, data) { 		
   		timecardView = new Timecards.Views.Timecard({
-			model : this.collection.get(id)
+			model :  model
 		});
 		
-		$("#navigation").hide();
-		$("#mainContent").html(timecardView.render().el);
+		$("#app-navigation").hide();
+		$("#app-content").html(timecardView.render().el);
   	},
   	
-	addMainView: function(from, to) {
+	_addMainView: function(from, to) {
 		//add main content
 		timecardsView = new Timecards.Views.TimecardsIndex({
 			collection : this.collection
 		});
 		
-		$("#mainContent").html(timecardsView.render().el);
+		$("#app-content").html(timecardsView.render().el);
 		
 		//add date picker
 		pickerView = new Timecards.Views.DatePicker({
 			model : { from : from, to : to }
 		});
 
-		$("#navigation").show();
-		$("#navigation").html(pickerView.render().el);
+		$("#app-navigation").show();
+		$("#app-navigation").html(pickerView.render().el);
 		pickerView.initDatePickers();
 	},
 	
-	addBreadcrumb: function(title, url) {
-		breadcrumb = new Timecards.Views.Breadcrumb({
-			model: { title: title, url: url}
-		})
+	_addBreadcrumbs: function(crumbs) {
+		collection = new Timecards.Collections.Breadcrumbs();
 		
-		$("#breadcrumbs").append(breadcrumb.render().el);
+		for (var i=0; i<crumbs.length; i++) {
+			collection.add(new Timecards.Models.Breadcrumb(crumbs[i]));			
+		};
+		
+		view = new Timecards.Views.Breadcrumbs({
+			collection: collection
+		});
+		
+		$("#app-crumbs").html(view.render().el);
 	}
 });

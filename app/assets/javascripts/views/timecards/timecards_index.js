@@ -2,7 +2,7 @@ Timecards.Views.TimecardsIndex = Backbone.View.extend({
   template: JST['timecards/index'],
 
   initialize: function(){
-    this.collection.on('add', this.appendEntry, this);
+    this.collection.on('add', this.appendTimecard, this);
     this.collection.on('reset', this.render, this); 	
   },
   
@@ -19,7 +19,8 @@ Timecards.Views.TimecardsIndex = Backbone.View.extend({
   
   appendTimecard: function(model){
   	view = model instanceof Timecards.Models.User ? 
-  		new Timecards.Views.UserPolaroid({ model: model }) : new Timecards.Views.TimecardPolaroid({ model: model });
+  		new Timecards.Views.UserPolaroid({ model: model }) : 
+  		new Timecards.Views.TimecardPolaroid({ model: model });
   	
   	$("#timecards").append(view.render().el);
   }

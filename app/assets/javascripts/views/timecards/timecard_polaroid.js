@@ -12,6 +12,6 @@ Timecards.Views.TimecardPolaroid = Backbone.View.extend({
   
   openTimecard: function() {
   	var fragment = Backbone.history.fragment;
-	Backbone.history.navigate("timecard/" + this.model.get('id'), true);
+	Backbone.history.navigate(fragment + "/" +this.model.get('id'), true);
   }
 })

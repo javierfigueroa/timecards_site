@@ -1,7 +1,7 @@
 Timecards.Views.Breadcrumb = Backbone.View.extend({
 	template: JST['timecards/breadcrumb'],
 	
-	el: "li",
+	tagName: "li",
 
 	events: {
 		"click" : "navigate"	
@@ -12,8 +12,8 @@ Timecards.Views.Breadcrumb = Backbone.View.extend({
   		return this;
   	},
   	
-  	filter: function(event) {
+  	navigate: function(event) {
   		event.preventDefault();
-	  	Backbone.history.navigate(this.model.url, true);
+	  	Backbone.history.navigate(this.model.get('url'), true);
   	}
 })

@@ -25,7 +25,11 @@ class TimecardsController < ApplicationController
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @timecard.to_json(:methods => [:photo_in_url, :photo_out_url]) }
+      format.json { render json: @timecard.to_json(
+          :methods => [:photo_in_url, :photo_out_url],
+          :include => { :user => { :only => [:first_name, :last_name] } }
+          ) 
+      }
     end
   end
   
