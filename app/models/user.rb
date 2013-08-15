@@ -3,8 +3,12 @@ require 'PgTools'
 class User < ActiveRecord::Base
   rolify
   has_many :timecards
-  scope :on_dates, ->(in_date, out_date) { where(:id => Timecard.select(:user_id).where('timestamp_in >= ? AND timestamp_out <= ?', in_date, out_date)) }
- 
+  scope :on_dates, lambda { |in_date, out_date| 
+    includes(:timecards).
+      where('timecards.timestamp_in >= ? AND timecards.timestamp_out <= ?', in_date, out_date).
+      references(:timecards)
+    # might need to add `select("DISTINCT resources.*")` at the end 
+  }
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable

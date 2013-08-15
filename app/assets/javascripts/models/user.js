@@ -15,22 +15,28 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   			includeInJSON: 'id'
   		}
   	}],
-
+  	
 	getPhotoUrl: function() {
 		return this.get('photo_url');
 	},
   
   	getTimespanLabel: function() {
-  		var timespan = this.get('timecards').reduce(function(memo, value) { 
+  		var timecards = this.get('timecards');
+  		if (timecards.length == 1) {
+  			return timecards.models[0].getTimespanLabel();
+  		}else if (timecards.length > 1) {
+  			var timespan = timecards.reduce(function(memo, value) { 
   				var prev = $.isFunction(memo.getTimespan) ? memo.getTimespan() : memo,
   					next = value.getTimespan();
   					
 				return +prev + +next; 
-			}),
+			});
 			duration = moment.duration(timespan);
 		
-  		return duration ? 
-  			duration.hours() + " hours, " + duration.minutes() + " minutes" : "No timecards available";
+  			return duration.hours() + " hours, " + duration.minutes() + " minutes";
+  		}else{
+  			return "No timecards available";
+  		}
 	},
 	  
 	getFullName: function() {

@@ -15,7 +15,7 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   		
     return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : 0;
   },
-
+  
   getTimespanLabel: function() {
   	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
   },

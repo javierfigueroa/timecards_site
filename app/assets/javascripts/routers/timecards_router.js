@@ -22,7 +22,7 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		this.collection.fetch({
   			url: url,
   			reset: true,
-  			remove: false
+  			remove: true
   		});
   		
   		this._addMainView(fromDate, toDate);
