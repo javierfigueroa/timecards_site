@@ -8,8 +8,16 @@ class RegistrationsController < Devise::RegistrationsController
     
   def new
     @plan = params[:plan]
-    if !@current_tenant.nil? || @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
+    
+    #for when we are on the main website
+    if @current_tenant.nil? && @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
       super
+    #for when an admin is creating users within their tenant
+    elsif !@current_tenant.nil? && (current_user.has_role? :admin)
+      super
+    #for when an employee tries to create users
+    elsif  !@current_tenant.nil? && !(current_user.has_role? :admin)
+      redirect_to root_path, :notice => 'Not enough permissions to create accounts.'
     else
       redirect_to root_path, :notice => 'Please select a subscription plan below.'
     end

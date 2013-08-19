@@ -7,6 +7,7 @@ class Ability
       can :manage, :all
     elsif user.has_role? :employee
       can :manage, Timecard, :user_id => user.id
+      can :manage, User, :id => user.id
     else
       can :view, Timecard
     end

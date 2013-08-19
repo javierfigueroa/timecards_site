@@ -4,13 +4,14 @@ class Tenant < ActiveRecord::Base
   attr_accessible :subdomain, :user
   has_many :users
   after_create :create_schema
+  before_destroy :destroy_schema
   
   #create new schema once the schema is created
   def create_schema
-    connection.execute("create schema tenant#{id}")
+    self.class.connection.execute("create schema tenant#{id}")
     scope_schema do
       load Rails.root.join("db/schema.rb")
-      connection.execute("drop table #{self.class.table_name}")
+      self.class.connection.execute("drop table #{self.class.table_name}")
       connection.execute("drop table sessions")
       YAML.load(ENV['ROLES']).each do |role|
         Role.find_or_create_by_name({ :name => role })
@@ -24,6 +25,10 @@ class Tenant < ActiveRecord::Base
     self.class.connection.schema_search_path = path
     yield if block_given?
   ensure
-    self.class.connection.schema_search_path = original_search_path if block_given?
+    (self.class.connection.schema_search_path = original_search_path) if block_given?
+  end
+  
+  def destroy_schema
+    self.class.connection.execute("drop schema tenant#{id} cascade")
   end
 end

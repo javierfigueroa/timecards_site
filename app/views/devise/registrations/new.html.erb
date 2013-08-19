@@ -14,7 +14,7 @@
   <%= f.input :email, :required => true %>
   <%= f.input :password, :required => true %>
   <%= f.input :password_confirmation, :required => true %>
-  <% if @user.stripe_token && @current_tenant.nil? %>
+  <% if @current_tenant.nil? && @user.stripe_token  %>
     <p>Credit card acceptance is pending.</p>
   <% elsif @current_tenant.nil? %>
   	<%= f.input :company_name, :required => true  %>

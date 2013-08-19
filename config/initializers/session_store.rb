@@ -5,4 +5,6 @@
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information
 # (create the session table with "rails generate session_migration")
-RailsStripeMembershipSaas::Application.config.session_store :active_record_store
+# RailsStripeMembershipSaas::Application.config.session_store :active_record_store
+RailsStripeMembershipSaas::Application.config.session_store :active_record_store, key: '_timecards_session', :domain => :all
+

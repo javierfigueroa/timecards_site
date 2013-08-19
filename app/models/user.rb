@@ -7,8 +7,8 @@ class User < ActiveRecord::Base
     includes(:timecards).
       where('timecards.timestamp_in >= ? AND timecards.timestamp_out <= ?', in_date, out_date).
       references(:timecards)
-    # might need to add `select("DISTINCT resources.*")` at the end 
   }
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   attr_accessor :stripe_token, :coupon
   before_save :update_stripe
   before_destroy :cancel_subscription
+  before_destroy :destroy_tenant
   after_create :create_tenant
   
   def create_tenant
@@ -29,12 +30,19 @@ class User < ActiveRecord::Base
       create_admin_in_tenant(tenant)  
     end
   end
+  
+  def destroy_tenant
+    if PgTools.search_path == PgTools.default_search_path
+      tenant = Tenant.find_or_create_by_subdomain(:subdomain => self.company_name)   
+      tenant.destroy
+    end
+  end
 
   #used to crete first user and admin of the tenant scheme
   def create_admin_in_tenant(tenant)
     user = self
     tenant.scope_schema do
-      tenant_admin = User.find_or_create_by_email(
+      tenant_admin = User.create(
          :first_name => user.first_name, 
          :last_name => user.last_name,   
          :email => user.email, 
@@ -51,7 +59,7 @@ class User < ActiveRecord::Base
   def update_plan(role)
     self.role_ids = []
     self.add_role(role.name)
-    unless customer_id.nil? || !@current_tenant.nil?
+    unless customer_id.nil? 
       customer = Stripe::Customer.retrieve(customer_id)
       customer.update_subscription(:plan => role.name)
     end
@@ -106,7 +114,7 @@ class User < ActiveRecord::Base
   end
   
   def cancel_subscription
-    unless customer_id.nil? || !@current_tenant.nil?
+    unless customer_id.nil?
       customer = Stripe::Customer.retrieve(customer_id)
       unless customer.nil? or customer.respond_to?('deleted')
         if customer.subscription.status == 'active'

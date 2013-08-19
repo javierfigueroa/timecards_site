@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   prepend_before_filter :scope_current_tenant #used for devise sessions
-  around_filter :scope_current_tenant #general tenancy scope
+  # around_filter :scope_current_tenant #general tenancy scope
   helper_method :current_tenant
   
   private
@@ -31,6 +31,14 @@ class ApplicationController < ActionController::Base
       return current_subdomain
   end   
   
+  def redirect_tenant
+      tenant = Tenant.find_by_subdomain(current_user.company_name)
+      tenant.scope_schema("public")
+      user = User.find_by_email(current_user.email)
+      sign_in user, :bypass => true
+      root_url(subdomain: current_user.company_name)
+  end
+  
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
   end
@@ -40,15 +48,9 @@ class ApplicationController < ActionController::Base
       when 'admin'
         users_path
       when 'silver'
-        authenticated_root_path
+        redirect_tenant
       when 'employee'
         authenticated_root_path
-      # when 'gold'
-        # content_gold_path
-      # when 'platinum'
-        # content_platinum_path
-      else
-        root_path
     end
   end
 end

@@ -14,13 +14,7 @@
   <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
   <%= f.button :submit, 'Update', :class => 'btn-primary' %>
 <% end %>
-
-<h3>Subscription Plan</h3>
-<p>
-  <%= @user.roles.first.name.titleize %>
-  <a data-toggle="modal" href="#plan-options" class="btn btn-mini" type="button">Change plan</a>
-</p>
-
+<% if @current_user.has_role? :admin  %>
 <h3>Card</h3>
 <p>
   Using card ending with <%= @user.last_4_digits %>
@@ -30,22 +24,6 @@
 <h3>Cancel my account</h3>
 
 <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini' %></p>
-
-<div id="plan-options" class="modal" style="display: none;">
-  <%= simple_form_for resource, :as => resource_name, :url => update_plan_path, :html => {:method => :put, :class => 'form-horizontal' } do |f| %>
-    <div class="modal-header">
-      <a class="close" data-dismiss="modal">&#215;</a>
-      <h3>Change Plan</h3>
-    </div>
-    <div class="modal-body">
-      <%= f.input :role_ids, :collection => Role.all.delete_if {|i| i.name == 'admin'}, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize}, :label => false, :item_wrapper_class => 'inline' %>
-    </div>
-    <div class="modal-footer">
-      <%= f.submit "Change Plan", :class => "btn btn-primary" %>
-      <a class="btn" data-dismiss="modal" href="#">Close</a>
-    </div>
-  <% end %>
-</div>
 
 <div id="card-data" class="modal" style="display: none;">
   <%= simple_form_for resource, :as => resource_name, :url => update_card_path, :html => {:method => :put, :class => 'form-horizontal card_form' } do |f| %>
@@ -78,3 +56,4 @@
     </div>
   <% end %>
 </div>
+<% end %>
