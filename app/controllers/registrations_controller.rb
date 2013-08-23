@@ -23,7 +23,6 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
   
-  
   # POST /resource
   def create    
     #we are in the main website, let devise handle it
