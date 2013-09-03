@@ -16,3 +16,6 @@
 //= require moment.min
 //= require countdown.min
 //= require bootstrap-datepicker
+//= require modernizr.custom.79639
+//= require jquery.ba-cond.min
+//= require jquery.slitslider
