@@ -73,9 +73,6 @@ class TimecardsController < ApplicationController
   # GET /timecards/in_date/out_date/user_id.json
   def date_and_user_id
 
-
-    logger.info params[:in_date].to_datetime.utc
-
     in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
     out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc
  
