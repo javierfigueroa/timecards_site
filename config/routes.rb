@@ -1,5 +1,7 @@
 RailsStripeMembershipSaas::Application.routes.draw do
   mount StripeEvent::Engine => '/stripe'
+  get '/overview', :to => 'home#tour'
+  get '/examples', :to => 'home#examples'
   
   authenticated :user do
     root :to => 'content#index', as: :authenticated_root

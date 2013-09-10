@@ -70,7 +70,7 @@
 		// transitions speed
 		speed : 800,
 		// if true the item's slices will also animate the opacity value
-		optOpacity : false,
+		optOpacity : true,
 		// amount (%) to translate both slices - adjust as necessary
 		translateFactor : 230,
 		// maximum possible angle
@@ -238,8 +238,8 @@
 			
 			if( this.options.optOpacity ) {
 			
-				slice1Style.opacity = 0;
-				slice2Style.opacity = 0;
+				slice1Style.opacity = 1;
+				slice2Style.opacity = 1;
 			
 			}
 			

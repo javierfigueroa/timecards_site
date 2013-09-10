@@ -12,8 +12,9 @@ class UsersController < ApplicationController
   
   # GET /users/in_date/out_date.json
   def date
-    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
-    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc
+    
     @users = User.on_dates(in_date, out_date).accessible_by(current_ability, :read)
 
    respond_to do |format|

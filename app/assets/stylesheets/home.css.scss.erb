@@ -369,18 +369,19 @@ a {
 
 .timecards-container .bg-img-1 {
   background-image: url(<%= asset_path "1.jpg" %>);
+  background-attachment: fixed;
 }
 .timecards-container .bg-img-2 {
-  background-image: url(/assets/2.jpg);
+  background-image: url(<%= asset_path "2.jpg" %>);
 }
 .timecards-container .bg-img-3 {
-  background-image: url(/assets/3.jpg);
+  background-image: url(<%= asset_path "3.jpg" %>);
 }
 .timecards-container .bg-img-4 {
-  background-image: url(/assets/4.jpg);
+  background-image: url(<%= asset_path "4.jpg" %>);
 }
 .timecards-container .bg-img-5 {
-  background-image: url(/assets/5.jpg);
+  background-image: url(<%= asset_path "5.jpg" %>);
 }
 
 /* Animations for content elements */
@@ -444,7 +445,7 @@ a {
   100% {-ms-transform: translateX(0px) rotate(0deg); opacity: 1;}
 }
 @keyframes roll{
-  0% {transform: translateX(500px) rotate(360deg); opacity: 0;}
+  0% {transform: translateX(500px) rotate(360deg); opacity: 1;}
   100% {transform: translateX(0px) rotate(0deg); opacity: 1;}
 }
 @-webkit-keyframes moveUp{
@@ -468,7 +469,7 @@ a {
   100% {transform: translateY(0px);}
 }
 @-webkit-keyframes fadeIn{
-  0% {opacity: 0;}
+  0% {opacity: 1;}
   100% {opacity: 1;}
 }
 @-moz-keyframes fadeIn{
@@ -484,7 +485,7 @@ a {
   100% {opacity: 1;}
 }
 @keyframes fadeIn{
-  0% {opacity: 0;}
+  0% {opacity: 1;}
   100% {opacity: 1;}
 }
 @-webkit-keyframes scaleDown{
@@ -509,7 +510,7 @@ a {
 }
 @-webkit-keyframes fadeOut{
   0% {opacity: 1;}
-  100% {opacity: 0;}
+  100% {opacity: 1;}
 }
 @-moz-keyframes fadeOut{
   0% {opacity: 1;}
@@ -525,7 +526,7 @@ a {
 }
 @keyframes fadeOut{
   0% {opacity: 1;}
-  100% {opacity: 0;}
+  100% {opacity: 1;}
 }
 
 

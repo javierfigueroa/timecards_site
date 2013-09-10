@@ -54,8 +54,8 @@ class TimecardsController < ApplicationController
   
   # GET /timecards/in_date/out_date.json
   def date
-    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
-    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc
     
     @timecards = Timecard.on_dates(in_date, out_date).accessible_by(current_ability, :read)
 
@@ -72,8 +72,12 @@ class TimecardsController < ApplicationController
   
   # GET /timecards/in_date/out_date/user_id.json
   def date_and_user_id
-    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").change({:hour => 0 , :min => 0 , :sec => 0 })
-    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").change({:hour => 23 , :min => 59 , :sec => 59 })
+
+
+    logger.info params[:in_date].to_datetime.utc
+
+    in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
+    out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc
  
     @timecards = Timecard.on_dates_and_user_id(in_date, out_date, params[:user_id]).accessible_by(current_ability, :read)
 
