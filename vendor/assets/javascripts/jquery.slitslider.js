@@ -227,7 +227,7 @@
 				slice1Style	= config.orientation === 'horizontal' ? {
 					'transform' : 'translateY(-' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
 				} : {
-					'transform' : 'translateX(-' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
+					'transform' : 'translateX(' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
 				},
 				// slice2 style
 				slice2Style	= config.orientation === 'horizontal' ? {

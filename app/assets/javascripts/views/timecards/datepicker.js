@@ -9,6 +9,7 @@ Timecards.Views.DatePicker = Backbone.View.extend({
   		$(this.el).html(this.template());
   		$('#from', this.el).val(this.model.from.format("MM-DD-YYYY"));
   		$('#to', this.el).val(this.model.to.format("MM-DD-YYYY"));
+  		this.setHeader(this.model.header);
   		return this;
   	},
   	
@@ -27,6 +28,10 @@ Timecards.Views.DatePicker = Backbone.View.extend({
 				}).on('changeDate', function(ev) {
 	  				to.hide();
 				}).data('datepicker');	
+  	},
+  	
+  	setHeader: function(header) {
+  		$("#filter-header", this.el).text(header);
   	},
   	
   	filter: function() {

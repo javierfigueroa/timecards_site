@@ -1,0 +1,159 @@
+
+            <div id="slider" class="sl-slider-wrapper">
+
+				<div class="sl-slider">
+				
+					<div class="sl-slide bg-1" data-orientation="vertical" data-slice1-rotation="0" data-slice2-rotation="0" data-slice1-scale="0" data-slice2-scale="0">
+						<div class="sl-slide-inner">
+							<div id="test" class="bg-img bg-img-2 hero-background"></div>
+							<div class="deco" data-icon="H"></div>
+							<h2>Time Management Simplified</h2>
+							<p>
+								<%= link_to 'GET STARTED', new_user_registration_path(:plan => 'silver'), :class => 'button get-started orange-gradient' %>
+								<small>Free 30 day trial.</small>
+							</p>
+						</div>
+					</div>
+					
+					<div class="sl-slide bg-2" data-orientation="vertical" data-slice1-rotation="0" data-slice2-rotation="0" data-slice1-scale="0" data-slice2-scale="0">
+						<div class="sl-slide-inner">
+							<div id="test" class="bg-img bg-img-3 hero-background"></div>
+							<div class="deco" data-icon="q"></div>
+							<h2>iPhone & Android Ready</h2>
+							<p>
+								<%= link_to 'GET STARTED', new_user_registration_path(:plan => 'silver'), :class => 'button get-started orange-gradient' %>
+								<small>Free 30 day trial.</small>
+							</p>	
+						</div>
+					</div>
+					
+					<div class="sl-slide bg-3" data-orientation="horizontal" data-slice1-rotation="3" data-slice2-rotation="3" data-slice1-scale="2" data-slice2-scale="1">
+						<div class="sl-slide-inner">
+							<div class="deco" data-icon="O"></div>
+							<h2>24/7 access in the cloud</h2>
+							<p>
+								<%= link_to 'GET STARTED', new_user_registration_path(:plan => 'silver'), :class => 'button get-started orange-gradient' %>
+								<small>Free 30 day trial.</small>
+							</p>
+						</div>
+					</div>
+				</div><!-- /sl-slider -->
+				
+				<nav id="nav-arrows" class="nav-arrows">
+					<span class="nav-arrow-prev">Previous</span>
+					<span class="nav-arrow-next">Next</span>
+				</nav>
+
+				<nav id="nav-dots" class="nav-dots">
+					<span class="nav-dot-current"></span>
+					<span></span>
+					<span></span>
+				</nav>
+
+			</div><!-- /slider-wrapper -->
+
+        </div>
+
+<div class="container-fluid" style="margin: 100px; text-align: left;">
+	<div class="row-fluid">
+		<div class="span6">
+			<h1>Everything you need.</h1>
+			<p class="overview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis, nisl et semper consectetur,</p>
+		</div>
+		<div class="span6">
+			<img src="http://placehold.it/400x400" alt="ALT NAME">
+		</div>
+	</div>
+</div>
+<div class="container-fluid" style="margin: 100px; text-align: left;">
+	<div class="row-fluid">
+		<div class="span6">
+			<img src="http://placehold.it/400x400" alt="ALT NAME">
+		</div>
+		<div class="span6">
+			<h1>Easy for them.</h1>
+			<p class="overview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis, nisl et semper consectetur, ante augue egestas tellus, quis luctus mi tortor id massa. Aenean at lacus laoreet, semper ligula eu, venenatis magna..</p>
+		</div>
+	</div>
+</div>
+<div class="container-fluid" style="margin: 100px; text-align: left;">
+	<div class="row-fluid">
+		<div class="span6">
+			<h1>Easy for you.</h1>
+			<p class="overview">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum convallis, nisl et semper consectetur,</p>
+		</div>
+		<div class="span6">
+			<img src="http://placehold.it/400x400" alt="ALT NAME">
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(function() {
+
+		$(function() {
+			// Calcualte the home banner parallax scrolling
+			function scrollBanner() {
+				//Get the scoll position of the page
+				scrollPos = $(this).scrollTop();
+
+				//Scroll and fade out the banner text
+				// jQuery('#bannerText').css({
+				// 'margin-top' : -(scrollPos/3)+"px",
+				// 'opacity' : 1-(scrollPos/300)
+				// });
+
+				//Scroll the background of the banner
+				$('.hero-background').css({
+					'background-position' : 'center ' + (-scrollPos / 8) + "px"
+				});
+			}
+
+
+			$(window).scroll(function() {
+				scrollBanner();
+			});
+		});
+
+		var Page = (function() {
+			var $navArrows = $('#nav-arrows'), $nav = $('#nav-dots > span'), slitslider = $('#slider').slitslider({
+				onBeforeChange : function(slide, pos) {
+					$nav.removeClass('nav-dot-current');
+					$nav.eq(pos).addClass('nav-dot-current');
+				}
+			}), init = function() {
+				initEvents();
+			}, initEvents = function() {
+				// add navigation events
+				$navArrows.children(':last').on('click', function() {
+					slitslider.next();
+					return false;
+				});
+
+				$navArrows.children(':first').on('click', function() {
+					slitslider.previous();
+					return false;
+				});
+
+				$nav.each(function(i) {
+					$(this).on('click', function(event) {
+						var $dot = $(this);
+						if (!slitslider.isActive()) {
+							$nav.removeClass('nav-dot-current');
+							$dot.addClass('nav-dot-current');
+						}
+
+						slitslider.jump(i + 1);
+						return false;
+					});
+				});
+			};
+
+			return {
+				init : init
+			};
+		})();
+
+		Page.init();
+	}); 
+</script>
+

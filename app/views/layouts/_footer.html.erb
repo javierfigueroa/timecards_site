@@ -5,19 +5,16 @@
 			<div class="span2 offset3" style="width: 15%;">
 				<ul class="unstyled">
 					<li>Overview<li>
-					<li><a href="#">Feature Tour</a></li>
-					<li><a href="#">FAQ</a></li>
-					<li><a href="#">Sign up</a></li>
-					<li><a href="#">Sign in</a></li>
-					<li><a href="#">Site status</a></li>
+					<li><%= link_to "Features", features_path %></li>
+					<li><%= link_to 'Sign up', new_user_registration_path(:plan => 'silver') %></li>
+					<li><%= link_to 'Sign in', new_user_session_path %> </li>
 				</ul>
 			</div>
 			<div class="span2" style="width: 15%;">
 				<ul class="unstyled">
 					<li>Timecards<li>
-					<li><a href="#">About Us</a></li>
+					<li><%= link_to "About", about_path %></li>
 					<li><a href="#">Press</a></li>
-					<li><a href="#">Testimonials</a></li>	
 					<li><a href="#">Terms of Service</a></li>
 					<li><a href="#">Privacy</a></li>	
 					<li><a href="#">Security</a></li>				
