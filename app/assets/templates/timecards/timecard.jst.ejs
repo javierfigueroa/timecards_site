@@ -16,13 +16,10 @@
 			</div>
 		</div>
 	</div>
+	<% if (!model.isMissingClockOut()) {  %>
 	<div class="span6">
 		<div class="row-fluid">
-			<% if (model.get('timestamp_out')) {  %>
-			 <%= moment(model.get('timestamp_out')) %>
-			<% }else{ %>
-			 <label> Didn't clock out</label>
-			<%}%>
+			 <label> <%= moment(model.get('timestamp_out')) %></label>
 		</div>
 		<div class="row-fluid">
 			<div class="span5">
@@ -33,4 +30,5 @@
 			</div>
 		</div>
 	</div>
+	<% } %>
 </div>

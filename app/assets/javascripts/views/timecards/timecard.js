@@ -5,7 +5,7 @@ Timecards.Views.Timecard = Backbone.View.extend({
   	$(this.el).html(this.template({ model : this.model }));
   	
   	this.addClockInLocation();
-  	this.addClockOutLocation();
+  	!this.model.isMissingClockOut() && this.addClockOutLocation();
   	
   	return this;
   },
@@ -53,4 +53,4 @@ Timecards.Views.Timecard = Backbone.View.extend({
 		draggable : false,
 	}); 
   }
-})
+});

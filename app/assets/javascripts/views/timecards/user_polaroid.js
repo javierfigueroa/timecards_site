@@ -1,5 +1,5 @@
 Timecards.Views.UserPolaroid = Backbone.View.extend({
-  template: JST['timecards/polaroid'],
+  template: JST['timecards/user_row'],
 
   events: {
   	"click" : "openTimecard"
@@ -15,4 +15,4 @@ Timecards.Views.UserPolaroid = Backbone.View.extend({
   		url = fragment && fragment.length > 0 ? fragment : $('#from').val() + "/" + $('#to').val();
 	Backbone.history.navigate(url + "/" + this.model.get('id'), true);
   }
-})
+});

@@ -24,4 +24,4 @@ Timecards.Views.TimecardsIndex = Backbone.View.extend({
   	
   	$("#timecards").append(view.render().el);
   }
-})
+});

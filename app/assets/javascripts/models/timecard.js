@@ -9,6 +9,13 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	return this.get('photo_in_url');
   },
   
+  isMissingClockOut: function() {
+  	var inStamp = this.get('timestamp_in'),
+  		outStamp = this.get('timestamp_out');
+  		
+  	return !inStamp || !outStamp;
+  },
+  
   getTimespan: function(){
   	var inStamp = this.get('timestamp_in'),
   		outStamp = this.get('timestamp_out');
@@ -17,6 +24,10 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   },
   
   getTimespanLabel: function() {
+  	if (this.getTimespan() === 0) {
+  		return "Missing clock out";
+  	}
+  	
   	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
   },
   

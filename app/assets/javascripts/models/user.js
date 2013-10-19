@@ -25,15 +25,28 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   		if (timecards.length == 1) {
   			return timecards.models[0].getTimespanLabel();
   		}else if (timecards.length > 1) {
-  			var timespan = timecards.reduce(function(memo, value) { 
-  				var prev = $.isFunction(memo.getTimespan) ? memo.getTimespan() : memo,
-  					next = value.getTimespan();
-  					
-				return +prev + +next; 
-			});
+			var timespan = 0,
+				missing = false,
+				duration = 0,
+				text = "";
+				
+			for (var i=0; i<timecards.models.length; i++) {
+				var timecard = timecards.models[i];
+				
+				if (timecard.isMissingClockOut()) {
+					missing = true;
+				}else{					
+					timespan += timecard.getTimespan();
+				}
+			}
+			
 			duration = moment.duration(timespan);
+			hours = duration.days() * 24 + duration.hours();
+			text = missing ? 
+					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
+					hours + " hours, " + duration.minutes() + " minutes";
 		
-  			return duration.hours() + " hours, " + duration.minutes() + " minutes";
+  			return text;
   		}else{
   			return "No timecards available";
   		}

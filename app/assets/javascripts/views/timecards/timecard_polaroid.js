@@ -7,6 +7,7 @@ Timecards.Views.TimecardPolaroid = Backbone.View.extend({
   	
   render: function(){
   	$(this.el).html(this.template({ model : this.model }));
+  	$(".avatar", this.el).css({'background-image': 'url(' + this.model.getPhotoUrl() + ')'});
   	return this;
   },
   

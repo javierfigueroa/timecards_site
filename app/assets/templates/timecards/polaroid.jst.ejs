@@ -1,5 +1,9 @@
-<div class="span3">
-	<img src="<%= model.getPhotoUrl() %>" width="200px" />
-	<label><%= model.getFullName()  %></label>
-	<label><%= model.getTimespanLabel() %></label>
+<div class="span3 polaroid">
+	<div class="polaroid polaroid-inner">
+		<div class="avatar timecard-square"></div>
+		<div style="padding-top:5px;">
+		<label><%= model.getFullName()  %></label>
+		<label><%= model.getTimespanLabel() %></label>
+		</div>
+	</div>
 </div>

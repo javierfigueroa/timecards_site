@@ -1,3 +1,39 @@
 // Place all the styles related to the Timecards controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$hover-bg: #f5f5f5;
+$hover-blue-bg: #afeeee;
+
+.timecard-square {
+  height:200px;
+  width:200px; 
+  background-size:100%; 
+  background-repeat:no-repeat; 
+  background-position:center;
+}
+
+
+.user-row {
+  background: $hover-bg;
+ }
+ 
+.user-row:hover {
+  background: $hover-blue-bg;
+ }
+ 
+ .polaroid {
+    margin-right: 10px;
+    width: 225px;
+    height: 275px;
+ }
+ 
+ .polaroid-inner {
+   padding: 12px;
+   background: $hover-bg;
+ }
+ 
+ 
+.polaroid-inner:hover {
+   background: $hover-blue-bg;
+}
