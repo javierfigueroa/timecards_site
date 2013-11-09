@@ -1,17 +1,18 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
-gem 'rails', '4'
-gem 'pg'
 group :assets do
   gem 'sass-rails'
   # gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier'
 end
+gem 'rails', '4'
+gem 'pg'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'bootstrap-sass', '~> 2.3.2.1'
 gem 'cancan'
 gem 'devise'
+gem 'devise-encryptable'
 gem 'figaro'
 gem 'rolify'
 gem 'stripe'
@@ -24,14 +25,16 @@ gem 'date_validator'
 gem 'backbone-on-rails'
 gem 'railties'
 gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
-gem 'activerecord-session_store', :git => 'git://github.com/javierfigueroa/activerecord-session_store.git'
+gem 'activerecord-session_store'#, :git => 'git://github.com/javierfigueroa/activerecord-session_store.git'
 gem 'protected_attributes'
+gem 'i18n'
 
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :rbx]
   gem 'hub', :require=>nil
   gem 'quiet_assets'
+  gem 'debugger'
 end
 group :development, :test do
   gem 'factory_girl_rails'

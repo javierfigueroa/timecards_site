@@ -1,4 +1,7 @@
 RailsStripeMembershipSaas::Application.routes.draw do
+  resources :projects
+  resources :users
+
   mount StripeEvent::Engine => '/stripe'
   get '/features', :to => 'home#features'
   get '/examples', :to => 'home#examples'
@@ -19,17 +22,23 @@ RailsStripeMembershipSaas::Application.routes.draw do
   end
   
   get 'users/:in_date/:out_date', :to => 'users#date' 
-  resources :users
+  get 'projects/:in_date/:out_date', :to => 'projects#date' 
+  
+  # get 'projects/:in_date/:out_date', :to => 'projects#date' 
+  # resources :projects
   
   #controller endpoints
   get 'timecards/today', :to => 'timecards#today' 
-  get 'timecards/:in_date/:out_date', :to => 'timecards#date' 
-  get 'timecards/:in_date/:out_date/:user_id', :to => 'timecards#date_and_user_id' 
+  # get 'timecards/:in_date/:out_date', :to => 'timecards#date' 
+  get 'timecards/:in_date/:out_date', :to => 'timecards#date_and_user_id' 
   resources :timecards 
   
   #backbone endpoints
-  get ':in_date/:out_date', :to => 'content#index'
-  get ':in_date/:out_date/:user_id', :to => 'content#index'
-  get ':in_date/:out_date/:user_id/:timecard_id', :to => 'content#index'
+  get 'users/:in_date/:out_date', :to => 'content#index'
+  get 'projects/:in_date/:out_date', :to => 'content#index'
+  get 'timecards/:in_date/:out_date/project/:project_id', :to => 'content#index'
+  get 'timecards/:in_date/:out_date/project/:project_id/:timecard_id', :to => 'content#index'
+  get 'timecards/:in_date/:out_date/user/:user_id', :to => 'content#index'
+  get 'timecards/:in_date/:out_date/user/:user_id/:timecard_id', :to => 'content#index'
   
 end

@@ -13,7 +13,6 @@ $hover-blue-bg: #afeeee;
   background-position:center;
 }
 
-
 .user-row {
   background: $hover-bg;
  }
@@ -24,6 +23,7 @@ $hover-blue-bg: #afeeee;
  
  .polaroid {
     margin-right: 10px;
+    margin-bottom: 10px;
     width: 225px;
     height: 275px;
  }
@@ -36,4 +36,19 @@ $hover-blue-bg: #afeeee;
  
 .polaroid-inner:hover {
    background: $hover-blue-bg;
+}
+
+
+.date-picker label {
+  display: inline-block;
+}
+
+.date-picker input {
+  display: inline-block !important;
+  width: 100px !important;
+}
+
+#filter {
+  position: relative;
+  top: -5px;
 }

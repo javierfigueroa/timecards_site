@@ -25,4 +25,4 @@ Timecards.Views.Breadcrumbs = Backbone.View.extend({
 
 		$(this.el).append(view.render().el);
 	}
-})
+});

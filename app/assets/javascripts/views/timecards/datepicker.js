@@ -31,7 +31,10 @@ Timecards.Views.DatePicker = Backbone.View.extend({
   	},
   	
   	setHeader: function(header) {
-  		$("#filter-header", this.el).text(header);
+  		var el = $("#filter-header", this.el);
+  		if (header && header.length > 0 && el.text() !== header) {
+  			el.text(header);
+  		}
   	},
   	
   	filter: function() {
@@ -39,9 +42,15 @@ Timecards.Views.DatePicker = Backbone.View.extend({
 	  		to = $('#to').val(),
 	  		fragment = Backbone.history.fragment,
 	  		fragments = fragment.split("/"),
-	  		userId = fragments.length == 3 ? fragments[2] : null,
-	  		url = userId ? from + "/" + to + "/" + userId : from + "/" + to;
+	  		isUsers = fragments[0] === "users" || fragments[3] === "user",
+	  		isProjects = fragments[0] === "projects" || fragments[3] === "project",
+	  		userId = fragments.length == 5 && isUsers ? fragments[4] : null,
+	  		projectId = fragments.length == 5 && isProjects ? fragments[4] : null;
 	  		
-	  	Backbone.history.navigate(url, true);
+  		if (isUsers) {
+  			Backbone.history.navigate(userId ? "timecards/" + from + "/" + to + "/user/" + userId : "users/" + from + "/" + to, true);
+  		}else if(isProjects){
+  			Backbone.history.navigate(projectId ? "timecards/" + from + "/" + to + "/project/" + projectId : "projects/" + from + "/" + to, true);
+  		}
   	}
-})
+});

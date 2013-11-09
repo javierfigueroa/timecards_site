@@ -11,6 +11,7 @@ class UsersController < ApplicationController
   end
   
   # GET /users/in_date/out_date.json
+  # get user between a date range
   def date
     in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
     out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc

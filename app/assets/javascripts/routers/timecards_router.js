@@ -1,16 +1,34 @@
 Timecards.Routers.Timecards = Backbone.Router.extend({
+
 	routes: {
     	'' : 'index',
-		':in_date/:out_date' : 'getUsersByDate',
-		':in_date/:out_date/:user_id' : 'getTimecardsByDate',
-    	':in_date/:out_date/:user_id/:id' : 'getTimecardById'
+    	'users' : 'index',
+    	'projects' : 'projects',
+		'users/:in_date/:out_date' : 'getUsersByDate',
+		'timecards/:in_date/:out_date/user/:user_id' : 'getTimecardsForUserByDate',
+    	'timecards/:in_date/:out_date/user/:user_id/:id' : 'getTimecardForUserById',
+    	'projects/:in_date/:out_date' : 'getProjectsByDate',
+		'timecards/:in_date/:out_date/project/:project_id' : 'getTimecardsForProjectByDate',
+    	'timecards/:in_date/:out_date/project/:project_id/:id' : 'getTimecardForProjectById',
 	},
 
 	index: function() {
-		var now = moment(), 
+		var from = $('#from').val(),
+	  		to = $('#to').val(),
+	  		now = moment(), 
 			nowFormatted = now.format("MM-DD-YYYY");
-		this.getUsersByDate(nowFormatted, nowFormatted);
+
+		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
 	},
+	
+	projects: function() {
+		var from = $('#from').val(),
+	  		to = $('#to').val(),
+	  		now = moment(), 
+			nowFormatted = now.format("MM-DD-YYYY");
+
+		Backbone.history.navigate("projects/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+	},	
 	
 	getUsersByDate: function(from, to) {
   		var dates = from + "/" + to,
@@ -28,44 +46,108 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		this._addMainView(fromDate, toDate, "All Users");
   		this._addBreadcrumbs([{
   			title:"Users", 
-  			url: dates
+  			url: "users/" + dates
 		}]);
   	},
   	
-  	getTimecardsByDate: function(from, to, userId) {
-  		var dates = from + "/" + to;
-  			suffix = dates +"/" + userId,
-  			url = "/timecards/" + suffix,
+	getProjectsByDate: function(from, to) {
+  		var dates = from + "/" + to,
   			fromDate = moment(from),
   			toDate = moment(to);
   			
-		this.collection = new Timecards.Collections.Timecards();
+		this.collection = new Timecards.Collections.Projects([], {			
+			inDate: from,
+			outDate: to
+		});
+  		this.collection.fetch({
+  			reset: true,
+  			remove: true
+  		});
+  		
+  		this._addMainView(fromDate, toDate, "All Projects");
+  		this._addBreadcrumbs([{
+  			title:"Projects", 
+  			url: "projects" + dates
+		}]);
+  	},
+  	
+  	
+  	getTimecardsForUserByDate: function(from, to, userId) {
+  		var dates = from + "/" + to;
+  			suffix = dates +"/user/" + userId,
+  			url = suffix,
+  			fromDate = moment(from),
+  			toDate = moment(to);
+  			
+		this.collection = new Timecards.Collections.Timecards([], {
+			inDate: from,
+			outDate: to
+		});
   		
   		this._addMainView(fromDate, toDate);
   		this._addBreadcrumbs([{
   			title:"Users", 
-  			url: dates
+  			url: "users/" + dates
 		} , {
 			title:"Timecards", 
-			url: suffix
+			url: "timecards/" + suffix
 		}]);
   		
 		picker = this.pickerView;	
   		this.collection.fetch({
-  			url: url,
+  			data: {user_id: userId},
   			reset: true,
   			remove: false,
   			success: function(collection, response){
-      			var user = collection.models[0].get('user'),
-      				name = user.first_name + " " + user.last_name;
-      			picker.setHeader(name);
+  				if (collection.models.length > 0) {
+	      			var user = collection.models[0].get('user'),
+	      				name = user.first_name + " " + user.last_name;
+	      			picker.setHeader(name);
+      			}
     		}
   		});
   	},
   	
-  	getTimecardById: function(from, to, userId, timecardId) {
+  	
+  	getTimecardsForProjectByDate: function(from, to, projectId) {
   		var dates = from + "/" + to;
-  			user = dates +"/" + userId,
+  			suffix = dates +"/project/" + projectId,
+  			url = suffix,
+  			fromDate = moment(from),
+  			toDate = moment(to);
+  			
+		this.collection = new Timecards.Collections.Timecards([], {
+			inDate: from,
+			outDate: to
+		});
+  		
+  		this._addMainView(fromDate, toDate);
+  		this._addBreadcrumbs([{
+  			title:"Projects", 
+  			url: "projects/" + dates
+		} , {
+			title:"Timecards", 
+			url: "timecards/" + suffix
+		}]);
+  		
+		picker = this.pickerView;	
+  		this.collection.fetch({
+  			data: {project_id: projectId},
+  			reset: true,
+  			remove: false,
+  			success: function(collection, response){
+  				if (collection.models.length > 0) {
+	      			var user = collection.models[0].get('user'),
+	      				name = user.first_name + " " + user.last_name;
+	      			picker.setHeader(name);
+      			}
+    		}
+  		});
+  	},
+  	
+  	getTimecardForUserById: function(from, to, userId, timecardId) {
+  		var dates = from + "/" + to;
+  			user = dates +"/user/" + userId,
   			url = user + "/" + timecardId;
   			
   		if (!this.collection) {
@@ -79,25 +161,50 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		
   		this._addBreadcrumbs([{
   			title:"Users", 
-  			url: dates
+  			url: "users/" + dates
 		} , {
 			title:"Timecards", 
-			url: user
+			url: "timecards/" + user
 		}, {
 			title: "Details", 
-			url: url
+			url: "timecards/" + url
 		}]);
   	},
+  	
+  	getTimecardForProjectById: function(from, to, projectId, timecardId) {
+  		var dates = from + "/" + to;
+  			user = dates +"/project/" + projectId,
+  			url = user + "/" + timecardId;
+  			
+  		if (!this.collection) {
+	  		model = new Timecards.Models.Timecard({	id: timecardId });
+	  		model.fetch({
+	  			success: this._addTimecardView
+	  		});
+  		}else{
+  			this._addTimecardView(this.collection.get(timecardId));
+  		}
+  		
+  		this._addBreadcrumbs([{
+  			title:"Projects", 
+  			url: "projects/" + dates
+		} , {
+			title:"Timecards", 
+			url: "timecards/" + user
+		}, {
+			title: "Details", 
+			url: "timecards/" + url
+		}]);
+  	},
+  	
   	
   	_addTimecardView: function(model, data) { 		
   		timecardView = new Timecards.Views.Timecard({
 			model :  model
 		});
 		
-		$("#app-navigation").parent().hide();
-		$("#app-content").parent().removeClass("span10");
-		$("#app-content").parent().addClass("span12");
-		$("#app-content").html(timecardView.render().el);
+		$("#app-navigation").parent().fadeOut(100);
+		$("#app-content").html(timecardView.render().el).hide().fadeIn(1000);
   	},
   	
 	_addMainView: function(from, to, header) {
@@ -106,17 +213,22 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			collection : this.collection
 		});
 		
-		$("#app-content").html(this.timecardsView.render().el);
+		$("#app-content").html(this.timecardsView.render().el).hide().fadeIn(500);
 		
 		//add date picker
-		this.pickerView = new Timecards.Views.DatePicker({
-			model : { from : from, to : to, header: header}
-		});
+		if (!this.pickerView) {
+			this.pickerView = new Timecards.Views.DatePicker({
+				model : { from : from, to : to, header: header}
+			});
+			
+			
+			$("#app-navigation").html(this.pickerView.render().el).hide().fadeIn(500);;
+			$("#app-navigation").parent().fadeIn();
+		}else{
+  			this.pickerView.setHeader(header);
+			$("#app-navigation").parent().fadeIn(500);
+		}
 		
-		$("#app-content").parent().removeClass("span12");
-		$("#app-content").parent().addClass("span10");
-		$("#app-navigation").parent().show();
-		$("#app-navigation").html(this.pickerView.render().el);
 		this.pickerView.initDatePickers();
 	},
 	

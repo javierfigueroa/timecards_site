@@ -1,8 +1,10 @@
 class Timecard < ActiveRecord::Base
   belongs_to :user
+  belongs_to :project
   scope :on_today, proc { |user| where('user_id = ? AND timestamp_in > ? AND timestamp_out IS NULL', user.id, 24.hours.ago) }
   scope :on_dates, ->(in_date, out_date) { where('timestamp_in  >= ? AND (timestamp_out IS NULL OR timestamp_out <= ?)', in_date, out_date) }
   scope :on_dates_and_user_id, ->(in_date, out_date, user_id) { where('timestamp_in >= ? AND (timestamp_out IS NULL OR timestamp_out <= ?) AND user_id = ?', in_date, out_date, user_id) }
+  scope :on_dates_and_project_id, ->(in_date, out_date, project_id) { where('timestamp_in >= ? AND (timestamp_out IS NULL OR timestamp_out <= ?) AND project_id = ?', in_date, out_date, project_id) }
   
   attr_accessible :latitude_in, 
                   :longitude_in, 
@@ -15,7 +17,8 @@ class Timecard < ActiveRecord::Base
                   :timestamp_out,
                   :photo_out, 
                   :photo_out_content_type, 
-                  :photo_out_file_size
+                  :photo_out_file_size,
+                  :project_id
                   
   # validates_attachment :photo_in, :content_type => { :content_type => "image/jpeg" }      
   # validates_attachment :photo_out, :content_type => { :content_type => "image/jpeg" }
@@ -25,6 +28,7 @@ class Timecard < ActiveRecord::Base
   validates :latitude_in, :presence => true
   validates :longitude_in, :presence => true
   validates :timestamp_in, :presence => true
+  validates :project, :presence => {:message => 'invalid project id'}
 
   has_attached_file :photo_in,
     :storage => :s3,

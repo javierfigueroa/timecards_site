@@ -1,12 +1,30 @@
 <div id="backbone-app" class="container-fluid">
 	<div class="row-fluid">
 		<div class="span2">
-			<div id="app-navigation">
+          <div class="sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">Timecards</li>
+              <li  id="by-users" class="active"><a href="#">By Users</a></li>
+              <li id="by-projects"><a href="#">By Projects</a></li>
+            <!--   <li class="nav-header">Settings</li>
+              <li><a href="#">Users</a></li>
+              <li><a href="#">Projects</a></li>-->
+            </ul>
+          </div><!--/.well -->
+        </div>
+		<div class="span9">
+			<div class="row-fluid">		
+				<div class="span10">
+					<div id="app-navigation">
+					</div>
+				</div>
 			</div>
+			<div class="row-fluid">
+				<div class="span12">
+					<div id="app-crumbs"></div>		
+					<div id="app-content">Loading...</div>
+				</div>
+			</div>	
 		</div>
-		<div class="span10" style="margin-left: 0px;">
-			<div id="app-crumbs"></div>		
-			<div id="app-content">Loading...</div>
-		</div>
-	</div>	
+	</div>
 </div>

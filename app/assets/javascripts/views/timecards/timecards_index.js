@@ -18,9 +18,14 @@ Timecards.Views.TimecardsIndex = Backbone.View.extend({
   },
   
   appendTimecard: function(model){
-  	view = model instanceof Timecards.Models.User ? 
-  		new Timecards.Views.UserPolaroid({ model: model }) : 
-  		new Timecards.Views.TimecardPolaroid({ model: model });
+  	var view = null;
+  	if(model instanceof Timecards.Models.User) { 
+  		view = new Timecards.Views.UserPolaroid({ model: model });
+  	}else if(model instanceof Timecards.Models.Timecard) { 
+  		view = new Timecards.Views.TimecardPolaroid({ model: model });
+  	}else{
+  		view = new Timecards.Views.ProjectRow({ model: model });
+  	}
   	
   	$("#timecards").append(view.render().el);
   }
