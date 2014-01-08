@@ -31,6 +31,10 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
   },
   
+  getFormattedDate: function() {
+  	return moment(this.get('timestamp_in')).format("MMM Do, YYYY");;
+  },
+  
   getFullName: function() {
   	return this.get('user')["first_name"] + " " + this.get('user')["last_name"];
   }

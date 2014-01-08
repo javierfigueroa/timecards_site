@@ -2,8 +2,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 
 	routes: {
     	'' : 'index',
-    	'users' : 'index',
-    	'projects' : 'projects',
+    	'users' : 'getUsers',
+    	'projects' : 'getProjects',
 		'users/:in_date/:out_date' : 'getUsersByDate',
 		'timecards/:in_date/:out_date/user/:user_id' : 'getTimecardsForUserByDate',
     	'timecards/:in_date/:out_date/user/:user_id/:id' : 'getTimecardForUserById',
@@ -11,17 +11,33 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		'timecards/:in_date/:out_date/project/:project_id' : 'getTimecardsForProjectByDate',
     	'timecards/:in_date/:out_date/project/:project_id/:id' : 'getTimecardForProjectById',
 	},
-
+	
 	index: function() {
-		var from = $('#from').val(),
-	  		to = $('#to').val(),
-	  		now = moment(), 
-			nowFormatted = now.format("MM-DD-YYYY");
+		this.getUsers();
+	},
 
-		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+	getUsers: function() {
+		
+		var el = $("#backbone-app"),
+			// token = el.attr("auth-token"),
+			email = el.attr("email"),
+			getUsers = this.getUsers;
+			
+		if (email) {
+			$.getJSON("/timecards",{ "user[email]": email}, function(response, status){
+				if (status === "success") {
+					var from = $('#from').val(),
+				  		to = $('#to').val(),
+				  		now = moment(), 
+						nowFormatted = now.format("MM-DD-YYYY");
+			
+					Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+				}
+			});
+		}
 	},
 	
-	projects: function() {
+	getProjects: function() {
 		var from = $('#from').val(),
 	  		to = $('#to').val(),
 	  		now = moment(), 

@@ -1,9 +1,12 @@
 <div class="span3 polaroid">
 	<div class="polaroid polaroid-inner">
+		<div class="text">
+			<label><%= model.getFormattedDate() %></label>
+		</div>
 		<div class="avatar timecard-square"></div>
-		<div style="padding-top:5px;">
-		<label><%= model.getFullName()  %></label>
-		<label><%= model.getTimespanLabel() %></label>
+		<div class="text">
+			<label style="display:none"><%= model.getFullName() %></label>
+			<label><%= model.getTimespanLabel() %></label>
 		</div>
 	</div>
 </div>

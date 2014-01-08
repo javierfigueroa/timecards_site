@@ -1,3 +1,221 @@
 @import "bootstrap";
-body { padding-top: 40px; }
+//
+// mixin for bullet proof font declaration syntax
+//
+@mixin declare-font-face($font-family, $font-filename, $font-weight : normal, $font-style :normal, $font-stretch : normal) {
+  @font-face {
+    font-family: '#{$font-family}';
+    src: url(font-path('#{$font-filename}.eot'));
+    src: url(font-path('#{$font-filename}.eot?#iefix')) format('embedded-opentype'),
+    //url(font-path('#{$font-filename}.woff')) format('woff'),
+    url(font-path('#{$font-filename}.ttf')) format('truetype'),
+    url(font-path('#{$font-filename}.svg##{$font-family}')) format('svg');
+    font-weight: $font-weight;
+    font-style: $font-style;
+    font-stretch: $font-stretch;
+  }
+}
+
+
 @import "bootstrap-responsive";
+
+
+@include declare-font-face('Open Sans', 'OpenSans-light', 400);
+@include declare-font-face('Open Sans Regular', 'OpenSans-Regular', 400);
+$font-color: rgb(217,227,237);
+$dark-blue: rgb(38,44,51);
+$dark-background: rgb(50,54,58);
+$light-background: rgb(241,241,241);
+$font-size: 20px;
+
+body { 
+  color: $dark-blue !important;
+  height: 100%;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+.navbar .brand {
+  color: $font-color;
+  text-shadow: 0 0 0 white;
+}
+
+.brand .login-logo {
+  width: 40px;
+}
+
+.navbar .nav > li > a {
+  color: $font-color;
+  text-shadow: 0 0 0 white;
+}
+
+.navbar-inner {
+  height: 80px;
+  background-image: none;
+  background-color: $dark-blue;
+  border: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+.pad20 {
+  padding: 20px;
+}
+
+.pad10t {
+  padding-top: 10px;
+}
+
+.pad15t {
+  padding-top: 15px;
+}
+
+.pad30l {
+  padding-left: 30px;
+}
+
+.full-height {
+  min-height: 100%;
+}
+
+#main {
+  background-color: $light-background;
+}
+
+#main .login{
+  background-color: $light-background;
+}
+
+
+#main h3 {
+  padding: 0px 0px 5px;
+}
+
+#backbone-app {
+  min-height: 800px;
+}
+
+.timecards-action {
+  background-color: $dark-background;
+  padding: 5px; 
+  text-align: center;
+  width: auto;
+}
+
+.timecards-action a, .timecards-action a:hover {
+  color: $font-color;
+  font-family: "Open Sans Regular";
+}
+
+.alert {
+  float: right;
+  margin: 10px;
+}
+
+input[type=submit] {
+  background-image: none;
+  background-color: $dark-background;
+  border: 0px;
+  border-radius: 0px;
+  padding: 10px;
+  color: $font-color;
+  font-family: "Open Sans";
+  font-weight: inherit; 
+}
+
+form {
+  padding: 10px 0px 0px 0px
+}
+
+.simple_form label {
+  display: none;
+} 
+.simple_form input {
+  border-top: 1px #acaeb4 solid;
+  border-left: 1px #dde1e7 solid;
+  border-right: 1px #dde1e7 solid;
+  border-bottom: 2px #f1f4f7 solid;
+  -moz-border-radius: 30px !important;
+  -webkit-border-radius: 30px !important;
+  border-radius: 30px !important;
+  height: 60px !important;
+  width: 300px;
+  font-size: $font-size !important;
+  padding-top: 6px !important;
+  text-align: center !important;
+  font-family: "Open Sans";
+}
+
+.simple_form input[type=submit]  {
+  background: url("images/green-btn@2x.png") no-repeat 0px 0px;
+  background-size: 300px 60px;
+  width: 300px !important;
+  height: 60px;
+  border: 0px;
+  color: $font-color;
+  font-size: $font-size !important;
+  font-family: "Open Sans";
+  font-weight: lighter;
+}
+.simple_form .help-inline {
+  padding-left: 30px;
+  margin-top: -15px;
+}
+
+.form-actions {
+  background-color: none;
+  border-top: 0px;
+}
+
+.container-fluid {
+  padding: 0px;
+}
+
+.sidebar-nav {
+  background-color: $dark-background;
+  padding-top: 10px;
+  font-family: "Open Sans Regular";
+  font-weight: bold;
+  font-size: 16px;
+}
+
+li {
+  padding-bottom: 10px;
+}
+
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+  background-color: rgb(69,74,79);
+}
+.nav-list > li > a, .nav-list .nav-header {
+  text-shadow: 0px 0px 0px;
+  color: rgb(135,143,141);
+}
+
+.breadcrumb {
+  padding: 0px 0px;
+  margin: 0 0 0px;
+  list-style: none;
+  background-color: #f5f5f5;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px; }
+  .breadcrumb > li {
+    display: inline-block;
+    *display: inline;
+    /* IE7 inline-block hack */
+    *zoom: 1;
+    text-shadow: 0 1px 0 white; }
+    .breadcrumb > li > .divider {
+      padding: 0 5px;
+      color: #ccc; }
+  .breadcrumb .active {
+    color: #999999; }
+    
+.sidebar-container {
+  display: inline-block;
+  height: 100%;
+  position: absolute;
+}

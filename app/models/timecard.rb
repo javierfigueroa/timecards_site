@@ -28,7 +28,6 @@ class Timecard < ActiveRecord::Base
   validates :latitude_in, :presence => true
   validates :longitude_in, :presence => true
   validates :timestamp_in, :presence => true
-  validates :project, :presence => {:message => 'invalid project id'}
 
   has_attached_file :photo_in,
     :storage => :s3,

@@ -2,35 +2,51 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-$hover-bg: #f5f5f5;
+$hover-bg: white;
 $hover-blue-bg: #afeeee;
 
+#timecards { 
+  padding-bottom: 40px;  
+}
+
 .timecard-square {
-  height:200px;
-  width:200px; 
+  height:100px;
+  margin: 0 auto;
+  width: 160px;
   background-size:100%; 
   background-repeat:no-repeat; 
   background-position:center;
 }
 
 .user-row {
-  background: $hover-bg;
+  background: white;
  }
  
 .user-row:hover {
   background: $hover-blue-bg;
  }
  
- .polaroid {
-    margin-right: 10px;
-    margin-bottom: 10px;
-    width: 225px;
-    height: 275px;
+ .user-row label.name {
+  font-size: 22px;
+  font-weight: bold;
+ }
+ 
+ .user-row img{
+  
+  border-radius: 40px;
+  -webkit-border-radius: 40px; 
+  -moz-border-radius: 40px;  
+ }
+ 
+ .polaroid { 
+    height: 175px;
+    margin: 10px;  
+  font-family: "Open Sans Regular";
  }
  
  .polaroid-inner {
-   padding: 12px;
    background: $hover-bg;
+   padding: 10px;
  }
  
  
@@ -41,14 +57,32 @@ $hover-blue-bg: #afeeee;
 
 .date-picker label {
   display: inline-block;
+  font-size: 18px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .date-picker input {
   display: inline-block !important;
   width: 100px !important;
+  border: 0px solid #cccccc;
+  border-radius: 0px; 
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  height: 33px;
 }
 
-#filter {
+.date-picker .timecards-action {
   position: relative;
-  top: -5px;
+width: 80px;
+display: inline-block;
+top: -2px;
+left: 10px;
+cursor: pointer;  
+}
+
+.polaroid-inner .text label {
+  padding-top:5px; 
+  padding-left: 5px;
+  font-size: 12px;
 }

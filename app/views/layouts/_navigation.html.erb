@@ -1,5 +1,12 @@
-<%= link_to "Timecards", root_path, :class => 'brand' %>
-<ul class="nav pull-right">
+<div  class="brand">
+		<div class="login-logo">
+			<img src="/assets/images/iTunesArtwork512.png" />
+		</div>
+		<div class="login-title">
+			<div><a  class="brand" href="/">Timecards</a></div>
+		</div>
+</div>
+<ul class="nav pull-right pad10t">
   <% if !user_signed_in? %>
 	<li><%= link_to "Features", features_path %></li>
 	<li><%= link_to "Examples", examples_path %></li>
@@ -13,7 +20,7 @@
       <%= link_to 'Projects', projects_path %>
       </li>
       <li>
-      <%= link_to 'Admin', users_path %>
+      <%= link_to 'Users', users_path %>
       </li>
     <% end %>
   <% end %>
@@ -26,5 +33,4 @@
     <%= link_to 'Login', new_user_session_path %>  
     </li>
   <% end %>
- 
 </ul>

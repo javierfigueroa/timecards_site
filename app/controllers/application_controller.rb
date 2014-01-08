@@ -6,8 +6,24 @@ class ApplicationController < ActionController::Base
   prepend_before_filter :scope_current_tenant #used for devise sessions
   # around_filter :scope_current_tenant #general tenancy scope
   helper_method :current_tenant
-  
+  # This is our new function that comes before Devise's one
+  before_filter :authenticate_user_from_token!
+ 
   private
+  
+  def authenticate_user_from_token!
+    if !params[:auth_token].nil?
+      user_email = params[:user][:email].presence
+      user       = user_email && User.find_by_email(user_email)
+   
+      # Notice how we use Devise.secure_compare to compare the token
+      # in the database with the token given in the params, mitigating
+      # timing attacks.
+      if user && Devise.secure_compare(user.authentication_token, params[:auth_token])
+        sign_in user, store: false
+      end
+    end
+  end
   
   def current_tenant
     @current_tenant ||= Tenant.find_by_subdomain(request.subdomain)

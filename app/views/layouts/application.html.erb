@@ -11,26 +11,30 @@
     <%= yield(:head) %>
   </head>
  	<body class="<%= controller_name %> <%= action_name %>">
-		<div class="navbar navbar-fixed-top navbar-inverse">
+ 		<% if !current_page?(new_user_session_path) %>
+		<div class="navbar">
 			<nav class="navbar-inner">
-				<div class="container">
+				<div class="container pad10t">
 					<%= render 'layouts/navigation' %>
 				</div>
 			</nav>
 		</div>
-		<div id="main" role="main">
-			<div class="container timecards-container" >
-				<div class="content">
+		<% end %>
+		<div id="main" role="main" class="full-height">
+			<div class="container timecards-container full-height" >
+				<div class="content full-height" style="position: relative">
 					<%= render 'layouts/messages' %>
 					<%= yield %>
 				</div>
 			</div>
-			<footer>
-				<%= render 'layouts/footer' %>
-			</footer>
+			<% if !current_page?(new_user_session_path) %>
+			<% end %>
 		</div>
 		</div> <!--! end of .container -->
 		</div> <!--! end of #main -->
 		
+			<footer>
+				<%= render 'layouts/footer' %>
+			</footer>
 	</body>
 </html>

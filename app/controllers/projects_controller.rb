@@ -54,8 +54,9 @@ class ProjectsController < ApplicationController
     @project = Project.new(project_params)
 
     if @project.save
-      redirect_to @project, notice: 'Project was successfully created.'
+      redirect_to projects_url, notice: 'Project was successfully created.'
     else
+      flash[:notice] = @project.errors
       render action: 'new'
     end
   end
@@ -63,7 +64,7 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1
   def update
     if @project.update(project_params)
-      redirect_to @project, notice: 'Project was successfully updated.'
+      redirect_to @projects, notice: 'Project was successfully updated.'
     else
       render action: 'edit'
     end

@@ -5,7 +5,7 @@ class SessionsController < Devise::SessionsController
     sign_in(resource_name, resource)
 
     #current_user.reset_authentication_token!
-    current_user.ensure_authentication_token
+    #current_user.ensure_authentication_token
     current_user.save!
 
     respond_to do |format|

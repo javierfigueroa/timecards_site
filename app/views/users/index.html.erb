@@ -1,8 +1,8 @@
-<h3>Users</h3>
-<div class="span8">
-<%= link_to("Add", new_user_registration_path, :class => 'btn btn-mini') %>
+<h3 style="padding-left: 30px;">Users</h3>
+<div class="timecards-action signup-button-container">
+<%= link_to("Add new", new_user_registration_path) %>
 </div>
-<div class="span8">
+<div class="span12">
 <table class="table table-condensed">
   <thead>
     <tr>
@@ -11,13 +11,13 @@
       <th>Registered</th>
       <th>Role</th>
       <th></th>
-      <th></th>
+      <th style="width: 20px;"></th>
     </tr>
   </thead>
   <tbody>
   <% @users.each do |user| %>
     <tr>
-      <td><%= link_to user.first_name, user %></td>
+      <td><%= user.first_name %></td>
       <td><%= user.email %></td>
       <td><%= user.created_at.to_date %></td>
       <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
@@ -27,7 +27,12 @@
         <%= render user %>
         <% end %>
       </td>
-      <td><%= link_to("Delete", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %></td>
+      <td>
+      	<% if !(user == current_user) %>
+		<div class="timecards-action"><%= link_to("Delete", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete)  %>
+		</div>
+		<% end %>
+	  </td>
     </tr>
   <% end %>
   </tbody>

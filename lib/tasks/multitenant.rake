@@ -1,5 +1,5 @@
 db_tasks = %w[db:migrate db:migrate:up db:migrate:down db:rollback db:forward]
-
+#This can't run when the db has never been created
 namespace :multitenant do
   db_tasks.each do |task_name|
     desc "Run #{task_name} for each tenant"

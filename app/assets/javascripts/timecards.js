@@ -5,7 +5,7 @@ window.Timecards = {
   Routers: {},
   init: function() {
     new Timecards.Routers.Timecards();
-    Backbone.history.start({pushState:true});
+    Backbone.history.start();
   }
 };
 
