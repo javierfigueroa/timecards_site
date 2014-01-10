@@ -7,6 +7,10 @@ Timecards.Views.Timecard = Backbone.View.extend({
   	this.addClockInLocation();
   	!this.model.isMissingClockOut() && this.addClockOutLocation();
   	
+  	
+  	$(".avatar-in", this.el).css({'background-image': 'url(' + this.model.get('photo_in_url') + ')'});
+  	$(".avatar-out", this.el).css({'background-image': 'url(' + this.model.get('photo_out_url') + ')'});
+  	$("html, body").animate({ scrollTop: "0px" });
   	return this;
   },
   

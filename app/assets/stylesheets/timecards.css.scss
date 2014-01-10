@@ -3,19 +3,23 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 $hover-bg: white;
-$hover-blue-bg: #afeeee;
+$hover-blue-bg: rgb(8,117,130);
 
 #timecards { 
   padding-bottom: 40px;  
 }
 
-.timecard-square {
+.timecard-square, .map {
   height:100px;
   margin: 0 auto;
   width: 160px;
   background-size:100%; 
   background-repeat:no-repeat; 
   background-position:center;
+}
+
+.map {
+  
 }
 
 .user-row {
@@ -41,25 +45,26 @@ $hover-blue-bg: #afeeee;
  .polaroid { 
     height: 175px;
     margin: 10px;  
-  font-family: "Open Sans Regular";
+    font-family: "Open Sans Regular";
  }
  
  .polaroid-inner {
    background: $hover-bg;
    padding: 10px;
+   position: relative;
+   margin-left: 0px;
  }
  
  
 .polaroid-inner:hover {
    background: $hover-blue-bg;
+   color: white;
 }
 
 
 .date-picker label {
   display: inline-block;
   font-size: 18px;
-  padding-left: 10px;
-  padding-right: 10px;
 }
 
 .date-picker input {
@@ -70,19 +75,49 @@ $hover-blue-bg: #afeeee;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
   height: 33px;
+  margin-left: 10px !important;
+  margin-right: 10px !important;
 }
 
 .date-picker .timecards-action {
   position: relative;
-width: 80px;
-display: inline-block;
-top: -2px;
-left: 10px;
-cursor: pointer;  
+  width: 80px;
+  display: inline-block;
+  top: -2px;
+  left: 10px;
+  cursor: pointer;  
 }
 
-.polaroid-inner .text label {
+.text label {
   padding-top:5px; 
   padding-left: 5px;
   font-size: 12px;
 }
+
+.polaroid-inner .name {
+  position: absolute;
+  top: 40px;
+  left: 15px;
+  background: $hover-blue-bg;
+  color: white;
+  padding: 5px;
+}
+
+.full-timecard {
+    font-family: "Open Sans Regular";
+}
+
+.timecard_header {
+  padding-top: 10px;
+}
+
+.timecard_header label{
+  font-size: 20px;
+  font-family: "Open Sans Regular";
+}
+
+.timecard {
+  background: white;
+  padding: 20px;
+}
+

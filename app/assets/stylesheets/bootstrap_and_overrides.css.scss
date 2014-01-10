@@ -26,6 +26,7 @@ $font-color: rgb(217,227,237);
 $dark-blue: rgb(38,44,51);
 $dark-background: rgb(50,54,58);
 $light-background: rgb(241,241,241);
+$menu-font-color: rgb(135,143,141);
 $font-size: 20px;
 
 body { 
@@ -191,28 +192,34 @@ li {
 }
 .nav-list > li > a, .nav-list .nav-header {
   text-shadow: 0px 0px 0px;
-  color: rgb(135,143,141);
+  color: $menu-font-color;
 }
 
 .breadcrumb {
+  color: $menu-font-color;
   padding: 0px 0px;
   margin: 0 0 0px;
+  padding-top:6px;
   list-style: none;
-  background-color: #f5f5f5;
+  background-color: $dark-background;
   -webkit-border-radius: 0px;
   -moz-border-radius: 0px;
-  border-radius: 0px; }
-  .breadcrumb > li {
-    display: inline-block;
-    *display: inline;
-    /* IE7 inline-block hack */
-    *zoom: 1;
-    text-shadow: 0 1px 0 white; }
-    .breadcrumb > li > .divider {
-      padding: 0 5px;
-      color: #ccc; }
-  .breadcrumb .active {
-    color: #999999; }
+  border-radius: 0px; 
+}
+.breadcrumb > li {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  text-shadow: 0 0px 0 white; 
+}
+.breadcrumb > li > .divider {
+  padding: 0 5px;
+  color: $menu-font-color; 
+}
+.breadcrumb .active, .breadcrumb a {
+  color: $menu-font-color; 
+}
     
 .sidebar-container {
   display: inline-block;

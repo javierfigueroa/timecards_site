@@ -1,5 +1,4 @@
 Timecards.Routers.Timecards = Backbone.Router.extend({
-
 	routes: {
     	'' : 'index',
     	'users' : 'getUsers',
@@ -23,18 +22,25 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			email = el.attr("email"),
 			getUsers = this.getUsers;
 			
-		if (email) {
-			$.getJSON("/timecards",{ "user[email]": email}, function(response, status){
-				if (status === "success") {
+		// if (email && !Backbone.history) {
+			// $.getJSON("/timecards",{ "user[email]": email}, function(response, status){
+				// if (status === "success") {
 					var from = $('#from').val(),
 				  		to = $('#to').val(),
 				  		now = moment(), 
 						nowFormatted = now.format("MM-DD-YYYY");
 			
 					Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
-				}
-			});
-		}
+				// }
+			// });
+		// }else{
+			// var from = $('#from').val(),
+				  		// to = $('#to').val(),
+				  		// now = moment(), 
+						// nowFormatted = now.format("MM-DD-YYYY");
+// 			
+					// Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+		// }
 	},
 	
 	getProjects: function() {
@@ -52,18 +58,23 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			fromDate = moment(from),
   			toDate = moment(to);
   			
-		this.collection = new Timecards.Collections.Users();
-  		this.collection.fetch({
-  			url: url,
-  			reset: true,
-  			remove: true
-  		});
-  		
+		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
   		this._addBreadcrumbs([{
   			title:"Users", 
   			url: "users/" + dates
 		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			url: url,
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Users");
+    		}
+  		});
   	},
   	
 	getProjectsByDate: function(from, to) {
@@ -75,16 +86,22 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			inDate: from,
 			outDate: to
 		});
-  		this.collection.fetch({
-  			reset: true,
-  			remove: true
-  		});
   		
   		this._addMainView(fromDate, toDate, "All Projects");
   		this._addBreadcrumbs([{
   			title:"Projects", 
   			url: "projects" + dates
 		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Projects");
+    		}
+  		});
   	},
   	
   	
@@ -108,11 +125,12 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			title:"Timecards", 
 			url: "timecards/" + suffix
 		}]);
-  		
-		picker = this.pickerView;	
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {user_id: userId},
-  			reset: true,
+  			reset: false,
   			remove: false,
   			success: function(collection, response){
   				if (collection.models.length > 0) {
@@ -147,6 +165,7 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		}]);
   		
 		picker = this.pickerView;	
+		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {project_id: projectId},
   			reset: true,
