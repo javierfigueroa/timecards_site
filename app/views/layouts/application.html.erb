@@ -11,7 +11,7 @@
     <%= yield(:head) %>
   </head>
  	<body class="<%= controller_name %> <%= action_name %>">
- 		<% if !current_page?(new_user_session_path) %>
+ 		<% if !current_page?(new_user_session_path) && user_signed_in?%>
 		<div class="navbar">
 			<nav class="navbar-inner">
 				<div class="container pad10t">
