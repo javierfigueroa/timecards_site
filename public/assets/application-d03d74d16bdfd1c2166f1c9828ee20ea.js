@@ -32833,7 +32833,7 @@ window.Timecards = {
   Routers: {},
   init: function() {
     new Timecards.Routers.Timecards();
-    Backbone.history.start({pushState:true});
+    Backbone.history.start();
   }
 };
 
@@ -32857,17 +32857,17 @@ $(document).ready(function(){
 });
 (function() { this.JST || (this.JST = {}); this.JST["timecards/breadcrumb"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<span class="divider">/</span><a href="">',  model.get('title') ,'</a>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/datepicker"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="date-picker">\n\t<div>\n\t\t<h2 id="filter-header" style="height:40px;"></h2>\n\t</div>\n\t<label for="from">From:</label>\n\t<input type="text" id="from" class="span10"/>\n\t<label for="to">To:</label>\n\t<input type="text" id="to" class="span10" />\n\t<button id="filter" class="btn">Filter</button>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/datepicker"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="date-picker">\n\t<div>\n\t\t<h3 id="filter-header"></h3>\n\t</div>\n\t<label for="from">From:</label>\n\t<input type="text" id="from" class="span10"/>\n\t<label for="to">To:</label>\n\t<input type="text" id="to" class="span10" />\n\t<div class="timecards-action"><a id="filter">Filter</a></div>\n</div>\n');}return __p.join('');};
 }).call(this);
 (function() { this.JST || (this.JST = {}); this.JST["timecards/index"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div id="timecards" class="container-fluid">\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="span3 polaroid">\n\t<div class="polaroid polaroid-inner">\n\t\t<div class="avatar timecard-square"></div>\n\t\t<div style="padding-top:5px;">\n\t\t<label>',  model.getFullName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t\t</div>\n\t</div>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="span3 polaroid">\n\t<div class="polaroid polaroid-inner">\n\t\t<div class="text">\n\t\t\t<label>',  model.getFormattedDate() ,'</label>\n\t\t</div>\n\t\t<div class="avatar timecard-square"></div>\n\t\t<div class="text">\n\t\t\t<label class="name">',  model.getFullName() ,'</label>\n\t\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t\t</div>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/project_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">\n\t<div class="span12">\n\t\t<label>',  model.getName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/project_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">\n\t<div class="span12">\n\t\t<label class="name">',  model.getName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/timecard"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="timecard_header">\n\t<h1>',  model.getFullName()  ,'</h1>\n\t<label>',  model.getTimespanLabel() ,'</label>\n</div>\n<div class="timecard_body row-fluid">\n\t<div class="span6">\n\t\t<div class="row-fluid">\n\t\t\t<label>',  moment(model.get('timestamp_in')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<img src="',  model.get('photo_in_url') ,'" style="width:200px;height:200px" />\n\t\t\t</div>\n\t\t\t<div class="span5">\n\t\t\t\t<div id="map_in" style="width:250px;height:250px"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  if (!model.isMissingClockOut()) {  ; __p.push('\n\t<div class="span6">\n\t\t<div class="row-fluid">\n\t\t\t <label> ',  moment(model.get('timestamp_out')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<img src="',  model.get('photo_out_url') ,'" style="width:200px;height:200px" />\n\t\t\t</div>\n\t\t\t<div class="span5">\n\t\t\t\t<div id="map_out" style="width:250px;height:250px"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  } ; __p.push('\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/timecard"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="full-timecard">\n<div class="timecard_header">\n\t<div class="row-fluid">\n\t\t<div class="span12">\n\t\t\t<h3>',  model.getFullName()  ,'</h3>\n\t\t</div>\n\t</div>\n\t\n\t<div class="row-fluid">\n\t\t<div class="span12"><label>',  model.getTimespanLabel() ,'</label></div>\n\t</div>\n</div>\n<div class="timecard_body row-fluid">\n\t<div class="span5 timecard">\n\t\t<div class="row-fluid text">\n\t\t\t <label> ',  moment(model.get('timestamp_in')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<div class="avatar avatar-in timecard-square"></div>\n\t\t\t</div>\n\t\t\t<div class="span5 offset1">\n\t\t\t\t<div id="map_in" class="map"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  if (!model.isMissingClockOut()) {  ; __p.push('\n\t<div class="span5 timecard">\n\t\t<div class="row-fluid text">\n\t\t\t <label> ',  moment(model.get('timestamp_out')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<div class="avatar avatar-out timecard-square"></div>\n\t\t\t</div>\n\t\t\t<div class="span5 offset1">\n\t\t\t\t<div id="map_out" class="map"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  } ; __p.push('\n</div>\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/user_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">\n\t<div class="span1">\n\t\t<img src="',  model.getPhotoUrl() ,'" style="height:50px;width:50px;" />\n\t</div>\n\t<div class="span11">\n\t\t<label>',  model.getFullName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/user_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;">\n\t<div class="span1">\n\t\t<img src="',  model.getPhotoUrl() ,'" style="height:50px;width:50px;" />\n\t</div>\n\t<div class="span11">\n\t\t<label class="name">',  model.getFullName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
 Timecards.Models.Breadcrumb = Backbone.Model.extend({
 });
@@ -32956,6 +32956,10 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	}
   	
   	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
+  },
+  
+  getFormattedDate: function() {
+  	return moment(this.get('timestamp_in')).format("MMM Do, YYYY");;
   },
   
   getFullName: function() {
@@ -33184,6 +33188,10 @@ Timecards.Views.Timecard = Backbone.View.extend({
   	this.addClockInLocation();
   	!this.model.isMissingClockOut() && this.addClockOutLocation();
   	
+  	
+  	$(".avatar-in", this.el).css({'background-image': 'url(' + this.model.get('photo_in_url') + ')'});
+  	$(".avatar-out", this.el).css({'background-image': 'url(' + this.model.get('photo_out_url') + ')'});
+  	$("html, body").animate({ scrollTop: "0px" });
   	return this;
   },
   
@@ -33300,7 +33308,6 @@ Timecards.Views.UserPolaroid = Backbone.View.extend({
   }
 });
 Timecards.Routers.Timecards = Backbone.Router.extend({
-
 	routes: {
     	'' : 'index',
     	'users' : 'getUsers',
@@ -33320,22 +33327,29 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	getUsers: function() {
 		
 		var el = $("#backbone-app"),
-			token = el.attr("auth-token"),
+			// token = el.attr("auth-token"),
 			email = el.attr("email"),
 			getUsers = this.getUsers;
 			
-		if (token && email) {
-			$.getJSON("/timecards",{auth_token: token, "user[email]": email}, function(response, status){
-				if (status === "success") {
+		// if (email && !Backbone.history) {
+			// $.getJSON("/timecards",{ "user[email]": email}, function(response, status){
+				// if (status === "success") {
 					var from = $('#from').val(),
 				  		to = $('#to').val(),
 				  		now = moment(), 
 						nowFormatted = now.format("MM-DD-YYYY");
 			
 					Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
-				}
-			});
-		}
+				// }
+			// });
+		// }else{
+			// var from = $('#from').val(),
+				  		// to = $('#to').val(),
+				  		// now = moment(), 
+						// nowFormatted = now.format("MM-DD-YYYY");
+// 			
+					// Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+		// }
 	},
 	
 	getProjects: function() {
@@ -33353,18 +33367,23 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			fromDate = moment(from),
   			toDate = moment(to);
   			
-		this.collection = new Timecards.Collections.Users();
-  		this.collection.fetch({
-  			url: url,
-  			reset: true,
-  			remove: true
-  		});
-  		
+		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
   		this._addBreadcrumbs([{
   			title:"Users", 
   			url: "users/" + dates
 		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			url: url,
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Users");
+    		}
+  		});
   	},
   	
 	getProjectsByDate: function(from, to) {
@@ -33376,16 +33395,22 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			inDate: from,
 			outDate: to
 		});
-  		this.collection.fetch({
-  			reset: true,
-  			remove: true
-  		});
   		
   		this._addMainView(fromDate, toDate, "All Projects");
   		this._addBreadcrumbs([{
   			title:"Projects", 
   			url: "projects" + dates
 		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Projects");
+    		}
+  		});
   	},
   	
   	
@@ -33409,11 +33434,12 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			title:"Timecards", 
 			url: "timecards/" + suffix
 		}]);
-  		
-		picker = this.pickerView;	
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {user_id: userId},
-  			reset: true,
+  			reset: false,
   			remove: false,
   			success: function(collection, response){
   				if (collection.models.length > 0) {
@@ -33448,6 +33474,7 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		}]);
   		
 		picker = this.pickerView;	
+		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {project_id: projectId},
   			reset: true,

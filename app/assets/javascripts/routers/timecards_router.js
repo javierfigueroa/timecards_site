@@ -16,31 +16,16 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	},
 
 	getUsers: function() {
-		
 		var el = $("#backbone-app"),
-			// token = el.attr("auth-token"),
 			email = el.attr("email"),
 			getUsers = this.getUsers;
 			
-		// if (email && !Backbone.history) {
-			// $.getJSON("/timecards",{ "user[email]": email}, function(response, status){
-				// if (status === "success") {
-					var from = $('#from').val(),
-				  		to = $('#to').val(),
-				  		now = moment(), 
-						nowFormatted = now.format("MM-DD-YYYY");
-			
-					Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
-				// }
-			// });
-		// }else{
-			// var from = $('#from').val(),
-				  		// to = $('#to').val(),
-				  		// now = moment(), 
-						// nowFormatted = now.format("MM-DD-YYYY");
-// 			
-					// Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
-		// }
+		var from = $('#from').val(),
+	  		to = $('#to').val(),
+	  		now = moment(), 
+			nowFormatted = now.format("MM-DD-YYYY");
+
+		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
 	},
 	
 	getProjects: function() {
@@ -73,8 +58,13 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			remove: false,
   			success: function(collection, response){
       			picker.setHeader("All Users");
+      			if (collection.models.length === 0) {
+      				$("#app-content").html("<div class='pad15t'>No timecards found :(</div>");
+      			}
     		}
   		});
+  		
+  		$("#by-users").addClass("active");
   	},
   	
 	getProjectsByDate: function(from, to) {
@@ -100,8 +90,13 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			remove: false,
   			success: function(collection, response){
       			picker.setHeader("All Projects");
+      			if (collection.models.length === 0) {
+      				$("#app-content").html("<div class='pad15t'>No projects found :(</div>");
+      			}
     		}
   		});
+  		
+		$("#by-projects").addClass("active");
   	},
   	
   	
@@ -137,9 +132,13 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	      			var user = collection.models[0].get('user'),
 	      				name = user.first_name + " " + user.last_name;
 	      			picker.setHeader(name);
+      			}else{
+					picker.setHeader("No timecards found");	
       			}
     		}
   		});
+  		
+  		$("#by-users").addClass("active");
   	},
   	
   	
@@ -175,9 +174,13 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	      			var user = collection.models[0].get('user'),
 	      				name = user.first_name + " " + user.last_name;
 	      			picker.setHeader(name);
+      			}else{
+					picker.setHeader("No timecards found");	
       			}
     		}
   		});
+  		
+		$("#by-projects").addClass("active");
   	},
   	
   	getTimecardForUserById: function(from, to, userId, timecardId) {
@@ -204,6 +207,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			title: "Details", 
 			url: "timecards/" + url
 		}]);
+		
+		$("#by-users").addClass("active");
   	},
   	
   	getTimecardForProjectById: function(from, to, projectId, timecardId) {
@@ -230,6 +235,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 			title: "Details", 
 			url: "timecards/" + url
 		}]);
+		
+		$("#by-projects").addClass("active");
   	},
   	
   	

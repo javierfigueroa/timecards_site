@@ -20,15 +20,18 @@
   <% if @current_tenant.nil? && @user.stripe_token  %>
     <p>Credit card acceptance is pending.</p>
   <% elsif @current_tenant.nil? %>
-  	<%= f.input :company_name, :required => true  %>
+  	<%= f.input :company_name, :required => true, :placeholder => "company name"  %>
     <div class="field">
       <%= label_tag :card_number, "Credit Card Number" %>
-      <%= text_field_tag :card_number, nil, name: nil %>
+      <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
     </div>
     <div class="field">
       <%= label_tag :card_code, "Card Security Code (CVV)" %>
-      <%= text_field_tag :card_code, nil, name: nil %>
+      <%= text_field_tag :card_code, nil, name: nil, :placeholder => "credit card code" %>
     </div>
+      <div class="field pad20">
+        <span>Card Expiration</span>
+      </div>
     <div class="field">
       <%= label_tag :card_month, "Card Expiration" %>
       <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>

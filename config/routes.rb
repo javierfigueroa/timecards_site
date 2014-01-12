@@ -4,11 +4,11 @@ RailsStripeMembershipSaas::Application.routes.draw do
   get '/features', :to => 'home#features'
   get '/examples', :to => 'home#examples'
   get '/about', :to => 'home#about'
-  
-  authenticated :user do
-    root :to => 'content#index', as: :authenticated_root
-  end
-  root :to => 'home#index'
+#   
+  # authenticated :user do
+    # root :to => 'content#index', as: :authenticated_root
+  # end
+  # root :to => 'devise/sessions#new'
   
   devise_for :users, :controllers => { :registrations => 'registrations', :sessions => "sessions" }
   devise_scope :user do
@@ -17,8 +17,12 @@ RailsStripeMembershipSaas::Application.routes.draw do
     namespace :api do
       resources :sessions, :only => [:create, :destroy]
     end
+    authenticated :user do
+      root :to => 'content#index', as: :authenticated_root
+    end
+    root :to => 'devise/sessions#new'
   end
-  
+
   resources :timecards 
   resources :projects  
   resources :users

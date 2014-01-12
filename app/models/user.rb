@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
   def update_stripe
     return if email.include?(ENV['ADMIN_EMAIL'])
     return if PgTools.search_path != PgTools.default_search_path
-    return if email.include?('@example.com') and not Rails.env.production?
+    return if email.include?('@example.com') #and not Rails.env.production?
     if customer_id.nil?
       if !stripe_token.present?
         raise "Stripe token not present. Can't create account."

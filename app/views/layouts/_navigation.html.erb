@@ -1,16 +1,18 @@
 <div  class="brand">
+  <% if user_signed_in? %>
 		<div class="login-logo">
 			<img src="/assets/images/iTunesArtwork512.png" />
 		</div>
 		<div class="login-title">
 			<div><a  class="brand" href="/">Timecards</a></div>
 		</div>
+	<% end %>
 </div>
 <ul class="nav pull-right pad10t">
-  <% if !user_signed_in? %>
+  <!-- <% if !user_signed_in? %>
 	<li><%= link_to "Features", features_path %></li>
 	<li><%= link_to "Examples", examples_path %></li>
-  <% end %>
+  <% end %> -->
   <% if user_signed_in? %>
     <li>
     <%= link_to 'Edit account', edit_user_registration_path %>
@@ -29,8 +31,8 @@
     <%= link_to 'Logout', destroy_user_session_path, :method=>'delete' %>        
     </li>
   <% else %>
-    <li>
+    <!-- <li>
     <%= link_to 'Login', new_user_session_path %>  
-    </li>
+    </li> -->
   <% end %>
 </ul>

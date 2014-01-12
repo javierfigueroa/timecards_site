@@ -25770,18 +25770,17 @@ $.widget( "ui.tooltip", {
   }
 
 })( jQuery );
-// Underscore.js 1.4.4
-// ===================
+//     Underscore.js 1.5.2
+//     http://underscorejs.org
+//     (c) 2009-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     Underscore may be freely distributed under the MIT license.
 
-// > http://underscorejs.org
-// > (c) 2009-2013 Jeremy Ashkenas, DocumentCloud Inc.
-// > Underscore may be freely distributed under the MIT license.
-
-// Baseline setup
-// --------------
 (function() {
 
-  // Establish the root object, `window` in the browser, or `global` on the server.
+  // Baseline setup
+  // --------------
+
+  // Establish the root object, `window` in the browser, or `exports` on the server.
   var root = this;
 
   // Save the previous value of the `_` variable.
@@ -25794,11 +25793,12 @@ $.widget( "ui.tooltip", {
   var ArrayProto = Array.prototype, ObjProto = Object.prototype, FuncProto = Function.prototype;
 
   // Create quick reference variables for speed access to core prototypes.
-  var push             = ArrayProto.push,
-      slice            = ArrayProto.slice,
-      concat           = ArrayProto.concat,
-      toString         = ObjProto.toString,
-      hasOwnProperty   = ObjProto.hasOwnProperty;
+  var
+    push             = ArrayProto.push,
+    slice            = ArrayProto.slice,
+    concat           = ArrayProto.concat,
+    toString         = ObjProto.toString,
+    hasOwnProperty   = ObjProto.hasOwnProperty;
 
   // All **ECMAScript 5** native function implementations that we hope to use
   // are declared here.
@@ -25837,7 +25837,7 @@ $.widget( "ui.tooltip", {
   }
 
   // Current version.
-  _.VERSION = '1.4.4';
+  _.VERSION = '1.5.2';
 
   // Collection Functions
   // --------------------
@@ -25850,14 +25850,13 @@ $.widget( "ui.tooltip", {
     if (nativeForEach && obj.forEach === nativeForEach) {
       obj.forEach(iterator, context);
     } else if (obj.length === +obj.length) {
-      for (var i = 0, l = obj.length; i < l; i++) {
+      for (var i = 0, length = obj.length; i < length; i++) {
         if (iterator.call(context, obj[i], i, obj) === breaker) return;
       }
     } else {
-      for (var key in obj) {
-        if (_.has(obj, key)) {
-          if (iterator.call(context, obj[key], key, obj) === breaker) return;
-        }
+      var keys = _.keys(obj);
+      for (var i = 0, length = keys.length; i < length; i++) {
+        if (iterator.call(context, obj[keys[i]], keys[i], obj) === breaker) return;
       }
     }
   };
@@ -25869,7 +25868,7 @@ $.widget( "ui.tooltip", {
     if (obj == null) return results;
     if (nativeMap && obj.map === nativeMap) return obj.map(iterator, context);
     each(obj, function(value, index, list) {
-      results[results.length] = iterator.call(context, value, index, list);
+      results.push(iterator.call(context, value, index, list));
     });
     return results;
   };
@@ -25944,7 +25943,7 @@ $.widget( "ui.tooltip", {
     if (obj == null) return results;
     if (nativeFilter && obj.filter === nativeFilter) return obj.filter(iterator, context);
     each(obj, function(value, index, list) {
-      if (iterator.call(context, value, index, list)) results[results.length] = value;
+      if (iterator.call(context, value, index, list)) results.push(value);
     });
     return results;
   };
@@ -26011,7 +26010,7 @@ $.widget( "ui.tooltip", {
   // Convenience version of a common use case of `filter`: selecting only objects
   // containing specific `key:value` pairs.
   _.where = function(obj, attrs, first) {
-    if (_.isEmpty(attrs)) return first ? null : [];
+    if (_.isEmpty(attrs)) return first ? void 0 : [];
     return _[first ? 'find' : 'filter'](obj, function(value) {
       for (var key in attrs) {
         if (attrs[key] !== value[key]) return false;
@@ -26028,7 +26027,7 @@ $.widget( "ui.tooltip", {
 
   // Return the maximum element or (element-based computation).
   // Can't optimize arrays of integers longer than 65,535 elements.
-  // See: https://bugs.webkit.org/show_bug.cgi?id=80797
+  // See [WebKit Bug 80797](https://bugs.webkit.org/show_bug.cgi?id=80797)
   _.max = function(obj, iterator, context) {
     if (!iterator && _.isArray(obj) && obj[0] === +obj[0] && obj.length < 65535) {
       return Math.max.apply(Math, obj);
@@ -26037,7 +26036,7 @@ $.widget( "ui.tooltip", {
     var result = {computed : -Infinity, value: -Infinity};
     each(obj, function(value, index, list) {
       var computed = iterator ? iterator.call(context, value, index, list) : value;
-      computed >= result.computed && (result = {value : value, computed : computed});
+      computed > result.computed && (result = {value : value, computed : computed});
     });
     return result.value;
   };
@@ -26056,7 +26055,8 @@ $.widget( "ui.tooltip", {
     return result.value;
   };
 
-  // Shuffle an array.
+  // Shuffle an array, using the modern version of the 
+  // [Fisher-Yates shuffle](http://en.wikipedia.org/wiki/Fisher–Yates_shuffle).
   _.shuffle = function(obj) {
     var rand;
     var index = 0;
@@ -26069,6 +26069,16 @@ $.widget( "ui.tooltip", {
     return shuffled;
   };
 
+  // Sample **n** random values from an array.
+  // If **n** is not specified, returns a single random element from the array.
+  // The internal `guard` argument allows it to work with `map`.
+  _.sample = function(obj, n, guard) {
+    if (arguments.length < 2 || guard) {
+      return obj[_.random(obj.length - 1)];
+    }
+    return _.shuffle(obj).slice(0, Math.max(0, n));
+  };
+
   // An internal function to generate lookup iterators.
   var lookupIterator = function(value) {
     return _.isFunction(value) ? value : function(obj){ return obj[value]; };
@@ -26079,9 +26089,9 @@ $.widget( "ui.tooltip", {
     var iterator = lookupIterator(value);
     return _.pluck(_.map(obj, function(value, index, list) {
       return {
-        value : value,
-        index : index,
-        criteria : iterator.call(context, value, index, list)
+        value: value,
+        index: index,
+        criteria: iterator.call(context, value, index, list)
       };
     }).sort(function(left, right) {
       var a = left.criteria;
@@ -26090,38 +26100,41 @@ $.widget( "ui.tooltip", {
         if (a > b || a === void 0) return 1;
         if (a < b || b === void 0) return -1;
       }
-      return left.index < right.index ? -1 : 1;
+      return left.index - right.index;
     }), 'value');
   };
 
   // An internal function used for aggregate "group by" operations.
-  var group = function(obj, value, context, behavior) {
-    var result = {};
-    var iterator = lookupIterator(value || _.identity);
-    each(obj, function(value, index) {
-      var key = iterator.call(context, value, index, obj);
-      behavior(result, key, value);
-    });
-    return result;
+  var group = function(behavior) {
+    return function(obj, value, context) {
+      var result = {};
+      var iterator = value == null ? _.identity : lookupIterator(value);
+      each(obj, function(value, index) {
+        var key = iterator.call(context, value, index, obj);
+        behavior(result, key, value);
+      });
+      return result;
+    };
   };
 
   // Groups the object's values by a criterion. Pass either a string attribute
   // to group by, or a function that returns the criterion.
-  _.groupBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key, value) {
-      (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
-    });
-  };
+  _.groupBy = group(function(result, key, value) {
+    (_.has(result, key) ? result[key] : (result[key] = [])).push(value);
+  });
+
+  // Indexes the object's values by a criterion, similar to `groupBy`, but for
+  // when you know that your index values will be unique.
+  _.indexBy = group(function(result, key, value) {
+    result[key] = value;
+  });
 
   // Counts instances of an object that group by a certain criterion. Pass
   // either a string attribute to count by, or a function that returns the
   // criterion.
-  _.countBy = function(obj, value, context) {
-    return group(obj, value, context, function(result, key) {
-      if (!_.has(result, key)) result[key] = 0;
-      result[key]++;
-    });
-  };
+  _.countBy = group(function(result, key) {
+    _.has(result, key) ? result[key]++ : result[key] = 1;
+  });
 
   // Use a comparator function to figure out the smallest index at which
   // an object should be inserted so as to maintain order. Uses binary search.
@@ -26136,7 +26149,7 @@ $.widget( "ui.tooltip", {
     return low;
   };
 
-  // Safely convert anything iterable into a real, live array.
+  // Safely create a real, live array from anything iterable.
   _.toArray = function(obj) {
     if (!obj) return [];
     if (_.isArray(obj)) return slice.call(obj);
@@ -26158,7 +26171,7 @@ $.widget( "ui.tooltip", {
   // allows it to work with `_.map`.
   _.first = _.head = _.take = function(array, n, guard) {
     if (array == null) return void 0;
-    return (n != null) && !guard ? slice.call(array, 0, n) : array[0];
+    return (n == null) || guard ? array[0] : slice.call(array, 0, n);
   };
 
   // Returns everything but the last entry of the array. Especially useful on
@@ -26173,10 +26186,10 @@ $.widget( "ui.tooltip", {
   // values in the array. The **guard** check allows it to work with `_.map`.
   _.last = function(array, n, guard) {
     if (array == null) return void 0;
-    if ((n != null) && !guard) {
-      return slice.call(array, Math.max(array.length - n, 0));
-    } else {
+    if ((n == null) || guard) {
       return array[array.length - 1];
+    } else {
+      return slice.call(array, Math.max(array.length - n, 0));
     }
   };
 
@@ -26195,8 +26208,11 @@ $.widget( "ui.tooltip", {
 
   // Internal implementation of a recursive `flatten` function.
   var flatten = function(input, shallow, output) {
+    if (shallow && _.every(input, _.isArray)) {
+      return concat.apply(output, input);
+    }
     each(input, function(value) {
-      if (_.isArray(value)) {
+      if (_.isArray(value) || _.isArguments(value)) {
         shallow ? push.apply(output, value) : flatten(value, shallow, output);
       } else {
         output.push(value);
@@ -26205,7 +26221,7 @@ $.widget( "ui.tooltip", {
     return output;
   };
 
-  // Return a completely flattened version of an array.
+  // Flatten out an array, either recursively (by default), or just one level.
   _.flatten = function(array, shallow) {
     return flatten(array, shallow, []);
   };
@@ -26239,7 +26255,7 @@ $.widget( "ui.tooltip", {
   // Produce an array that contains the union: each distinct element from all of
   // the passed-in arrays.
   _.union = function() {
-    return _.uniq(concat.apply(ArrayProto, arguments));
+    return _.uniq(_.flatten(arguments, true));
   };
 
   // Produce an array that contains every item shared between all the
@@ -26263,11 +26279,10 @@ $.widget( "ui.tooltip", {
   // Zip together multiple lists into a single array -- elements that share
   // an index go together.
   _.zip = function() {
-    var args = slice.call(arguments);
-    var length = _.max(_.pluck(args, 'length'));
+    var length = _.max(_.pluck(arguments, "length").concat(0));
     var results = new Array(length);
     for (var i = 0; i < length; i++) {
-      results[i] = _.pluck(args, "" + i);
+      results[i] = _.pluck(arguments, '' + i);
     }
     return results;
   };
@@ -26278,7 +26293,7 @@ $.widget( "ui.tooltip", {
   _.object = function(list, values) {
     if (list == null) return {};
     var result = {};
-    for (var i = 0, l = list.length; i < l; i++) {
+    for (var i = 0, length = list.length; i < length; i++) {
       if (values) {
         result[list[i]] = values[i];
       } else {
@@ -26296,17 +26311,17 @@ $.widget( "ui.tooltip", {
   // for **isSorted** to use binary search.
   _.indexOf = function(array, item, isSorted) {
     if (array == null) return -1;
-    var i = 0, l = array.length;
+    var i = 0, length = array.length;
     if (isSorted) {
       if (typeof isSorted == 'number') {
-        i = (isSorted < 0 ? Math.max(0, l + isSorted) : isSorted);
+        i = (isSorted < 0 ? Math.max(0, length + isSorted) : isSorted);
       } else {
         i = _.sortedIndex(array, item);
         return array[i] === item ? i : -1;
       }
     }
     if (nativeIndexOf && array.indexOf === nativeIndexOf) return array.indexOf(item, isSorted);
-    for (; i < l; i++) if (array[i] === item) return i;
+    for (; i < length; i++) if (array[i] === item) return i;
     return -1;
   };
 
@@ -26332,11 +26347,11 @@ $.widget( "ui.tooltip", {
     }
     step = arguments[2] || 1;
 
-    var len = Math.max(Math.ceil((stop - start) / step), 0);
+    var length = Math.max(Math.ceil((stop - start) / step), 0);
     var idx = 0;
-    var range = new Array(len);
+    var range = new Array(length);
 
-    while(idx < len) {
+    while(idx < length) {
       range[idx++] = start;
       start += step;
     }
@@ -26347,14 +26362,25 @@ $.widget( "ui.tooltip", {
   // Function (ahem) Functions
   // ------------------
 
+  // Reusable constructor function for prototype setting.
+  var ctor = function(){};
+
   // Create a function bound to a given object (assigning `this`, and arguments,
   // optionally). Delegates to **ECMAScript 5**'s native `Function.bind` if
   // available.
   _.bind = function(func, context) {
-    if (func.bind === nativeBind && nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
-    var args = slice.call(arguments, 2);
-    return function() {
-      return func.apply(context, args.concat(slice.call(arguments)));
+    var args, bound;
+    if (nativeBind && func.bind === nativeBind) return nativeBind.apply(func, slice.call(arguments, 1));
+    if (!_.isFunction(func)) throw new TypeError;
+    args = slice.call(arguments, 2);
+    return bound = function() {
+      if (!(this instanceof bound)) return func.apply(context, args.concat(slice.call(arguments)));
+      ctor.prototype = func.prototype;
+      var self = new ctor;
+      ctor.prototype = null;
+      var result = func.apply(self, args.concat(slice.call(arguments)));
+      if (Object(result) === result) return result;
+      return self;
     };
   };
 
@@ -26371,7 +26397,7 @@ $.widget( "ui.tooltip", {
   // all callbacks defined on an object belong to it.
   _.bindAll = function(obj) {
     var funcs = slice.call(arguments, 1);
-    if (funcs.length === 0) funcs = _.functions(obj);
+    if (funcs.length === 0) throw new Error("bindAll must be passed function names");
     each(funcs, function(f) { obj[f] = _.bind(obj[f], obj); });
     return obj;
   };
@@ -26400,17 +26426,23 @@ $.widget( "ui.tooltip", {
   };
 
   // Returns a function, that, when invoked, will only be triggered at most once
-  // during a given window of time.
-  _.throttle = function(func, wait) {
-    var context, args, timeout, result;
+  // during a given window of time. Normally, the throttled function will run
+  // as much as it can, without ever going more than once per `wait` duration;
+  // but if you'd like to disable the execution on the leading edge, pass
+  // `{leading: false}`. To disable execution on the trailing edge, ditto.
+  _.throttle = function(func, wait, options) {
+    var context, args, result;
+    var timeout = null;
     var previous = 0;
+    options || (options = {});
     var later = function() {
-      previous = new Date;
+      previous = options.leading === false ? 0 : new Date;
       timeout = null;
       result = func.apply(context, args);
     };
     return function() {
       var now = new Date;
+      if (!previous && options.leading === false) previous = now;
       var remaining = wait - (now - previous);
       context = this;
       args = arguments;
@@ -26419,7 +26451,7 @@ $.widget( "ui.tooltip", {
         timeout = null;
         previous = now;
         result = func.apply(context, args);
-      } else if (!timeout) {
+      } else if (!timeout && options.trailing !== false) {
         timeout = setTimeout(later, remaining);
       }
       return result;
@@ -26431,16 +26463,24 @@ $.widget( "ui.tooltip", {
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   _.debounce = function(func, wait, immediate) {
-    var timeout, result;
+    var timeout, args, context, timestamp, result;
     return function() {
-      var context = this, args = arguments;
+      context = this;
+      args = arguments;
+      timestamp = new Date();
       var later = function() {
-        timeout = null;
-        if (!immediate) result = func.apply(context, args);
+        var last = (new Date()) - timestamp;
+        if (last < wait) {
+          timeout = setTimeout(later, wait - last);
+        } else {
+          timeout = null;
+          if (!immediate) result = func.apply(context, args);
+        }
       };
       var callNow = immediate && !timeout;
-      clearTimeout(timeout);
-      timeout = setTimeout(later, wait);
+      if (!timeout) {
+        timeout = setTimeout(later, wait);
+      }
       if (callNow) result = func.apply(context, args);
       return result;
     };
@@ -26485,7 +26525,6 @@ $.widget( "ui.tooltip", {
 
   // Returns a function that will only be executed after being called N times.
   _.after = function(times, func) {
-    if (times <= 0) return func();
     return function() {
       if (--times < 1) {
         return func.apply(this, arguments);
@@ -26501,28 +26540,39 @@ $.widget( "ui.tooltip", {
   _.keys = nativeKeys || function(obj) {
     if (obj !== Object(obj)) throw new TypeError('Invalid object');
     var keys = [];
-    for (var key in obj) if (_.has(obj, key)) keys[keys.length] = key;
+    for (var key in obj) if (_.has(obj, key)) keys.push(key);
     return keys;
   };
 
   // Retrieve the values of an object's properties.
   _.values = function(obj) {
-    var values = [];
-    for (var key in obj) if (_.has(obj, key)) values.push(obj[key]);
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var values = new Array(length);
+    for (var i = 0; i < length; i++) {
+      values[i] = obj[keys[i]];
+    }
     return values;
   };
 
   // Convert an object into a list of `[key, value]` pairs.
   _.pairs = function(obj) {
-    var pairs = [];
-    for (var key in obj) if (_.has(obj, key)) pairs.push([key, obj[key]]);
+    var keys = _.keys(obj);
+    var length = keys.length;
+    var pairs = new Array(length);
+    for (var i = 0; i < length; i++) {
+      pairs[i] = [keys[i], obj[keys[i]]];
+    }
     return pairs;
   };
 
   // Invert the keys and values of an object. The values must be serializable.
   _.invert = function(obj) {
     var result = {};
-    for (var key in obj) if (_.has(obj, key)) result[obj[key]] = key;
+    var keys = _.keys(obj);
+    for (var i = 0, length = keys.length; i < length; i++) {
+      result[obj[keys[i]]] = keys[i];
+    }
     return result;
   };
 
@@ -26573,7 +26623,7 @@ $.widget( "ui.tooltip", {
     each(slice.call(arguments, 1), function(source) {
       if (source) {
         for (var prop in source) {
-          if (obj[prop] == null) obj[prop] = source[prop];
+          if (obj[prop] === void 0) obj[prop] = source[prop];
         }
       }
     });
@@ -26597,7 +26647,7 @@ $.widget( "ui.tooltip", {
   // Internal recursive comparison function for `isEqual`.
   var eq = function(a, b, aStack, bStack) {
     // Identical objects are equal. `0 === -0`, but they aren't identical.
-    // See the Harmony `egal` proposal: http://wiki.ecmascript.org/doku.php?id=harmony:egal.
+    // See the [Harmony `egal` proposal](http://wiki.ecmascript.org/doku.php?id=harmony:egal).
     if (a === b) return a !== 0 || 1 / a == 1 / b;
     // A strict comparison is necessary because `null == undefined`.
     if (a == null || b == null) return a === b;
@@ -26639,6 +26689,13 @@ $.widget( "ui.tooltip", {
       // unique nested structures.
       if (aStack[length] == a) return bStack[length] == b;
     }
+    // Objects with different constructors are not equivalent, but `Object`s
+    // from different frames are.
+    var aCtor = a.constructor, bCtor = b.constructor;
+    if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
+                             _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
+      return false;
+    }
     // Add the first object to the stack of traversed objects.
     aStack.push(a);
     bStack.push(b);
@@ -26655,13 +26712,6 @@ $.widget( "ui.tooltip", {
         }
       }
     } else {
-      // Objects with different constructors are not equivalent, but `Object`s
-      // from different frames are.
-      var aCtor = a.constructor, bCtor = b.constructor;
-      if (aCtor !== bCtor && !(_.isFunction(aCtor) && (aCtor instanceof aCtor) &&
-                               _.isFunction(bCtor) && (bCtor instanceof bCtor))) {
-        return false;
-      }
       // Deep compare objects.
       for (var key in a) {
         if (_.has(a, key)) {
@@ -26785,7 +26835,7 @@ $.widget( "ui.tooltip", {
 
   // Run a function **n** times.
   _.times = function(n, iterator, context) {
-    var accum = Array(n);
+    var accum = Array(Math.max(0, n));
     for (var i = 0; i < n; i++) accum[i] = iterator.call(context, i);
     return accum;
   };
@@ -26806,8 +26856,7 @@ $.widget( "ui.tooltip", {
       '<': '&lt;',
       '>': '&gt;',
       '"': '&quot;',
-      "'": '&#x27;',
-      '/': '&#x2F;'
+      "'": '&#x27;'
     }
   };
   entityMap.unescape = _.invert(entityMap.escape);
@@ -26828,17 +26877,17 @@ $.widget( "ui.tooltip", {
     };
   });
 
-  // If the value of the named property is a function then invoke it;
-  // otherwise, return it.
+  // If the value of the named `property` is a function then invoke it with the
+  // `object` as context; otherwise, return it.
   _.result = function(object, property) {
-    if (object == null) return null;
+    if (object == null) return void 0;
     var value = object[property];
     return _.isFunction(value) ? value.call(object) : value;
   };
 
   // Add your own custom functions to the Underscore object.
   _.mixin = function(obj) {
-    each(_.functions(obj), function(name){
+    each(_.functions(obj), function(name) {
       var func = _[name] = obj[name];
       _.prototype[name] = function() {
         var args = [this._wrapped];
@@ -26997,9 +27046,10 @@ $.widget( "ui.tooltip", {
   });
 
 }).call(this);
-//     Backbone.js 1.0.0
+//     Backbone.js 1.1.0
 
-//     (c) 2010-2013 Jeremy Ashkenas, DocumentCloud Inc.
+//     (c) 2010-2011 Jeremy Ashkenas, DocumentCloud Inc.
+//     (c) 2011-2013 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
 //     Backbone may be freely distributed under the MIT license.
 //     For all details and documentation:
 //     http://backbonejs.org
@@ -27033,7 +27083,7 @@ $.widget( "ui.tooltip", {
   }
 
   // Current version of the library. Keep in sync with `package.json`.
-  Backbone.VERSION = '1.0.0';
+  Backbone.VERSION = '1.1.0';
 
   // Require Underscore, if we're on the server, and it's not already present.
   var _ = root._;
@@ -27051,7 +27101,7 @@ $.widget( "ui.tooltip", {
   };
 
   // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
-  // will fake `"PUT"` and `"DELETE"` requests via the `_method` parameter and
+  // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
   // set a `X-Http-Method-Override` header.
   Backbone.emulateHTTP = false;
 
@@ -27110,7 +27160,6 @@ $.widget( "ui.tooltip", {
         this._events = {};
         return this;
       }
-
       names = name ? [name] : _.keys(this._events);
       for (i = 0, l = names.length; i < l; i++) {
         name = names[i];
@@ -27150,14 +27199,15 @@ $.widget( "ui.tooltip", {
     // Tell this object to stop listening to either specific events ... or
     // to every object it's currently listening to.
     stopListening: function(obj, name, callback) {
-      var listeners = this._listeners;
-      if (!listeners) return this;
-      var deleteListener = !name && !callback;
-      if (typeof name === 'object') callback = this;
-      if (obj) (listeners = {})[obj._listenerId] = obj;
-      for (var id in listeners) {
-        listeners[id].off(name, callback, this);
-        if (deleteListener) delete this._listeners[id];
+      var listeningTo = this._listeningTo;
+      if (!listeningTo) return this;
+      var remove = !name && !callback;
+      if (!callback && typeof name === 'object') callback = this;
+      if (obj) (listeningTo = {})[obj._listenId] = obj;
+      for (var id in listeningTo) {
+        obj = listeningTo[id];
+        obj.off(name, callback, this);
+        if (remove || _.isEmpty(obj._events)) delete this._listeningTo[id];
       }
       return this;
     }
@@ -27214,10 +27264,10 @@ $.widget( "ui.tooltip", {
   // listening to.
   _.each(listenMethods, function(implementation, method) {
     Events[method] = function(obj, name, callback) {
-      var listeners = this._listeners || (this._listeners = {});
-      var id = obj._listenerId || (obj._listenerId = _.uniqueId('l'));
-      listeners[id] = obj;
-      if (typeof name === 'object') callback = this;
+      var listeningTo = this._listeningTo || (this._listeningTo = {});
+      var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+      listeningTo[id] = obj;
+      if (!callback && typeof name === 'object') callback = this;
       obj[implementation](name, callback, this);
       return this;
     };
@@ -27242,23 +27292,17 @@ $.widget( "ui.tooltip", {
   // Create a new model with the specified attributes. A client id (`cid`)
   // is automatically generated and assigned for you.
   var Model = Backbone.Model = function(attributes, options) {
-    var defaults;
     var attrs = attributes || {};
     options || (options = {});
     this.cid = _.uniqueId('c');
     this.attributes = {};
-    _.extend(this, _.pick(options, modelOptions));
+    if (options.collection) this.collection = options.collection;
     if (options.parse) attrs = this.parse(attrs, options) || {};
-    if (defaults = _.result(this, 'defaults')) {
-      attrs = _.defaults({}, attrs, defaults);
-    }
+    attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
     this.set(attrs, options);
     this.changed = {};
     this.initialize.apply(this, arguments);
   };
-
-  // A list of options to be attached directly to the model, if provided.
-  var modelOptions = ['url', 'urlRoot', 'collection'];
 
   // Attach all inheritable methods to the Model prototype.
   _.extend(Model.prototype, Events, {
@@ -27455,13 +27499,16 @@ $.widget( "ui.tooltip", {
         (attrs = {})[key] = val;
       }
 
-      // If we're not waiting and attributes exist, save acts as `set(attr).save(null, opts)`.
-      if (attrs && (!options || !options.wait) && !this.set(attrs, options)) return false;
-
       options = _.extend({validate: true}, options);
 
-      // Do not persist invalid models.
-      if (!this._validate(attrs, options)) return false;
+      // If we're not waiting and attributes exist, save acts as
+      // `set(attr).save(null, opts)` with validation. Otherwise, check if
+      // the model will be valid when the attributes, if any, are set.
+      if (attrs && !options.wait) {
+        if (!this.set(attrs, options)) return false;
+      } else {
+        if (!this._validate(attrs, options)) return false;
+      }
 
       // Set temporary attributes if `{wait: true}`.
       if (attrs && options.wait) {
@@ -27562,7 +27609,7 @@ $.widget( "ui.tooltip", {
       attrs = _.extend({}, this.attributes, attrs);
       var error = this.validationError = this.validate(attrs, options) || null;
       if (!error) return true;
-      this.trigger('invalid', this, error, _.extend(options || {}, {validationError: error}));
+      this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
       return false;
     }
 
@@ -27595,7 +27642,6 @@ $.widget( "ui.tooltip", {
   // its models in sort order, as they're added and removed.
   var Collection = Backbone.Collection = function(models, options) {
     options || (options = {});
-    if (options.url) this.url = options.url;
     if (options.model) this.model = options.model;
     if (options.comparator !== void 0) this.comparator = options.comparator;
     this._reset();
@@ -27605,7 +27651,7 @@ $.widget( "ui.tooltip", {
 
   // Default options for `Collection#set`.
   var setOptions = {add: true, remove: true, merge: true};
-  var addOptions = {add: true, merge: false, remove: false};
+  var addOptions = {add: true, remove: false};
 
   // Define the Collection's inheritable methods.
   _.extend(Collection.prototype, Events, {
@@ -27631,16 +27677,17 @@ $.widget( "ui.tooltip", {
 
     // Add a model, or list of models to the set.
     add: function(models, options) {
-      return this.set(models, _.defaults(options || {}, addOptions));
+      return this.set(models, _.extend({merge: false}, options, addOptions));
     },
 
     // Remove a model, or a list of models from the set.
     remove: function(models, options) {
-      models = _.isArray(models) ? models.slice() : [models];
+      var singular = !_.isArray(models);
+      models = singular ? [models] : _.clone(models);
       options || (options = {});
       var i, l, index, model;
       for (i = 0, l = models.length; i < l; i++) {
-        model = this.get(models[i]);
+        model = models[i] = this.get(models[i]);
         if (!model) continue;
         delete this._byId[model.id];
         delete this._byId[model.cid];
@@ -27653,7 +27700,7 @@ $.widget( "ui.tooltip", {
         }
         this._removeReference(model);
       }
-      return this;
+      return singular ? models[0] : models;
     },
 
     // Update a collection by `set`-ing a new list of models, adding new ones,
@@ -27661,31 +27708,45 @@ $.widget( "ui.tooltip", {
     // already exist in the collection, as necessary. Similar to **Model#set**,
     // the core operation for updating the data contained by the collection.
     set: function(models, options) {
-      options = _.defaults(options || {}, setOptions);
+      options = _.defaults({}, options, setOptions);
       if (options.parse) models = this.parse(models, options);
-      if (!_.isArray(models)) models = models ? [models] : [];
-      var i, l, model, attrs, existing, sort;
+      var singular = !_.isArray(models);
+      models = singular ? (models ? [models] : []) : _.clone(models);
+      var i, l, id, model, attrs, existing, sort;
       var at = options.at;
+      var targetModel = this.model;
       var sortable = this.comparator && (at == null) && options.sort !== false;
       var sortAttr = _.isString(this.comparator) ? this.comparator : null;
       var toAdd = [], toRemove = [], modelMap = {};
+      var add = options.add, merge = options.merge, remove = options.remove;
+      var order = !sortable && add && remove ? [] : false;
 
       // Turn bare objects into model references, and prevent invalid models
       // from being added.
       for (i = 0, l = models.length; i < l; i++) {
-        if (!(model = this._prepareModel(models[i], options))) continue;
+        attrs = models[i];
+        if (attrs instanceof Model) {
+          id = model = attrs;
+        } else {
+          id = attrs[targetModel.prototype.idAttribute];
+        }
 
         // If a duplicate is found, prevent it from being added and
         // optionally merge it into the existing model.
-        if (existing = this.get(model)) {
-          if (options.remove) modelMap[existing.cid] = true;
-          if (options.merge) {
-            existing.set(model.attributes, options);
+        if (existing = this.get(id)) {
+          if (remove) modelMap[existing.cid] = true;
+          if (merge) {
+            attrs = attrs === model ? model.attributes : attrs;
+            if (options.parse) attrs = existing.parse(attrs, options);
+            existing.set(attrs, options);
             if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
           }
+          models[i] = existing;
 
-        // This is a new model, push it to the `toAdd` list.
-        } else if (options.add) {
+        // If this is a new, valid model, push it to the `toAdd` list.
+        } else if (add) {
+          model = models[i] = this._prepareModel(attrs, options);
+          if (!model) continue;
           toAdd.push(model);
 
           // Listen to added models' events, and index models for lookup by
@@ -27694,10 +27755,11 @@ $.widget( "ui.tooltip", {
           this._byId[model.cid] = model;
           if (model.id != null) this._byId[model.id] = model;
         }
+        if (order) order.push(existing || model);
       }
 
       // Remove nonexistent models if appropriate.
-      if (options.remove) {
+      if (remove) {
         for (i = 0, l = this.length; i < l; ++i) {
           if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
         }
@@ -27705,29 +27767,35 @@ $.widget( "ui.tooltip", {
       }
 
       // See if sorting is needed, update `length` and splice in new models.
-      if (toAdd.length) {
+      if (toAdd.length || (order && order.length)) {
         if (sortable) sort = true;
         this.length += toAdd.length;
         if (at != null) {
-          splice.apply(this.models, [at, 0].concat(toAdd));
+          for (i = 0, l = toAdd.length; i < l; i++) {
+            this.models.splice(at + i, 0, toAdd[i]);
+          }
         } else {
-          push.apply(this.models, toAdd);
+          if (order) this.models.length = 0;
+          var orderedModels = order || toAdd;
+          for (i = 0, l = orderedModels.length; i < l; i++) {
+            this.models.push(orderedModels[i]);
+          }
         }
       }
 
       // Silently sort the collection if appropriate.
       if (sort) this.sort({silent: true});
 
-      if (options.silent) return this;
-
-      // Trigger `add` events.
-      for (i = 0, l = toAdd.length; i < l; i++) {
-        (model = toAdd[i]).trigger('add', model, this, options);
+      // Unless silenced, it's time to fire all appropriate add/sort events.
+      if (!options.silent) {
+        for (i = 0, l = toAdd.length; i < l; i++) {
+          (model = toAdd[i]).trigger('add', model, this, options);
+        }
+        if (sort || (order && order.length)) this.trigger('sort', this, options);
       }
-
-      // Trigger `sort` if the collection was sorted.
-      if (sort) this.trigger('sort', this, options);
-      return this;
+      
+      // Return the added (or merged) model (or models).
+      return singular ? models[0] : models;
     },
 
     // When you have more items than you want to add or remove individually,
@@ -27741,16 +27809,14 @@ $.widget( "ui.tooltip", {
       }
       options.previousModels = this.models;
       this._reset();
-      this.add(models, _.extend({silent: true}, options));
+      models = this.add(models, _.extend({silent: true}, options));
       if (!options.silent) this.trigger('reset', this, options);
-      return this;
+      return models;
     },
 
     // Add a model to the end of the collection.
     push: function(model, options) {
-      model = this._prepareModel(model, options);
-      this.add(model, _.extend({at: this.length}, options));
-      return model;
+      return this.add(model, _.extend({at: this.length}, options));
     },
 
     // Remove a model from the end of the collection.
@@ -27762,9 +27828,7 @@ $.widget( "ui.tooltip", {
 
     // Add a model to the beginning of the collection.
     unshift: function(model, options) {
-      model = this._prepareModel(model, options);
-      this.add(model, _.extend({at: 0}, options));
-      return model;
+      return this.add(model, _.extend({at: 0}, options));
     },
 
     // Remove a model from the beginning of the collection.
@@ -27775,14 +27839,14 @@ $.widget( "ui.tooltip", {
     },
 
     // Slice out a sub-array of models from the collection.
-    slice: function(begin, end) {
-      return this.models.slice(begin, end);
+    slice: function() {
+      return slice.apply(this.models, arguments);
     },
 
     // Get a model from the set by id.
     get: function(obj) {
       if (obj == null) return void 0;
-      return this._byId[obj.id != null ? obj.id : obj.cid || obj];
+      return this._byId[obj.id] || this._byId[obj.cid] || this._byId[obj];
     },
 
     // Get the model at the given index.
@@ -27826,16 +27890,6 @@ $.widget( "ui.tooltip", {
       return this;
     },
 
-    // Figure out the smallest index at which a model should be inserted so as
-    // to maintain order.
-    sortedIndex: function(model, value, context) {
-      value || (value = this.comparator);
-      var iterator = _.isFunction(value) ? value : function(model) {
-        return model.get(value);
-      };
-      return _.sortedIndex(this.models, model, iterator, context);
-    },
-
     // Pluck an attribute from each model in the collection.
     pluck: function(attr) {
       return _.invoke(this.models, 'get', attr);
@@ -27868,7 +27922,7 @@ $.widget( "ui.tooltip", {
       if (!options.wait) this.add(model, options);
       var collection = this;
       var success = options.success;
-      options.success = function(resp) {
+      options.success = function(model, resp, options) {
         if (options.wait) collection.add(model, options);
         if (success) success(model, resp, options);
       };
@@ -27902,14 +27956,12 @@ $.widget( "ui.tooltip", {
         if (!attrs.collection) attrs.collection = this;
         return attrs;
       }
-      options || (options = {});
+      options = options ? _.clone(options) : {};
       options.collection = this;
       var model = new this.model(attrs, options);
-      if (!model._validate(attrs, options)) {
-        this.trigger('invalid', this, attrs, options);
-        return false;
-      }
-      return model;
+      if (!model.validationError) return model;
+      this.trigger('invalid', this, model.validationError, options);
+      return false;
     },
 
     // Internal method to sever a model's ties to a collection.
@@ -27941,8 +27993,8 @@ $.widget( "ui.tooltip", {
     'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
     'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
     'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
-    'tail', 'drop', 'last', 'without', 'indexOf', 'shuffle', 'lastIndexOf',
-    'isEmpty', 'chain'];
+    'tail', 'drop', 'last', 'without', 'difference', 'indexOf', 'shuffle',
+    'lastIndexOf', 'isEmpty', 'chain'];
 
   // Mix in each Underscore method as a proxy to `Collection#models`.
   _.each(methods, function(method) {
@@ -27981,7 +28033,8 @@ $.widget( "ui.tooltip", {
   // if an existing element is not provided...
   var View = Backbone.View = function(options) {
     this.cid = _.uniqueId('view');
-    this._configure(options || {});
+    options || (options = {});
+    _.extend(this, _.pick(options, viewOptions));
     this._ensureElement();
     this.initialize.apply(this, arguments);
     this.delegateEvents();
@@ -28000,7 +28053,7 @@ $.widget( "ui.tooltip", {
     tagName: 'div',
 
     // jQuery delegate for element lookup, scoped to DOM elements within the
-    // current view. This should be prefered to global lookups where possible.
+    // current view. This should be preferred to global lookups where possible.
     $: function(selector) {
       return this.$el.find(selector);
     },
@@ -28040,7 +28093,7 @@ $.widget( "ui.tooltip", {
     //
     //     {
     //       'mousedown .title':  'edit',
-    //       'click .button':     'save'
+    //       'click .button':     'save',
     //       'click .open':       function(e) { ... }
     //     }
     //
@@ -28076,16 +28129,6 @@ $.widget( "ui.tooltip", {
     undelegateEvents: function() {
       this.$el.off('.delegateEvents' + this.cid);
       return this;
-    },
-
-    // Performs the initial configuration of a View with a set of options.
-    // Keys with special meaning *(e.g. model, collection, id, className)* are
-    // attached directly to the view.  See `viewOptions` for an exhaustive
-    // list.
-    _configure: function(options) {
-      if (this.options) options = _.extend({}, _.result(this, 'options'), options);
-      _.extend(this, _.pick(options, viewOptions));
-      this.options = options;
     },
 
     // Ensure that the View has a DOM element to render into.
@@ -28173,8 +28216,7 @@ $.widget( "ui.tooltip", {
     // If we're sending a `PATCH` request, and we're in an old Internet Explorer
     // that still has ActiveX enabled by default, override jQuery to use that
     // for XHR instead. Remove this line when jQuery supports `PATCH` on IE8.
-    if (params.type === 'PATCH' && window.ActiveXObject &&
-          !(window.external && window.external.msActiveXFilteringEnabled)) {
+    if (params.type === 'PATCH' && noXhrPatch) {
       params.xhr = function() {
         return new ActiveXObject("Microsoft.XMLHTTP");
       };
@@ -28185,6 +28227,8 @@ $.widget( "ui.tooltip", {
     model.trigger('request', model, xhr, options);
     return xhr;
   };
+
+  var noXhrPatch = typeof window !== 'undefined' && !!window.ActiveXObject && !(window.XMLHttpRequest && (new XMLHttpRequest).dispatchEvent);
 
   // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
   var methodMap = {
@@ -28274,7 +28318,7 @@ $.widget( "ui.tooltip", {
     _routeToRegExp: function(route) {
       route = route.replace(escapeRegExp, '\\$&')
                    .replace(optionalParam, '(?:$1)?')
-                   .replace(namedParam, function(match, optional){
+                   .replace(namedParam, function(match, optional) {
                      return optional ? match : '([^\/]+)';
                    })
                    .replace(splatParam, '(.*?)');
@@ -28324,6 +28368,9 @@ $.widget( "ui.tooltip", {
   // Cached regex for removing a trailing slash.
   var trailingSlash = /\/$/;
 
+  // Cached regex for stripping urls of hash and query.
+  var pathStripper = /[?#].*$/;
+
   // Has the history handling already been started?
   History.started = false;
 
@@ -28348,7 +28395,7 @@ $.widget( "ui.tooltip", {
         if (this._hasPushState || !this._wantsHashChange || forcePushState) {
           fragment = this.location.pathname;
           var root = this.root.replace(trailingSlash, '');
-          if (!fragment.indexOf(root)) fragment = fragment.substr(root.length);
+          if (!fragment.indexOf(root)) fragment = fragment.slice(root.length);
         } else {
           fragment = this.getHash();
         }
@@ -28364,7 +28411,7 @@ $.widget( "ui.tooltip", {
 
       // Figure out the initial configuration. Do we need an iframe?
       // Is pushState desired ... is it available?
-      this.options          = _.extend({}, {root: '/'}, this.options, options);
+      this.options          = _.extend({root: '/'}, this.options, options);
       this.root             = this.options.root;
       this._wantsHashChange = this.options.hashChange !== false;
       this._wantsPushState  = !!this.options.pushState;
@@ -28397,19 +28444,25 @@ $.widget( "ui.tooltip", {
       var loc = this.location;
       var atRoot = loc.pathname.replace(/[^\/]$/, '$&/') === this.root;
 
-      // If we've started off with a route from a `pushState`-enabled browser,
-      // but we're currently in a browser that doesn't support it...
-      if (this._wantsHashChange && this._wantsPushState && !this._hasPushState && !atRoot) {
-        this.fragment = this.getFragment(null, true);
-        this.location.replace(this.root + this.location.search + '#' + this.fragment);
-        // Return immediately as browser will do redirect to new url
-        return true;
+      // Transition from hashChange to pushState or vice versa if both are
+      // requested.
+      if (this._wantsHashChange && this._wantsPushState) {
 
-      // Or if we've started out with a hash-based route, but we're currently
-      // in a browser where it could be `pushState`-based instead...
-      } else if (this._wantsPushState && this._hasPushState && atRoot && loc.hash) {
-        this.fragment = this.getHash().replace(routeStripper, '');
-        this.history.replaceState({}, document.title, this.root + this.fragment + loc.search);
+        // If we've started off with a route from a `pushState`-enabled
+        // browser, but we're currently in a browser that doesn't support it...
+        if (!this._hasPushState && !atRoot) {
+          this.fragment = this.getFragment(null, true);
+          this.location.replace(this.root + this.location.search + '#' + this.fragment);
+          // Return immediately as browser will do redirect to new url
+          return true;
+
+        // Or if we've started out with a hash-based route, but we're currently
+        // in a browser where it could be `pushState`-based instead...
+        } else if (this._hasPushState && atRoot && loc.hash) {
+          this.fragment = this.getHash().replace(routeStripper, '');
+          this.history.replaceState({}, document.title, this.root + this.fragment + loc.search);
+        }
+
       }
 
       if (!this.options.silent) return this.loadUrl();
@@ -28438,21 +28491,20 @@ $.widget( "ui.tooltip", {
       }
       if (current === this.fragment) return false;
       if (this.iframe) this.navigate(current);
-      this.loadUrl() || this.loadUrl(this.getHash());
+      this.loadUrl();
     },
 
     // Attempt to load the current URL fragment. If a route succeeds with a
     // match, returns `true`. If no defined routes matches the fragment,
     // returns `false`.
-    loadUrl: function(fragmentOverride) {
-      var fragment = this.fragment = this.getFragment(fragmentOverride);
-      var matched = _.any(this.handlers, function(handler) {
+    loadUrl: function(fragment) {
+      fragment = this.fragment = this.getFragment(fragment);
+      return _.any(this.handlers, function(handler) {
         if (handler.route.test(fragment)) {
           handler.callback(fragment);
           return true;
         }
       });
-      return matched;
     },
 
     // Save a fragment into the hash history, or replace the URL state if the
@@ -28464,11 +28516,18 @@ $.widget( "ui.tooltip", {
     // you wish to modify the current URL without adding an entry to the history.
     navigate: function(fragment, options) {
       if (!History.started) return false;
-      if (!options || options === true) options = {trigger: options};
-      fragment = this.getFragment(fragment || '');
+      if (!options || options === true) options = {trigger: !!options};
+
+      var url = this.root + (fragment = this.getFragment(fragment || ''));
+
+      // Strip the fragment of the query and hash for matching.
+      fragment = fragment.replace(pathStripper, '');
+
       if (this.fragment === fragment) return;
       this.fragment = fragment;
-      var url = this.root + fragment;
+
+      // Don't include a trailing slash on the root.
+      if (fragment === '' && url !== '/') url = url.slice(0, -1);
 
       // If pushState is available, we use it to set the fragment as a real URL.
       if (this._hasPushState) {
@@ -28491,7 +28550,7 @@ $.widget( "ui.tooltip", {
       } else {
         return this.location.assign(url);
       }
-      if (options.trigger) this.loadUrl(fragment);
+      if (options.trigger) return this.loadUrl(fragment);
     },
 
     // Update the hash location, either replacing the current entry, or adding
@@ -28559,7 +28618,7 @@ $.widget( "ui.tooltip", {
   };
 
   // Wrap an optional error callback with a fallback error event.
-  var wrapError = function (model, options) {
+  var wrapError = function(model, options) {
     var error = options.error;
     options.error = function(resp) {
       if (error) error(model, resp, options);
@@ -32774,71 +32833,99 @@ window.Timecards = {
   Routers: {},
   init: function() {
     new Timecards.Routers.Timecards();
-    Backbone.history.start({pushState:true});
+    Backbone.history.start();
   }
 };
 
 $(document).ready(function(){
-	Timecards.init();
-	var Page = (function() {
-
-					var $nav = $( '#nav-dots > span' ),
-						slitslider = $( '#slider' ).slitslider( {
-							onBeforeChange : function( slide, pos ) {
-
-								$nav.removeClass( 'nav-dot-current' );
-								$nav.eq( pos ).addClass( 'nav-dot-current' );
-
-							}
-						} ),
-
-						init = function() {
-
-							initEvents();
-							
-						},
-						initEvents = function() {
-
-							$nav.each( function( i ) {
-							
-								$( this ).on( 'click', function( event ) {
-									
-									var $dot = $( this );
-									
-									if( !slitslider.isActive() ) {
-
-										$nav.removeClass( 'nav-dot-current' );
-										$dot.addClass( 'nav-dot-current' );
-									
-									}
-									
-									slitslider.jump( i + 1 );
-									return false;
-								
-								} );
-								
-							} );
-
-						};
-
-						return { init : init };
-
-				})();
-
-	Page.init();
-
+	if ($("#backbone-app").length > 0) {
+		Timecards.init();
+		
+		//navigation events		
+		$("#by-users").on("click", function() {
+			Backbone.history.navigate("users", true);
+			$(".nav li").removeClass("active");
+			$(this).addClass("active");
+			return false;
+		});
+		
+		$("#by-projects").on("click", function() {
+			Backbone.history.navigate("projects", true);
+			$(".nav li").removeClass("active");
+			$(this).addClass("active");
+			return false;
+		});
+	}
 });
 (function() { this.JST || (this.JST = {}); this.JST["timecards/breadcrumb"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<span class="divider">/</span><a href="">',  model.get('title') ,'</a>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/datepicker"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('\n<label for="from">From:</label>\n<input type="text" id="from" />\n<label for="to">To:</label>\n<input type="text" id="to" />\n<button id="filter" class="btn">Filter</button>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/datepicker"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="date-picker">\n\t<div>\n\t\t<h3 id="filter-header"></h3>\n\t</div>\n\t<label for="from">From:</label>\n\t<input type="text" id="from" class="span10"/>\n\t<label for="to">To:</label>\n\t<input type="text" id="to" class="span10" />\n\t<div class="timecards-action"><a id="filter">Filter</a></div>\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/index"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div id="timecards">\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/index"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div id="timecards" class="container-fluid">\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<img src="',  model.getPhotoUrl() ,'" width="100px" height="100px" />\n<label>',  model.getFullName()  ,'</label>\n<label>',  model.getTimespanLabel() ,'</label>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="span3 polaroid">\n\t<div class="polaroid polaroid-inner">\n\t\t<div class="text">\n\t\t\t<label>',  model.getFormattedDate() ,'</label>\n\t\t</div>\n\t\t<div class="avatar timecard-square"></div>\n\t\t<div class="text">\n\t\t\t<label class="name">',  model.getFullName() ,'</label>\n\t\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t\t</div>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/timecard"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="timecard_header">\n\t<h1>',  model.getFullName()  ,'</h1>\n\t<label>',  model.getTimespanLabel() ,'</label>\n</div>\n<div class="timecard_body">\n\t<label>',  moment(model.get('timestamp_in')) ,'</label>\n\t<img src="',  model.get('photo_in_url') ,'" style="width:250px;height:250px" />\n\t<div id="map_in" style="width:250px;height:250px"></div>\n\t<label>',  moment(model.get('timestamp_out')) ,'</label>\n\t<img src="',  model.get('photo_out_url') ,'" style="width:250px;height:250px" />\n\t<div id="map_out" style="width:250px;height:250px"></div>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/project_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">\n\t<div class="span12">\n\t\t<label class="name">',  model.getName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
+}).call(this);
+(function() { this.JST || (this.JST = {}); this.JST["timecards/timecard"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="full-timecard">\n<div class="timecard_header">\n\t<div class="row-fluid">\n\t\t<div class="span12">\n\t\t\t<h3>',  model.getFullName()  ,'</h3>\n\t\t</div>\n\t</div>\n\t\n\t<div class="row-fluid">\n\t\t<div class="span12"><label>',  model.getTimespanLabel() ,'</label></div>\n\t</div>\n</div>\n<div class="timecard_body row-fluid">\n\t<div class="span5 timecard">\n\t\t<div class="row-fluid text">\n\t\t\t <label> ',  moment(model.get('timestamp_in')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<div class="avatar avatar-in timecard-square"></div>\n\t\t\t</div>\n\t\t\t<div class="span5 offset1">\n\t\t\t\t<div id="map_in" class="map"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  if (!model.isMissingClockOut()) {  ; __p.push('\n\t<div class="span5 timecard">\n\t\t<div class="row-fluid text">\n\t\t\t <label> ',  moment(model.get('timestamp_out')) ,'</label>\n\t\t</div>\n\t\t<div class="row-fluid">\n\t\t\t<div class="span5">\n\t\t\t\t<div class="avatar avatar-out timecard-square"></div>\n\t\t\t</div>\n\t\t\t<div class="span5 offset1">\n\t\t\t\t<div id="map_out" class="map"></div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n\t');  } ; __p.push('\n</div>\n</div>\n');}return __p.join('');};
+}).call(this);
+(function() { this.JST || (this.JST = {}); this.JST["timecards/user_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;">\n\t<div class="span1">\n\t\t<img src="',  model.getPhotoUrl() ,'" style="height:50px;width:50px;" />\n\t</div>\n\t<div class="span11">\n\t\t<label class="name">',  model.getFullName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
 Timecards.Models.Breadcrumb = Backbone.Model.extend({
+});
+Timecards.Models.Project = Backbone.RelationalModel.extend({
+  	urlRoot: function() {
+  		return location.protocol + '//' + location.host;
+  	},
+  	
+  	idAttribute: "id",
+  	
+  	relations: [{
+  		type: Backbone.HasMany,
+  		key: 'timecards',
+  		relatedModel: 'Timecards.Models.Timecard',
+  		collectionType: 'Timecards.Collections.Timecards',
+  		reverseRelation: {
+  			key: 'project_id',
+  			includeInJSON: 'id'
+  		}
+  	}],
+  	
+  	getTimespanLabel: function() {
+  		var timecards = this.get('timecards');
+  		if (timecards.length == 1) {
+  			return timecards.models[0].getTimespanLabel();
+  		}else if (timecards.length > 1) {
+			var timespan = 0,
+				missing = false,
+				duration = 0,
+				text = "";
+				
+			for (var i=0; i<timecards.models.length; i++) {
+				var timecard = timecards.models[i];
+				
+				if (timecard.isMissingClockOut()) {
+					missing = true;
+				}else{					
+					timespan += timecard.getTimespan();
+				}
+			}
+			
+			duration = moment.duration(timespan);
+			hours = duration.days() * 24 + duration.hours();
+			text = missing ? 
+					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
+					hours + " hours, " + duration.minutes() + " minutes";
+		
+  			return text;
+  		}else{
+  			return "No timecards available";
+  		}
+	},
+	  
+	getName: function() {
+	 	return this.get("name");
+	}
 });
 Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   urlRoot: function() {
@@ -32851,6 +32938,13 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	return this.get('photo_in_url');
   },
   
+  isMissingClockOut: function() {
+  	var inStamp = this.get('timestamp_in'),
+  		outStamp = this.get('timestamp_out');
+  		
+  	return !inStamp || !outStamp;
+  },
+  
   getTimespan: function(){
   	var inStamp = this.get('timestamp_in'),
   		outStamp = this.get('timestamp_out');
@@ -32859,7 +32953,15 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   },
   
   getTimespanLabel: function() {
+  	if (this.getTimespan() === 0) {
+  		return "Missing clock out";
+  	}
+  	
   	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
+  },
+  
+  getFormattedDate: function() {
+  	return moment(this.get('timestamp_in')).format("MMM Do, YYYY");;
   },
   
   getFullName: function() {
@@ -32893,15 +32995,28 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   		if (timecards.length == 1) {
   			return timecards.models[0].getTimespanLabel();
   		}else if (timecards.length > 1) {
-  			var timespan = timecards.reduce(function(memo, value) { 
-  				var prev = $.isFunction(memo.getTimespan) ? memo.getTimespan() : memo,
-  					next = value.getTimespan();
-  					
-				return +prev + +next; 
-			});
+			var timespan = 0,
+				missing = false,
+				duration = 0,
+				text = "";
+				
+			for (var i=0; i<timecards.models.length; i++) {
+				var timecard = timecards.models[i];
+				
+				if (timecard.isMissingClockOut()) {
+					missing = true;
+				}else{					
+					timespan += timecard.getTimespan();
+				}
+			}
+			
 			duration = moment.duration(timespan);
+			hours = duration.days() * 24 + duration.hours();
+			text = missing ? 
+					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
+					hours + " hours, " + duration.minutes() + " minutes";
 		
-  			return duration.hours() + " hours, " + duration.minutes() + " minutes";
+  			return text;
   		}else{
   			return "No timecards available";
   		}
@@ -32915,18 +33030,35 @@ Timecards.Collections.Breadcrumbs = Backbone.Collection.extend({
   	model: Timecards.Models.Breadcrumb
 })
 ;
+Timecards.Collections.Projects = Backbone.Collection.extend({
+  	model: Timecards.Models.Project,
+  		
+  	url: function() {
+    	return '/projects/' + this.inDate + "/" + this.outDate;
+  	},
+  	
+  	initialize: function(models, options) {
+    	this.inDate = options.inDate;
+    	this.outDate = options.outDate;
+  	}
+});
 Timecards.Collections.Timecards = Backbone.Collection.extend({
-  	url: '/timecards.json',  
-  
-  	model: Timecards.Models.Timecard
-})
-;
+  	model: Timecards.Models.Timecard,
+  	
+  	url: function() {
+    	return '/timecards/' + this.inDate + "/" + this.outDate;
+  	},
+  	
+  	initialize: function(models, options) {
+    	this.inDate = options.inDate;
+    	this.outDate = options.outDate;
+  	}
+});
 Timecards.Collections.Users = Backbone.Collection.extend({
   	url: '/users.json',  
   
   	model: Timecards.Models.User
-})
-;
+});
 Timecards.Views.Breadcrumb = Backbone.View.extend({
 	template: JST['timecards/breadcrumb'],
 	
@@ -32974,8 +33106,7 @@ Timecards.Views.Breadcrumbs = Backbone.View.extend({
 
 		$(this.el).append(view.render().el);
 	}
-})
-;
+});
 Timecards.Views.DatePicker = Backbone.View.extend({
 	template: JST['timecards/datepicker'],
 
@@ -32987,6 +33118,7 @@ Timecards.Views.DatePicker = Backbone.View.extend({
   		$(this.el).html(this.template());
   		$('#from', this.el).val(this.model.from.format("MM-DD-YYYY"));
   		$('#to', this.el).val(this.model.to.format("MM-DD-YYYY"));
+  		this.setHeader(this.model.header);
   		return this;
   	},
   	
@@ -33007,18 +33139,48 @@ Timecards.Views.DatePicker = Backbone.View.extend({
 				}).data('datepicker');	
   	},
   	
+  	setHeader: function(header) {
+  		var el = $("#filter-header", this.el);
+  		if (header && header.length > 0 && el.text() !== header) {
+  			el.text(header);
+  		}
+  	},
+  	
   	filter: function() {
 	  	var from = $('#from').val(),
 	  		to = $('#to').val(),
 	  		fragment = Backbone.history.fragment,
 	  		fragments = fragment.split("/"),
-	  		userId = fragments.length == 3 ? fragments[2] : null,
-	  		url = userId ? from + "/" + to + "/" + userId : from + "/" + to;
+	  		isUsers = fragments[0] === "users" || fragments[3] === "user",
+	  		isProjects = fragments[0] === "projects" || fragments[3] === "project",
+	  		userId = fragments.length == 5 && isUsers ? fragments[4] : null,
+	  		projectId = fragments.length == 5 && isProjects ? fragments[4] : null;
 	  		
-	  	Backbone.history.navigate(url, true);
+  		if (isUsers) {
+  			Backbone.history.navigate(userId ? "timecards/" + from + "/" + to + "/user/" + userId : "users/" + from + "/" + to, true);
+  		}else if(isProjects){
+  			Backbone.history.navigate(projectId ? "timecards/" + from + "/" + to + "/project/" + projectId : "projects/" + from + "/" + to, true);
+  		}
   	}
-})
-;
+});
+Timecards.Views.ProjectRow = Backbone.View.extend({
+  template: JST['timecards/project_row'],
+
+  events: {
+  	"click" : "openProject"
+  },
+  	
+  render: function(){
+  	$(this.el).html(this.template({ model : this.model }));
+  	return this;
+  },
+  
+  openProject: function() {
+  	var fragment = Backbone.history.fragment,
+  		url = "timecards/" +  $('#from').val() + "/" + $('#to').val();
+	Backbone.history.navigate(url + "/project/" + this.model.get('id'), true);
+  }
+});
 Timecards.Views.Timecard = Backbone.View.extend({
   template: JST['timecards/timecard'],
 
@@ -33026,8 +33188,12 @@ Timecards.Views.Timecard = Backbone.View.extend({
   	$(this.el).html(this.template({ model : this.model }));
   	
   	this.addClockInLocation();
-  	this.addClockOutLocation();
+  	!this.model.isMissingClockOut() && this.addClockOutLocation();
   	
+  	
+  	$(".avatar-in", this.el).css({'background-image': 'url(' + this.model.get('photo_in_url') + ')'});
+  	$(".avatar-out", this.el).css({'background-image': 'url(' + this.model.get('photo_out_url') + ')'});
+  	$("html, body").animate({ scrollTop: "0px" });
   	return this;
   },
   
@@ -33074,8 +33240,7 @@ Timecards.Views.Timecard = Backbone.View.extend({
 		draggable : false,
 	}); 
   }
-})
-;
+});
 Timecards.Views.TimecardPolaroid = Backbone.View.extend({
   template: JST['timecards/polaroid'],
 
@@ -33085,6 +33250,7 @@ Timecards.Views.TimecardPolaroid = Backbone.View.extend({
   	
   render: function(){
   	$(this.el).html(this.template({ model : this.model }));
+  	$(".avatar", this.el).css({'background-image': 'url(' + this.model.getPhotoUrl() + ')'});
   	return this;
   },
   
@@ -33092,8 +33258,7 @@ Timecards.Views.TimecardPolaroid = Backbone.View.extend({
   	var fragment = Backbone.history.fragment;
 	Backbone.history.navigate(fragment + "/" +this.model.get('id'), true);
   }
-})
-;
+});
 Timecards.Views.TimecardsIndex = Backbone.View.extend({
   template: JST['timecards/index'],
 
@@ -33114,16 +33279,20 @@ Timecards.Views.TimecardsIndex = Backbone.View.extend({
   },
   
   appendTimecard: function(model){
-  	view = model instanceof Timecards.Models.User ? 
-  		new Timecards.Views.UserPolaroid({ model: model }) : 
-  		new Timecards.Views.TimecardPolaroid({ model: model });
+  	var view = null;
+  	if(model instanceof Timecards.Models.User) { 
+  		view = new Timecards.Views.UserPolaroid({ model: model });
+  	}else if(model instanceof Timecards.Models.Timecard) { 
+  		view = new Timecards.Views.TimecardPolaroid({ model: model });
+  	}else{
+  		view = new Timecards.Views.ProjectRow({ model: model });
+  	}
   	
   	$("#timecards").append(view.render().el);
   }
-})
-;
+});
 Timecards.Views.UserPolaroid = Backbone.View.extend({
-  template: JST['timecards/polaroid'],
+  template: JST['timecards/user_row'],
 
   events: {
   	"click" : "openTimecard"
@@ -33135,24 +33304,49 @@ Timecards.Views.UserPolaroid = Backbone.View.extend({
   },
   
   openTimecard: function() {
-  	var fragment = Backbone.history.fragment;
-	Backbone.history.navigate(fragment + "/" + this.model.get('id'), true);
+  	var fragment = Backbone.history.fragment,
+  		url = "timecards/" + $('#from').val() + "/" + $('#to').val();
+	Backbone.history.navigate(url + "/user/" + this.model.get('id'), true);
   }
-})
-;
+});
 Timecards.Routers.Timecards = Backbone.Router.extend({
 	routes: {
     	'' : 'index',
-		':in_date/:out_date' : 'getUsersByDate',
-		':in_date/:out_date/:user_id' : 'getTimecardsByDate',
-    	':in_date/:out_date/:user_id/:id' : 'getTimecardById'
+    	'users' : 'getUsers',
+    	'projects' : 'getProjects',
+		'users/:in_date/:out_date' : 'getUsersByDate',
+		'timecards/:in_date/:out_date/user/:user_id' : 'getTimecardsForUserByDate',
+    	'timecards/:in_date/:out_date/user/:user_id/:id' : 'getTimecardForUserById',
+    	'projects/:in_date/:out_date' : 'getProjectsByDate',
+		'timecards/:in_date/:out_date/project/:project_id' : 'getTimecardsForProjectByDate',
+    	'timecards/:in_date/:out_date/project/:project_id/:id' : 'getTimecardForProjectById',
+	},
+	
+	index: function() {
+		this.getUsers();
 	},
 
-	index: function() {
-		var now = moment(), 
+	getUsers: function() {
+		var el = $("#backbone-app"),
+			email = el.attr("email"),
+			getUsers = this.getUsers;
+			
+		var from = $('#from').val(),
+	  		to = $('#to').val(),
+	  		now = moment(), 
 			nowFormatted = now.format("MM-DD-YYYY");
-		this.getUsersByDate(nowFormatted, nowFormatted);
+
+		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
 	},
+	
+	getProjects: function() {
+		var from = $('#from').val(),
+	  		to = $('#to').val(),
+	  		now = moment(), 
+			nowFormatted = now.format("MM-DD-YYYY");
+
+		Backbone.history.navigate("projects/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
+	},	
 	
 	getUsersByDate: function(from, to) {
   		var dates = from + "/" + to,
@@ -33160,47 +33354,149 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			fromDate = moment(from),
   			toDate = moment(to);
   			
-		this.collection = new Timecards.Collections.Users();
+		this.collection = new Timecards.Collections.Users();  		
+  		this._addMainView(fromDate, toDate, "All Users");
+  		this._addBreadcrumbs([{
+  			title:"Users", 
+  			url: "users/" + dates
+		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			url: url,
-  			reset: true,
-  			remove: true
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Users");
+      			if (collection.models.length === 0) {
+      				$("#app-content").html("<div class='pad15t'>No timecards found :(</div>");
+      			}
+    		}
   		});
+  		
+  		$("#by-users").addClass("active");
+  	},
+  	
+	getProjectsByDate: function(from, to) {
+  		var dates = from + "/" + to,
+  			fromDate = moment(from),
+  			toDate = moment(to);
+  			
+		this.collection = new Timecards.Collections.Projects([], {			
+			inDate: from,
+			outDate: to
+		});
+  		
+  		this._addMainView(fromDate, toDate, "All Projects");
+  		this._addBreadcrumbs([{
+  			title:"Projects", 
+  			url: "projects" + dates
+		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+      			picker.setHeader("All Projects");
+      			if (collection.models.length === 0) {
+      				$("#app-content").html("<div class='pad15t'>No projects found :(</div>");
+      			}
+    		}
+  		});
+  		
+		$("#by-projects").addClass("active");
+  	},
+  	
+  	
+  	getTimecardsForUserByDate: function(from, to, userId) {
+  		var dates = from + "/" + to;
+  			suffix = dates +"/user/" + userId,
+  			url = suffix,
+  			fromDate = moment(from),
+  			toDate = moment(to);
+  			
+		this.collection = new Timecards.Collections.Timecards([], {
+			inDate: from,
+			outDate: to
+		});
   		
   		this._addMainView(fromDate, toDate);
   		this._addBreadcrumbs([{
   			title:"Users", 
-  			url: dates
+  			url: "users/" + dates
+		} , {
+			title:"Timecards", 
+			url: "timecards/" + suffix
 		}]);
+		
+		picker = this.pickerView;
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			data: {user_id: userId},
+  			reset: false,
+  			remove: false,
+  			success: function(collection, response){
+  				if (collection.models.length > 0) {
+	      			var user = collection.models[0].get('user'),
+	      				name = user.first_name + " " + user.last_name;
+	      			picker.setHeader(name);
+      			}else{
+					picker.setHeader("No timecards found");	
+      			}
+    		}
+  		});
+  		
+  		$("#by-users").addClass("active");
   	},
   	
-  	getTimecardsByDate: function(from, to, userId) {
+  	
+  	getTimecardsForProjectByDate: function(from, to, projectId) {
   		var dates = from + "/" + to;
-  			suffix = dates +"/" + userId,
-  			url = "/timecards/" + suffix,
+  			suffix = dates +"/project/" + projectId,
+  			url = suffix,
   			fromDate = moment(from),
   			toDate = moment(to);
   			
-		this.collection = new Timecards.Collections.Timecards();	
-  		this.collection.fetch({
-  			url: url,
-  			reset: true,
-  			remove: false
-  		});
-  		  		
+		this.collection = new Timecards.Collections.Timecards([], {
+			inDate: from,
+			outDate: to
+		});
+  		
   		this._addMainView(fromDate, toDate);
   		this._addBreadcrumbs([{
-  			title:"Users", 
-  			url: dates
+  			title:"Projects", 
+  			url: "projects/" + dates
 		} , {
 			title:"Timecards", 
-			url: suffix
+			url: "timecards/" + suffix
 		}]);
+  		
+		picker = this.pickerView;	
+		picker.setHeader("Loading...");	
+  		this.collection.fetch({
+  			data: {project_id: projectId},
+  			reset: true,
+  			remove: false,
+  			success: function(collection, response){
+  				if (collection.models.length > 0) {
+	      			var user = collection.models[0].get('user'),
+	      				name = user.first_name + " " + user.last_name;
+	      			picker.setHeader(name);
+      			}else{
+					picker.setHeader("No timecards found");	
+      			}
+    		}
+  		});
+  		
+		$("#by-projects").addClass("active");
   	},
   	
-  	getTimecardById: function(from, to, userId, timecardId) {
+  	getTimecardForUserById: function(from, to, userId, timecardId) {
   		var dates = from + "/" + to;
-  			user = dates +"/" + userId,
+  			user = dates +"/user/" + userId,
   			url = user + "/" + timecardId;
   			
   		if (!this.collection) {
@@ -33214,41 +33510,79 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		
   		this._addBreadcrumbs([{
   			title:"Users", 
-  			url: dates
+  			url: "users/" + dates
 		} , {
 			title:"Timecards", 
-			url: user
+			url: "timecards/" + user
 		}, {
 			title: "Details", 
-			url: url
+			url: "timecards/" + url
 		}]);
+		
+		$("#by-users").addClass("active");
   	},
+  	
+  	getTimecardForProjectById: function(from, to, projectId, timecardId) {
+  		var dates = from + "/" + to;
+  			user = dates +"/project/" + projectId,
+  			url = user + "/" + timecardId;
+  			
+  		if (!this.collection) {
+	  		model = new Timecards.Models.Timecard({	id: timecardId });
+	  		model.fetch({
+	  			success: this._addTimecardView
+	  		});
+  		}else{
+  			this._addTimecardView(this.collection.get(timecardId));
+  		}
+  		
+  		this._addBreadcrumbs([{
+  			title:"Projects", 
+  			url: "projects/" + dates
+		} , {
+			title:"Timecards", 
+			url: "timecards/" + user
+		}, {
+			title: "Details", 
+			url: "timecards/" + url
+		}]);
+		
+		$("#by-projects").addClass("active");
+  	},
+  	
   	
   	_addTimecardView: function(model, data) { 		
   		timecardView = new Timecards.Views.Timecard({
 			model :  model
 		});
 		
-		$("#app-navigation").hide();
-		$("#app-content").html(timecardView.render().el);
+		$("#app-navigation").parent().fadeOut(100);
+		$("#app-content").html(timecardView.render().el).hide().fadeIn(1000);
   	},
   	
-	_addMainView: function(from, to) {
+	_addMainView: function(from, to, header) {
 		//add main content
-		timecardsView = new Timecards.Views.TimecardsIndex({
+		this.timecardsView = new Timecards.Views.TimecardsIndex({
 			collection : this.collection
 		});
 		
-		$("#app-content").html(timecardsView.render().el);
+		$("#app-content").html(this.timecardsView.render().el).hide().fadeIn(500);
 		
 		//add date picker
-		pickerView = new Timecards.Views.DatePicker({
-			model : { from : from, to : to }
-		});
-
-		$("#app-navigation").show();
-		$("#app-navigation").html(pickerView.render().el);
-		pickerView.initDatePickers();
+		if (!this.pickerView) {
+			this.pickerView = new Timecards.Views.DatePicker({
+				model : { from : from, to : to, header: header}
+			});
+			
+			
+			$("#app-navigation").html(this.pickerView.render().el).hide().fadeIn(500);;
+			$("#app-navigation").parent().fadeIn();
+		}else{
+  			this.pickerView.setHeader(header);
+			$("#app-navigation").parent().fadeIn(500);
+		}
+		
+		this.pickerView.initDatePickers();
 	},
 	
 	_addBreadcrumbs: function(crumbs) {
@@ -33855,7 +34189,7 @@ q="milliseconds seconds minutes hours days weeks months years decades centuries 
 		// transitions speed
 		speed : 800,
 		// if true the item's slices will also animate the opacity value
-		optOpacity : false,
+		optOpacity : true,
 		// amount (%) to translate both slices - adjust as necessary
 		translateFactor : 230,
 		// maximum possible angle
@@ -34012,7 +34346,7 @@ q="milliseconds seconds minutes hours days weeks months years decades centuries 
 				slice1Style	= config.orientation === 'horizontal' ? {
 					'transform' : 'translateY(-' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
 				} : {
-					'transform' : 'translateX(-' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
+					'transform' : 'translateX(' + this.options.translateFactor + '%) rotate(' + config.slice1angle + 'deg) scale(' + config.slice1scale + ')'
 				},
 				// slice2 style
 				slice2Style	= config.orientation === 'horizontal' ? {
@@ -34023,8 +34357,8 @@ q="milliseconds seconds minutes hours days weeks months years decades centuries 
 			
 			if( this.options.optOpacity ) {
 			
-				slice1Style.opacity = 0;
-				slice2Style.opacity = 0;
+				slice1Style.opacity = 1;
+				slice2Style.opacity = 1;
 			
 			}
 			

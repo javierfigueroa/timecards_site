@@ -20,7 +20,7 @@
 @import "bootstrap-responsive";
 
 
-@include declare-font-face('Open Sans', 'OpenSans-light', 400);
+@include declare-font-face('Open Sans', 'OpenSans-Light', 400);
 @include declare-font-face('Open Sans Regular', 'OpenSans-Regular', 400);
 $font-color: rgb(217,227,237);
 $dark-blue: rgb(38,44,51);
@@ -151,7 +151,7 @@ form {
 }
 
 .simple_form input[type=submit]  {
-  background: url("images/green-btn@2x.png") no-repeat 0px 0px;
+  background: url("/assets/green-btn@2x.png") no-repeat 0px 0px;
   background-size: 300px 60px;
   width: 300px !important;
   height: 60px;

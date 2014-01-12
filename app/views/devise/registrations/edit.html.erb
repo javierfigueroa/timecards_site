@@ -1,3 +1,4 @@
+<div style="text-align: center;">
 <% content_for :head do %>
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
 <% end %>
@@ -6,12 +7,12 @@
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
   <%= f.error_notification %>
   <%= display_base_errors resource %>
-  <%= f.input :first_name, :autofocus => true %>
-  <%= f.input :last_name %>
-  <%= f.input :email, :required => true %>
-  <%= f.input :password, :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
-  <%= f.input :password_confirmation, :required => false %>
-  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :required => true %>
+  <%= f.input :first_name, :autofocus => true, :placeholder => "first name"  %>
+  <%= f.input :last_name, :placeholder => "last name"  %>
+  <%= f.input :email, :required => true, :placeholder => "email"  %>
+  <%= f.input :password, :placeholder => "password", :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
+  <%= f.input :password_confirmation, :required => false, :placeholder => "confirm password"  %>
+  <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :placeholder => "current password", :required => true %>
   <%= f.button :submit, 'Update', :class => 'btn-primary' %>
 <% end %>
 <% if @current_user.has_role? :admin  %>
@@ -32,13 +33,16 @@
       <h3>Change Credit Card</h3>
     </div>
     <div class="modal-body">
-      <div class="field">
+      <div class="field pad20">
         <%= label_tag :card_number, "Credit Card Number" %>
-        <%= text_field_tag :card_number, nil, name: nil %>
+        <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
       </div>
       <div class="field">
         <%= label_tag :card_code, "Card Security Code (CVV)" %>
-        <%= text_field_tag :card_code, nil, name: nil %>
+        <%= text_field_tag :card_code, nil, name: nil, :placeholder => "credit card security code" %>
+      </div>
+      <div class="field pad20">
+        <span>Card Expiration</span>
       </div>
       <div class="field">
         <%= label_tag :card_month, "Card Expiration" %>
@@ -50,10 +54,11 @@
       <%= f.hidden_field :email %>
       <%= f.hidden_field :stripe_token %>
     </div>
-    <div class="modal-footer">
+    <div>
       <%= f.submit "Change Credit Card", :class => "btn btn-primary" %>
-      <a class="btn" data-dismiss="modal" href="#">Close</a>
     </div>
+      <a class="btn" style="margin: 20px;" data-dismiss="modal" href="#">Close</a>
   <% end %>
 </div>
 <% end %>
+</div>
