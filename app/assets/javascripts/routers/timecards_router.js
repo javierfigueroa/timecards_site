@@ -45,10 +45,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			
 		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
-  		this._addBreadcrumbs([{
-  			title:"Users", 
-  			url: "users/" + dates
-		}]);
 		
 		picker = this.pickerView;
 		picker.setHeader("Loading...");	
@@ -78,10 +74,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		});
   		
   		this._addMainView(fromDate, toDate, "All Projects");
-  		this._addBreadcrumbs([{
-  			title:"Projects", 
-  			url: "projects" + dates
-		}]);
 		
 		picker = this.pickerView;
 		picker.setHeader("Loading...");	
@@ -113,13 +105,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		});
   		
   		this._addMainView(fromDate, toDate);
-  		this._addBreadcrumbs([{
-  			title:"Users", 
-  			url: "users/" + dates
-		} , {
-			title:"Timecards", 
-			url: "timecards/" + suffix
-		}]);
 		
 		picker = this.pickerView;
 		picker.setHeader("Loading...");	
@@ -155,13 +140,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		});
   		
   		this._addMainView(fromDate, toDate);
-  		this._addBreadcrumbs([{
-  			title:"Projects", 
-  			url: "projects/" + dates
-		} , {
-			title:"Timecards", 
-			url: "timecards/" + suffix
-		}]);
   		
 		picker = this.pickerView;	
 		picker.setHeader("Loading...");	
@@ -196,17 +174,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		}else{
   			this._addTimecardView(this.collection.get(timecardId));
   		}
-  		
-  		this._addBreadcrumbs([{
-  			title:"Users", 
-  			url: "users/" + dates
-		} , {
-			title:"Timecards", 
-			url: "timecards/" + user
-		}, {
-			title: "Details", 
-			url: "timecards/" + url
-		}]);
 		
 		$("#by-users").addClass("active");
   	},
@@ -224,18 +191,7 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		}else{
   			this._addTimecardView(this.collection.get(timecardId));
   		}
-  		
-  		this._addBreadcrumbs([{
-  			title:"Projects", 
-  			url: "projects/" + dates
-		} , {
-			title:"Timecards", 
-			url: "timecards/" + user
-		}, {
-			title: "Details", 
-			url: "timecards/" + url
-		}]);
-		
+
 		$("#by-projects").addClass("active");
   	},
   	
@@ -263,7 +219,6 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 				model : { from : from, to : to, header: header}
 			});
 			
-			
 			$("#app-navigation").html(this.pickerView.render().el).hide().fadeIn(500);;
 			$("#app-navigation").parent().fadeIn();
 		}else{
@@ -272,19 +227,5 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		}
 		
 		this.pickerView.initDatePickers();
-	},
-	
-	_addBreadcrumbs: function(crumbs) {
-		collection = new Timecards.Collections.Breadcrumbs();
-		
-		for (var i=0; i<crumbs.length; i++) {
-			collection.add(new Timecards.Models.Breadcrumb(crumbs[i]));			
-		};
-		
-		view = new Timecards.Views.Breadcrumbs({
-			collection: collection
-		});
-		
-		$("#app-crumbs").html(view.render().el);
 	}
 });

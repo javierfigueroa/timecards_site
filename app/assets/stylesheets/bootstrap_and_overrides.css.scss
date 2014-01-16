@@ -114,6 +114,8 @@ body {
 .alert {
   float: right;
   margin: 10px;
+  position: absolute;
+  right: 0;
 }
 
 input[type=submit] {
