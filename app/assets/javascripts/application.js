@@ -7,6 +7,7 @@
 //= require bootstrap
 //= require jquery.externalscript
 //= require jquery.readyselector
+//= require registrations
 //= require ./timecards
 //= require_tree ../templates
 //= require_tree ./models
