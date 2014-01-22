@@ -22,9 +22,7 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   
   	getTimespanLabel: function() {
   		var timecards = this.get('timecards');
-  		if (timecards.length == 1) {
-  			return timecards.models[0].getTimespanLabel();
-  		}else if (timecards.length > 1) {
+  		if (timecards.length > 0) {
 			var timespan = 0,
 				missing = false,
 				duration = 0,
@@ -35,9 +33,9 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
 				
 				if (timecard.isMissingClockOut()) {
 					missing = true;
-				}else{					
-					timespan += timecard.getTimespan();
 				}
+
+                timespan += timecard.getTimespan();
 			}
 			
 			duration = moment.duration(timespan);

@@ -1,5 +1,5 @@
 <div class="span3 polaroid">
-	<div class="polaroid polaroid-inner">
+	<div class="polaroid polaroid-inner <%= model.isMissingClockOut() ? 'no-clock-out' : '' %>">
 		<div class="text">
 			<label><%= model.getFormattedDate() %></label>
 		</div>

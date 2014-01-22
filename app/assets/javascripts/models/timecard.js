@@ -18,7 +18,7 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   
   getTimespan: function(){
   	var inStamp = this.get('timestamp_in'),
-  		outStamp = this.get('timestamp_out');
+  		outStamp = this.get('timestamp_out') || moment();
   		
     return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : 0;
   },

@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
   
   def authenticate_user_from_token!
     if !params[:auth_token].nil?
-      user_email = params[:user][:email].presence
-      user       = user_email && User.find_by_email(user_email)
+      id = params[:id].presence
+      user       = id && User.find_by_id(id)
    
       # Notice how we use Devise.secure_compare to compare the token
       # in the database with the token given in the params, mitigating
@@ -53,7 +53,7 @@ class ApplicationController < ActionController::Base
       user = User.where("company_name = ? AND tenant_id = ?", current_user.company_name, tenant.id).first
       user.ensure_authentication_token
       user.save!
-      root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :user => {:email => user.email})
+      root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :id => user.id)
     end
   end
   
