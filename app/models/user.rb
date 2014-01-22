@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :validatable
 
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :stripe_token, :company_name, :encrypted_password, :tenant_id
@@ -22,6 +22,9 @@ class User < ActiveRecord::Base
   before_destroy :cancel_subscription
   before_destroy :destroy_tenant
   after_create :create_tenant
+
+  # You likely have this before callback set up for the token.
+  before_save :ensure_authentication_token
   
   def create_tenant
     if tenant_id.nil? && !roles.first.nil? && !roles.first.name.include?("admin")
@@ -135,5 +138,20 @@ class User < ActiveRecord::Base
   
   def photo_url
     timecards.first ? timecards.first.photo_in_url : ""
+  end
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
   end
 end

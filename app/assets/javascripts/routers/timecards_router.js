@@ -17,13 +17,12 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 
 	getUsers: function() {
 		var el = $("#backbone-app"),
-			email = el.attr("email"),
 			getUsers = this.getUsers;
 			
 		var from = $('#from').val(),
 	  		to = $('#to').val(),
 	  		now = moment(), 
-			nowFormatted = now.format("MM-DD-YYYY");
+			nowFormatted = now.format("MM-DD-YYYY").toString();
 
 		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
 	},
@@ -40,8 +39,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	getUsersByDate: function(from, to) {
   		var dates = from + "/" + to,
   			url = "/users/" + dates,
-  			fromDate = moment(from),
-  			toDate = moment(to);
+  			fromDate = moment(new Date(from.replace(/-/g, "/"))),
+  			toDate = moment(to.replace(/-/g, "/"));
   			
 		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
