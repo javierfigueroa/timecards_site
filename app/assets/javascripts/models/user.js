@@ -41,10 +41,11 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
 			}
 			
 			duration = moment.duration(timespan);
-			hours = duration.days() * 24 + duration.hours();
+			hours = Math.abs(duration.days() * 24 + duration.hours()),
+            minutes = Math.abs(duration.minutes());
 			text = missing ? 
-					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
-					hours + " hours, " + duration.minutes() + " minutes";
+					hours + " hours, " + minutes + " minutes and missing clock outs" :
+					hours + " hours, " + minutes + " minutes";
 		
   			return text;
   		}else{

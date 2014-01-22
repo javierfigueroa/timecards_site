@@ -41,7 +41,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			url = "/users/" + dates,
   			fromDate = moment(new Date(from.replace(/-/g, "/"))),
   			toDate = moment(to.replace(/-/g, "/"));
-  			
+
+        Backbone.Relational.store.reset();
 		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
 		
@@ -49,8 +50,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			url: url,
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
       			picker.setHeader("All Users");
       			if (collection.models.length === 0) {
@@ -66,7 +67,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		var dates = from + "/" + to,
   			fromDate = moment(from),
   			toDate = moment(to);
-  			
+
+        Backbone.Relational.store.reset();
 		this.collection = new Timecards.Collections.Projects([], {			
 			inDate: from,
 			outDate: to
@@ -77,8 +79,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker = this.pickerView;
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
       			picker.setHeader("All Projects");
       			if (collection.models.length === 0) {
@@ -109,8 +111,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {user_id: userId},
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
   				if (collection.models.length > 0) {
 	      			var user = collection.models[0].get('user'),

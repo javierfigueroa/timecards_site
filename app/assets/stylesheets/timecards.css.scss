@@ -12,7 +12,6 @@ $hover-blue-bg: rgb(8,117,130);
 .timecard-square, .map {
   height:100px;
   margin: 0 auto;
-  width: 160px;
   background-size:100%; 
   background-repeat:no-repeat; 
   background-position:center;
@@ -28,6 +27,7 @@ $hover-blue-bg: rgb(8,117,130);
  
 .user-row:hover {
   background: $hover-blue-bg;
+  color: white;
  }
  
  .user-row label.name {
@@ -97,7 +97,6 @@ $hover-blue-bg: rgb(8,117,130);
 .polaroid-inner .name {
   position: absolute;
   top: 40px;
-  left: 15px;
   background: $hover-blue-bg;
   color: white;
   padding: 5px;
