@@ -56,7 +56,6 @@ class TimecardsController < ApplicationController
   # GET /timecards/in_date/out_date.json
   # get timecards based on from date and to date
   def date
-    debugger
     in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
     out_date = DateTime.strptime(params[:out_date], "%m-%d-%Y").end_of_day.utc
     

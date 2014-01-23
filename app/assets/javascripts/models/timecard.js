@@ -27,8 +27,8 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	if (this.getTimespan() === 0) {
   		return "Missing clock out";
   	}
-  	
-  	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
+
+  	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')), countdown.HOURS | countdown.MINUTES);
   },
   
   getFormattedDate: function() {
