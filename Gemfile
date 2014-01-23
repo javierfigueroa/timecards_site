@@ -2,8 +2,6 @@ source 'https://rubygems.org'
 ruby '2.0.0'
 group :assets do
   gem 'sass-rails'
-  gem 'therubyracer'
-  gem 'less-rails'
   # gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier'
 end
