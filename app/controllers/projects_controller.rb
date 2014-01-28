@@ -31,7 +31,7 @@ class ProjectsController < ApplicationController
   def edit
   end
   
-  # GET /users/in_date/out_date.json
+  # GET /projects/in_date/out_date.json
   # get user between a date range
   def date
     in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
