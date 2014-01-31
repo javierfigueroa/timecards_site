@@ -2,7 +2,7 @@ Timecards.Collections.Projects = Backbone.Collection.extend({
   	model: Timecards.Models.Project,
   		
   	url: function() {
-    	return '/projects/' + this.inDate + "/" + this.outDate;
+    	return '/app/projects/' + this.inDate + "/" + this.outDate;
   	},
   	
   	initialize: function(models, options) {

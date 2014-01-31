@@ -20,15 +20,17 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   	var inStamp = this.get('timestamp_in'),
   		outStamp = this.get('timestamp_out') || moment();
   		
-    return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : 0;
+    return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : -1;
   },
   
   getTimespanLabel: function() {
-  	if (this.getTimespan() === 0) {
+  	if (this.getTimespan() === -1) {
   		return "Missing clock out";
   	}
 
-  	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')), countdown.HOURS | countdown.MINUTES);
+    var label = countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')), countdown.HOURS | countdown.MINUTES).toString();
+
+  	return label.length === 0 ? "No time recorded" : label;
   },
   
   getFormattedDate: function() {

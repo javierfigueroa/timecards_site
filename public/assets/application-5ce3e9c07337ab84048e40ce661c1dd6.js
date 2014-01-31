@@ -32900,7 +32900,7 @@ $(document).ready(function(){
 }).call(this);
 (function() { this.JST || (this.JST = {}); this.JST["timecards/index"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div id="timecards" class="container-fluid">\n</div>\n');}return __p.join('');};
 }).call(this);
-(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="span3 polaroid">\n\t<div class="polaroid polaroid-inner">\n\t\t<div class="text">\n\t\t\t<label>',  model.getFormattedDate() ,'</label>\n\t\t</div>\n\t\t<div class="avatar timecard-square"></div>\n\t\t<div class="text">\n\t\t\t<label class="name">',  model.getFullName() ,'</label>\n\t\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t\t</div>\n\t</div>\n</div>\n');}return __p.join('');};
+(function() { this.JST || (this.JST = {}); this.JST["timecards/polaroid"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="span3 polaroid">\n\t<div class="polaroid polaroid-inner ',  model.isMissingClockOut() ? 'no-clock-out' : '' ,'">\n\t\t<div class="text">\n\t\t\t<label>',  model.getFormattedDate() ,'</label>\n\t\t</div>\n\t\t<div class="avatar timecard-square"></div>\n\t\t<div class="text">\n\t\t\t<label class="name">',  model.getFullName() ,'</label>\n\t\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t\t</div>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
 (function() { this.JST || (this.JST = {}); this.JST["timecards/project_row"] = function(obj){var __p=[],print=function(){__p.push.apply(__p,arguments);};with(obj||{}){__p.push('<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">\n\t<div class="span12">\n\t\t<label class="name">',  model.getName()  ,'</label>\n\t\t<label>',  model.getTimespanLabel() ,'</label>\n\t</div>\n</div>\n');}return __p.join('');};
 }).call(this);
@@ -32947,10 +32947,11 @@ Timecards.Models.Project = Backbone.RelationalModel.extend({
 			}
 			
 			duration = moment.duration(timespan);
-			hours = duration.days() * 24 + duration.hours();
-			text = missing ? 
-					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
-					hours + " hours, " + duration.minutes() + " minutes";
+            hours = Math.abs(duration.days() * 24 + duration.hours()),
+            minutes = Math.abs(duration.minutes());
+            text = missing ?
+                hours + " hours, " + minutes + " minutes and missing clock outs" :
+                hours + " hours, " + minutes + " minutes";
 		
   			return text;
   		}else{
@@ -32982,17 +32983,19 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
   
   getTimespan: function(){
   	var inStamp = this.get('timestamp_in'),
-  		outStamp = this.get('timestamp_out');
+  		outStamp = this.get('timestamp_out') || moment();
   		
-    return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : 0;
+    return inStamp && outStamp ? moment(outStamp).diff(moment(inStamp)) : -1;
   },
   
   getTimespanLabel: function() {
-  	if (this.getTimespan() === 0) {
+  	if (this.getTimespan() === -1) {
   		return "Missing clock out";
   	}
-  	
-  	return countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')));
+
+    var label = countdown(moment(this.get('timestamp_out')), moment(this.get('timestamp_in')), countdown.HOURS | countdown.MINUTES).toString();
+
+  	return label.length === 0 ? "No time recorded" : label;
   },
   
   getFormattedDate: function() {
@@ -33027,11 +33030,17 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   
   	getTimespanLabel: function() {
   		var timecards = this.get('timecards');
-  		if (timecards.length == 1) {
-  			return timecards.models[0].getTimespanLabel();
-  		}else if (timecards.length > 1) {
+        if (timecards.length === 1) {
+            var timecard = timecards.models[0],
+                duration = moment.duration(timecard.getTimespan());
+                hours = Math.abs(duration.days() * 24 + duration.hours()),
+                minutes = Math.abs(duration.minutes()),
+                missing = timecard.isMissingClockOut();
+
+            return hours + " hours, " + minutes + " minutes" + (missing ? " and pending clock out" : "");
+        } else if (timecards.length > 1) {
 			var timespan = 0,
-				missing = false,
+				missing = 0,
 				duration = 0,
 				text = "";
 				
@@ -33039,17 +33048,18 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
 				var timecard = timecards.models[i];
 				
 				if (timecard.isMissingClockOut()) {
-					missing = true;
-				}else{					
-					timespan += timecard.getTimespan();
-				}
+					missing++;
+				}else{
+                    timespan += timecard.getTimespan();
+                }
 			}
 			
 			duration = moment.duration(timespan);
-			hours = duration.days() * 24 + duration.hours();
-			text = missing ? 
-					hours + " hours, " + duration.minutes() + " minutes and missing clock outs" :
-					hours + " hours, " + duration.minutes() + " minutes";
+			hours = Math.abs(duration.days() * 24 + duration.hours()),
+            minutes = Math.abs(duration.minutes());
+			text = missing > 0 ?
+					hours + " hours, " + minutes + " minutes and " + missing + " pending clock " + (missing === 1 ? "out" : "outs") :
+					hours + " hours, " + minutes + " minutes";
 		
   			return text;
   		}else{
@@ -33335,7 +33345,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			url = "/users/" + dates,
   			fromDate = moment(new Date(from.replace(/-/g, "/"))),
   			toDate = moment(to.replace(/-/g, "/"));
-  			
+
+        Backbone.Relational.store.reset();
 		this.collection = new Timecards.Collections.Users();  		
   		this._addMainView(fromDate, toDate, "All Users");
 		
@@ -33343,8 +33354,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			url: url,
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
       			picker.setHeader("All Users");
       			if (collection.models.length === 0) {
@@ -33360,7 +33371,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   		var dates = from + "/" + to,
   			fromDate = moment(from),
   			toDate = moment(to);
-  			
+
+        Backbone.Relational.store.reset();
 		this.collection = new Timecards.Collections.Projects([], {			
 			inDate: from,
 			outDate: to
@@ -33371,8 +33383,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker = this.pickerView;
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
       			picker.setHeader("All Projects");
       			if (collection.models.length === 0) {
@@ -33403,8 +33415,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 		picker.setHeader("Loading...");	
   		this.collection.fetch({
   			data: {user_id: userId},
-  			reset: false,
-  			remove: false,
+  			reset: true,
+  			remove: true,
   			success: function(collection, response){
   				if (collection.models.length > 0) {
 	      			var user = collection.models[0].get('user'),

@@ -17,13 +17,14 @@ RailsStripeMembershipSaas::Application.routes.draw do
     root :to => 'devise/sessions#new'
   end
 
-  
-  get 'users/:in_date/:out_date', :to => 'users#date' 
-  get 'projects/:in_date/:out_date', :to => 'projects#date' 
-  get 'timecards/today.json', :to => 'timecards#today' 
-  get 'timecards/:in_date/:out_date', :to => 'timecards#date_and_user_id' 
-  
-  resources :timecards 
-  resources :projects  
+
+  get '/app/users/:in_date/:out_date', :to => 'users#date'
+  get '/app/projects/:in_date/:out_date', :to => 'projects#date'
+  get '/app/timecards/:in_date/:out_date', :to => 'timecards#date_and_user_id'
+
+  get '/timecards/today', :to => 'timecards#today'
+
+  resources :timecards
+  resources :projects
   resources :users
 end

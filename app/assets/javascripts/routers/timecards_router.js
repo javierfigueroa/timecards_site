@@ -38,7 +38,7 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	
 	getUsersByDate: function(from, to) {
   		var dates = from + "/" + to,
-  			url = "/users/" + dates,
+  			url = "/app/users/" + dates,
   			fromDate = moment(new Date(from.replace(/-/g, "/"))),
   			toDate = moment(to.replace(/-/g, "/"));
 
@@ -150,9 +150,8 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
   			remove: false,
   			success: function(collection, response){
   				if (collection.models.length > 0) {
-	      			var user = collection.models[0].get('user'),
-	      				name = user.first_name + " " + user.last_name;
-	      			picker.setHeader(name);
+	      			var project = collection.models[0].get('project');
+	      			picker.setHeader(project.name);
       			}else{
 					picker.setHeader("No timecards found");	
       			}

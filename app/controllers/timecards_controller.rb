@@ -72,7 +72,7 @@ class TimecardsController < ApplicationController
     end
   end
   
-  # GET /timecards/in_date/out_date/user_id.json
+  # GET /timecards/in_date/out_date/user_id.json or /timecards/in_date/out_date/project_id.json
   # get timecards based on a from date and to date and for a user id
   def date_and_user_id
     in_date = DateTime.strptime(params[:in_date], "%m-%d-%Y").beginning_of_day.utc
@@ -87,7 +87,7 @@ class TimecardsController < ApplicationController
       format.json { 
         render json: @timecards.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name] }, :project => { :only => [ :name ]} }
           ) 
       }
     end

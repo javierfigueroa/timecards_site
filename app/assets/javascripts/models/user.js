@@ -22,9 +22,17 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
   
   	getTimespanLabel: function() {
   		var timecards = this.get('timecards');
-  		if (timecards.length > 0) {
+        if (timecards.length === 1) {
+            var timecard = timecards.models[0],
+                duration = moment.duration(timecard.getTimespan());
+                hours = Math.abs(duration.days() * 24 + duration.hours()),
+                minutes = Math.abs(duration.minutes()),
+                missing = timecard.isMissingClockOut();
+
+            return hours + " hours, " + minutes + " minutes" + (missing ? " and pending clock out" : "");
+        } else if (timecards.length > 1) {
 			var timespan = 0,
-				missing = false,
+				missing = 0,
 				duration = 0,
 				text = "";
 				
@@ -32,17 +40,17 @@ Timecards.Models.User = Backbone.RelationalModel.extend({
 				var timecard = timecards.models[i];
 				
 				if (timecard.isMissingClockOut()) {
-					missing = true;
-				}
-
-                timespan += timecard.getTimespan();
+					missing++;
+				}else{
+                    timespan += timecard.getTimespan();
+                }
 			}
 			
 			duration = moment.duration(timespan);
 			hours = Math.abs(duration.days() * 24 + duration.hours()),
             minutes = Math.abs(duration.minutes());
-			text = missing ? 
-					hours + " hours, " + minutes + " minutes and missing clock outs" :
+			text = missing > 0 ?
+					hours + " hours, " + minutes + " minutes and " + missing + " pending clock " + (missing === 1 ? "out" : "outs") :
 					hours + " hours, " + minutes + " minutes";
 		
   			return text;
