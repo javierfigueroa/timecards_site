@@ -3,6 +3,11 @@
 	<div class="row-fluid">
 		<div class="span12">
 			<h3><%= model.getFullName()  %></h3>
+			<% if (role) {  %>
+			    <div class="timecards-action signup-button-container">
+                <a href="/projects/new">Add new</a>
+                </div>
+			<% } %>
 		</div>
 	</div>
 	
