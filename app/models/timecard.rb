@@ -43,11 +43,11 @@ class Timecard < ActiveRecord::Base
 
   
   def photo_in_url
-      photo_in.url(:medium)
+    photo_in.url(:medium)
   end
   
   def photo_out_url
-      photo_out.url(:medium)
+    photo_out.url(:medium)
   end
   
   Paperclip.interpolates :user_id do |attachment, style|

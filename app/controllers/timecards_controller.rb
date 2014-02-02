@@ -88,7 +88,7 @@ class TimecardsController < ApplicationController
         render json: @timecards.to_json(
           :methods => [:photo_in_url, :photo_out_url],
           :include => { :user => { :only => [:first_name, :last_name] }, :project => { :only => [ :name ]} }
-          ) 
+          )
       }
     end
   end

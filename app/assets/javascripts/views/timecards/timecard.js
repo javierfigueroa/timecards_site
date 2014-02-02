@@ -1,7 +1,7 @@
 Timecards.Views.Timecard = Backbone.View.extend({
-    _editing: false,
-
     _browserLocation: null,
+
+    editing: false,
 
     template: JST['timecards/timecard'],
 
@@ -9,7 +9,7 @@ Timecards.Views.Timecard = Backbone.View.extend({
         $(this.el).html(this.template({ model: this.model }));
 
         this.addClockInLocation();
-        !this.model.isMissingClockOut() && this.addClockOutLocation();
+        this.addClockOutLocation();
 
 
         $(".avatar-in", this.el).css({'background-image': 'url(' + this.model.get('photo_in_url') + ')'});
@@ -20,6 +20,11 @@ Timecards.Views.Timecard = Backbone.View.extend({
         $("#browser-in", this.el).on('click', $.proxy(this.setBrowserLocationIn, this));
         $("#browser-out", this.el).on('click', $.proxy(this.setBrowserLocationOut, this));
         $("div.overlay", this.el).hide();
+
+        if (this.model.isMissingClockOut()) {
+            $("#timecard-out", this.el).hide();
+        }
+
         return this;
     },
 
@@ -54,28 +59,35 @@ Timecards.Views.Timecard = Backbone.View.extend({
     },
 
     edit: function () {
-        this._editing = !this._editing;
+        this.editing = !this.editing;
 
         $("label").toggle();
         $("a.location-link").toggle();
         $("div.picker").toggle();
 
-        if (this._editing) {
+        if (this.editing) {
             var options = {
                     enableHighAccuracy: true,
                     timeout: 5000,
                     maximumAge: 0
                 },
-                from = $('#from').datetimepicker().on('changeDate', function(ev) {
+                from = $('#from').datetimepicker({
+                    language: 'en',
+                    pick12HourFormat: true
+                }).on('changeDate', function(ev) {
                     if (ev.date.valueOf() > to.date.valueOf()) {
                         to.setValue(ev.date);
                     }
                     from.hide();
                 }).data('datepicker'),
-                to = $('#to').datetimepicker().on('changeDate', function(ev) {
+                to = $('#to').datetimepicker({
+                    language: 'en',
+                    pick12HourFormat: true
+                }).on('changeDate', function(ev) {
                     to.hide();
                 }).data('datepicker');
 
+            $("#timecard-out").show();
             $("div.map").fadeOut();
             $("div.picker").fadeOut();
             $("div.overlay").fadeIn();
@@ -97,6 +109,10 @@ Timecards.Views.Timecard = Backbone.View.extend({
 
         }else{
             $("#gps-error").hide();
+
+            if (this.model.isMissingClockOut()) {
+                $("#timecard-out", this.el).hide();
+            }
             //PUT update
         }
 

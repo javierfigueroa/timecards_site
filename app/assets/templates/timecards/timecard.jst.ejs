@@ -20,9 +20,9 @@
     <p id="gps-error" style="display:none">Browser GPS location unavailable</p>
 	<div class="span5 timecard">
 		<div class="row-fluid text">
-			 <label> <%= moment(model.get('timestamp_in')) %></label>
+			 <label> <%= model.getTimestampInFormatted() %></label>
 			 <div id="from" class="input-append picker" style="display:none;">
-                 <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text" value="<%= moment(model.get('timestamp_in')) %>"></input>
+                 <input data-format="MM/dd/yyyy hh:mm:ss PP" type="text" value="<%= model.getTimestampInFormatted() %>"></input>
                  <span class="add-on">
                    <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                    </i>
@@ -32,6 +32,7 @@
 		<div class="row-fluid">
 			<div class="span5">
 				<div class="avatar avatar-in timecard-square"></div>
+				<input id="timecard_photo_out" name="timecard[photo_out]" type="file">
 			</div>
 			<div class="span5 offset1">
 				<div id="map_in" class="map"></div>
@@ -39,12 +40,11 @@
 			</div>
 		</div>
 	</div>
-	<% if (!model.isMissingClockOut()) {  %>
-	<div class="span5 timecard">
+	<div class="span5 timecard" id="timecard-out">
 		<div class="row-fluid text">
-			 <label> <%= moment(model.get('timestamp_out')) %></label>
+			 <label> <%= model.getTimestampOutFormatted() %></label>
 			 <div id="to" class="input-append picker" style="display:none;">
-                  <input data-format="MM/dd/yyyy HH:mm:ss PP" type="text" value="<%= moment(model.get('timestamp_out')) %>"></input>
+                  <input data-format="MM/dd/yyyy hh:mm:ss PP" type="text" value="<%= model.getTimestampOutFormatted() %>"></input>
                   <span class="add-on">
                     <i data-time-icon="icon-time" data-date-icon="icon-calendar">
                     </i>
@@ -61,6 +61,5 @@
 			</div>
 		</div>
 	</div>
-	<% } %>
 </div>
 </div>
