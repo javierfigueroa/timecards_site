@@ -21,3 +21,5 @@
 //= require modernizr.custom.79639
 //= require jquery.ba-cond.min
 //= require jquery.slitslider
+//= require jquery.iframe-transport
+//= require jquery.fileupload

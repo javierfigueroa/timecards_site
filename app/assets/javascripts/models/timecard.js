@@ -17,12 +17,12 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
     },
 
     getTimestampInFormatted: function () {
-        return moment(model.get('timestamp_in')).format('MM/DD/YYYY hh:mm:ss A');
+        return moment(this.get('timestamp_in')).local().format('MM/DD/YYYY hh:mm:ss A');
     },
 
     getTimestampOutFormatted: function () {
-        var out = model.get('timestamp_out');
-        return out ? moment(out).format('MM/DD/YYYY hh:mm:ss A') : '';
+        var out = this.get('timestamp_out');
+        return out ? moment(out).local().format('MM/DD/YYYY hh:mm:ss A') : '';
     },
 
     getTimespan: function () {

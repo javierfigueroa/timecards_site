@@ -17,10 +17,12 @@
   <%= f.input :email, :placeholder => "Email", :required => true %>
   <%= f.input :password, :placeholder => "Password", :required => true %>
   <%= f.input :password_confirmation, :placeholder => "Confirm passsword", :required => true %>
-  <% if @current_tenant.nil? && @user.stripe_token  %>
+  <% if @current_tenant.nil?  %>
+    <%= f.input :company_name, :required => true, :placeholder => "company name"  %>
+  <% end %>
+  <% if @user.stripe_token && @current_tenant.nil? %>
     <p>Credit card acceptance is pending.</p>
   <% elsif @current_tenant.nil? %>
-  	<%= f.input :company_name, :required => true, :placeholder => "company name"  %>
     <div class="field">
       <%= label_tag :card_number, "Credit Card Number" %>
       <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
