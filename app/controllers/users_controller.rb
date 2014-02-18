@@ -28,11 +28,30 @@ class UsersController < ApplicationController
       }
     end
   end
+
+  # GET /users/1/edit
+  # GET /users/1/edit.xml
+  # GET /users/1/edit.json                                HTML AND AJAX
+  #-------------------------------------------------------------------
+  def edit
+    @user = User.find(params[:id])
+    respond_to do |format|
+      format.json { render :json => @user }
+      format.xml  { render :xml => @user }
+      format.html
+    end
+  end
   
   def update
     authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
     role = Role.find(params[:user][:role_ids]) unless params[:user][:role_ids].nil?
+
+    if params[:user][:password].blank?
+      params[:user].delete("password")
+      params[:user].delete("password_confirmation")
+    end
+
     params[:user] = params[:user].except(:role_ids)
     if @user.update_attributes(params[:user])
       @user.update_plan(role) unless role.nil?

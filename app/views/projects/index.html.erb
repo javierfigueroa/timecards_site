@@ -19,7 +19,16 @@
       <tr>
         <td><%= project.name %></td>
       	<td><%= project.created_at.to_date %></td>
-        <td><div class="timecards-action"><%= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you sure?' } %></div></td>
+        <td style="width: 125px;">
+          <div class="timecards-action">
+            <%= link_to 'Edit', edit_project_path(project) %>
+          </div>
+        </td>
+        <td style="width: 125px;">
+          <div class="timecards-action">
+            <%= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you sure?' } %>
+          </div>
+        </td>
       </tr>
     <% end %>
   </tbody>

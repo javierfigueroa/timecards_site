@@ -22,17 +22,16 @@
       <td><%= user.created_at.to_date %></td>
       <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
       <td>
+        <% if !(user == current_user) %>
+        <div class="timecards-action">
+          <%= link_to 'Edit', edit_user_path(user) %>
+        </div>
+        <% end %>
       	<% if @current_tenant.nil? && !(user.has_role? :admin) %>
         <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
         <%= render user %>
         <% end %>
       </td>
-      <td>
-      	<% if !(user == current_user) %>
-		<div class="timecards-action"><%= link_to("Delete", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete)  %>
-		</div>
-		<% end %>
-	  </td>
     </tr>
   <% end %>
   </tbody>
