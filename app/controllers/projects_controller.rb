@@ -43,7 +43,7 @@ class ProjectsController < ApplicationController
       format.html { redirect_to root_path }
       format.json { 
         render json: @projects.to_json(
-          :include => [:timecards]
+          :include => {:timecards => { :include => {:user => { :only => [:first_name, :last_name, :wage] }}}}
           ) 
       }
     end

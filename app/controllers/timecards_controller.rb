@@ -12,7 +12,7 @@ class TimecardsController < ApplicationController
       format.json { 
         render json: @timecards.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
           ) 
       }
     end
@@ -27,7 +27,7 @@ class TimecardsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @timecard.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
           ) 
       }
     end
@@ -66,7 +66,7 @@ class TimecardsController < ApplicationController
       format.json { 
         render json: @timecards.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
           ) 
       }
     end
@@ -87,7 +87,7 @@ class TimecardsController < ApplicationController
       format.json { 
         render json: @timecards.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] }, :project => { :only => [ :name ]} }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] }, :project => { :only => [ :name ]} }
           )
       }
     end
@@ -120,7 +120,7 @@ class TimecardsController < ApplicationController
         format.html { redirect_to @timecard, notice: 'Timecard was successfully created.' }
         format.json { render json: @timecard.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
           ), status: :created, location: @timecard }
       else
         format.html { render action: "new" }
@@ -139,7 +139,7 @@ class TimecardsController < ApplicationController
         format.html { redirect_to @timecard, notice: 'Timecard was successfully updated.' }
         format.json { render json: @timecard.to_json(
           :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name] } }
+          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
           ) 
       }
       else

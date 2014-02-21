@@ -3,6 +3,10 @@
 		<div class="text">
 			<label><%= model.getFormattedDate() %></label>
 		</div>
+        <label style="position: absolute;
+                      top: 0;
+                      right: 0;
+                      margin: 15px;"><%= model.getTimeOwedLabel() %></label>
 		<div class="avatar timecard-square"></div>
 		<div class="text">
 			<label class="name"><%= model.getFullName() %></label>

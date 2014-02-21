@@ -18,7 +18,7 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   attr_accessible :first_name, :last_name, :email, :password,
                   :password_confirmation, :remember_me, :stripe_token,
-                  :company_name, :encrypted_password, :tenant_id
+                  :company_name, :encrypted_password, :tenant_id, :wage
   attr_accessor :stripe_token, :coupon
   before_save :update_stripe
   before_destroy :cancel_subscription
@@ -27,6 +27,7 @@ class User < ActiveRecord::Base
 
   # You likely have this before callback set up for the token.
   before_save :ensure_authentication_token
+  validates :wage, :numericality => { :greater_than_or_equal_to => 0 }
   
   def create_tenant
     if tenant_id.nil? && !roles.first.nil? && !roles.first.name.include?("admin")

@@ -48,5 +48,25 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
 
     getFullName: function () {
         return this.get('user')["first_name"] + " " + this.get('user')["last_name"];
-    }
+    },
+
+    getTimeOwedLabel: function() {
+        var wage = this.get('user')['wage'],
+            timespan = this.getTimespan(),
+            hours = this._getHours(timespan),
+            minutes = this._getMinutes(timespan),
+            amount = hours * wage + (minutes / 60.0) * wage;
+
+        return "$" + parseFloat(amount).toFixed(2);
+    },
+
+    _getHours: function(timespan) {
+        var duration = moment.duration(timespan);
+        return Math.abs(duration.days() * 24 + duration.hours());
+    },
+
+    _getMinutes: function(timespan) {
+        var duration = moment.duration(timespan);
+        return Math.abs(duration.minutes());
+    },
 });
