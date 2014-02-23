@@ -46,7 +46,7 @@ var TimeUtils = {
     getProjectWageLabel: function(model) {
         var timecards = model.get('timecards');
         if (timecards.length === 1) {
-            var timecard = timecards.models[0].getTimespan(),
+            var timecard = timecards.models[0],
                 wage = timecard.get('user').wage,
                 timespan = timecard.getTimespan(),
                 hours = TimeUtils.getHours(timespan),
