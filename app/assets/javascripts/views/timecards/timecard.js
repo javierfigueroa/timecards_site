@@ -76,14 +76,14 @@ Timecards.Views.Timecard = Backbone.View.extend({
 
 
         if (this.editing) {
-            $("label").hide();
+            $(".timecard-label").hide();
             $(".file-container").show();
             $("#save").show();
             $(".location-link").show();
             $(".picker").show();
             this._setEditMode();
         }else{
-            $("label").show();
+            $(".timecard-label").show();
             $("#save").hide();
             $(".location-link").hide();
             $(".picker").hide();

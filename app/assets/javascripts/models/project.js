@@ -25,6 +25,6 @@ Timecards.Models.Project = Backbone.RelationalModel.extend({
 	},
 
     getTimeOwedLabel: function() {
-        return TimeUtils.getTimeOwedLabel(this);
+        return TimeUtils.getProjectWageLabel(this);
     }
 });

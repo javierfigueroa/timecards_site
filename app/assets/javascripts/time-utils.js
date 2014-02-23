@@ -27,8 +27,7 @@ var TimeUtils = {
         if (timecards.length === 1) {
             return TimeUtils.getHours(timecards.models[0].getTimespan());
         } else if (timecards.length > 1) {
-            var timespan = 0,
-                duration = 0;
+            var timespan = 0;
 
             for (var i=0; i<timecards.models.length; i++) {
                 var timecard = timecards.models[i];
@@ -44,13 +43,49 @@ var TimeUtils = {
         }
     },
 
+    getProjectWageLabel: function(model) {
+        var timecards = model.get('timecards');
+        if (timecards.length === 1) {
+            var timecard = timecards.models[0].getTimespan(),
+                wage = timecard.get('user').wage,
+                timespan = timecard.getTimespan(),
+                hours = TimeUtils.getHours(timespan),
+                minutes = TimeUtils.getMinutes(timespan),
+                amount = hours * wage + (minutes / 60.0) * wage;
+
+            return "$" + parseFloat(amount).toFixed(2);
+        } else if (timecards.length > 1) {
+            var amount = 0,
+                timecard,
+                wage,
+                timespan,
+                hours,
+                minutes;
+
+            for (var i=0; i<timecards.models.length; i++) {
+                timecard = timecards.models[i];
+                wage = timecard.get('user').wage;
+
+                if (!timecard.isMissingClockOut()) {
+                    timespan = timecard.getTimespan();
+                    hours = TimeUtils.getHours(timespan);
+                    minutes = TimeUtils.getMinutes(timespan);
+                    amount += hours * wage + (minutes / 60.0) * wage;
+                }
+            }
+
+            return "$" + parseFloat(amount).toFixed(2);
+        }else{
+            return "$0.00";
+        }
+    },
+
     getTotalMinutes: function(model) {
         var timecards = model.get('timecards');
         if (timecards.length === 1) {
             return TimeUtils.getMinutes(timecards.models[0].getTimespan());
         } else if (timecards.length > 1) {
-            var timespan = 0,
-                duration = 0;
+            var timespan = 0;
 
             for (var i=0; i<timecards.models.length; i++) {
                 var timecard = timecards.models[i];
