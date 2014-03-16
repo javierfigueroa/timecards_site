@@ -41,7 +41,9 @@ class Timecard < ActiveRecord::Base
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
     :path => '/:tenant_id/:user_id/:id/photo_out.jpg'
 
-  
+  validates_attachment_content_type :photo_in, :content_type => ["image/jpg", "image/jpeg", "image/png"]
+  validates_attachment_content_type :photo_out, :content_type => ["image/jpg", "image/jpeg", "image/png"]
+
   def photo_in_url
     photo_in.url(:medium)
   end
