@@ -1,0 +1,45 @@
+<div class="side-menu">
+  <div class="sidebar-nav full-height">
+    <ul class="nav nav-list">
+      <li><a href="/users/edit">Account</a></li>
+      <li class="active"><a href="/users/billing">Billing</a></li>
+    </ul>
+  </div>
+</div>
+<div class="pad30 page-content">
+    <% content_for :head do %>
+      <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
+    <% end %>
+    <h3 class="underscore">Change Credit Card</h3>
+    <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
+    <%= simple_form_for resource, :as => resource_name, :url => update_card_path, :html => {:method => :put, :class => 'form-vertical card_form' } do |f| %>
+        <div>
+          <div class="controls" style="padding:20px 0px 20px 0px">
+            Using card ending with <%= @user.last_4_digits %>
+          </div>
+          <div class="controls">
+            <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
+          </div>
+
+          <div class="controls">
+            <%= text_field_tag :card_code, nil, name: nil, :placeholder => "credit card security code" %>
+          </div>
+
+          <div class="field" style="padding:20px 0px 0px 0px">
+            <span>Card Expiration</span>
+          </div>
+          <div class="field" style="padding:20px 0px 20px 0px">
+            <%= label_tag :card_month, "Card Expiration" %>
+            <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>
+            <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>
+          </div>
+          <%= f.hidden_field :first_name %>
+          <%= f.hidden_field :last_name %>
+          <%= f.hidden_field :email %>
+          <%= f.hidden_field :stripe_token %>
+        </div>
+        <div>
+          <%= f.submit "Change Credit Card", :class => "btn btn-primary" %>
+        </div>
+    <% end %>
+</div>

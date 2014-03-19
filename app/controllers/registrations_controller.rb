@@ -22,6 +22,11 @@ class RegistrationsController < Devise::RegistrationsController
       redirect_to root_path, :notice => 'Please select a subscription plan below.'
     end
   end
+
+  def billing
+    @user = current_user
+    render :billing
+  end
   
   # POST /resource
   def create    

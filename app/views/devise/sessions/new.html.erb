@@ -9,13 +9,13 @@
 	</div>
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
 	  	<div class="controls">
-			<input autofocus="autofocus" class="string email required form-field" id="user_email" name="user[email]" type="email" value="" placeholder="email">
+			<input autofocus="autofocus" class="string email required form-field textfield" id="user_email" name="user[email]" type="email" value="" placeholder="email">
 		</div>
 		<div class="controls">
-			<input class="password required form-field" id="user_password" name="user[password]" type="password" placeholder="password">
+			<input class="password required form-field textfield" id="user_password" name="user[password]" type="password" placeholder="password">
 		</div>
 	  <!--<%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>-->
-	  <input class="login-submit-button" name="commit" type="submit" value="Sign in">
+	  <input class="login-submit-button btn-green" name="commit" type="submit" value="Sign in">
 	<% end %>
 <%= render "devise/shared/links" %>
 </div>

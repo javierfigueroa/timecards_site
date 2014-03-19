@@ -1,0 +1,8 @@
+.side-menu {
+  width: 180px;
+  position: absolute;
+  height: 100%;
+}
+.side-menu + .page-content {
+  margin-left: 220px;
+}

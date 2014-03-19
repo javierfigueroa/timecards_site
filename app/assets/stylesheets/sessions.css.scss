@@ -38,14 +38,7 @@ body {
 }
 
 .form-field {
-  border-top: 1px #acaeb4 solid;
-  border-left: 1px #dde1e7 solid;
-  border-right: 1px #dde1e7 solid;
-  border-bottom: 2px #f1f4f7 solid;
-  -moz-border-radius: 30px !important;
-  -webkit-border-radius: 30px !important;
-  border-radius: 30px !important;
-  height: 60px !important;
+  height: 50px !important;
   width: 300px;
   font-size: $font-size !important;
   padding-top: 6px !important;
@@ -54,11 +47,6 @@ body {
 }
 
 .login-submit-button {
-  background: url("/assets/green-btn@2x.png") no-repeat 0px 0px;
-  background-size: 300px 60px;
-  width: 300px !important;
-  height: 60px;
-  border: 0px;
   color: $font-color;
   font-size: $font-size !important;
   font-family: "Open Sans";
