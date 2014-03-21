@@ -1,11 +1,13 @@
-<div style="text-align: center;" class="pad30">
+<div class="side-menu">
+  <div class="sidebar-nav full-height">
+    <ul class="nav nav-list">
+      <li class="active"><a href="#">New User</a></li>
+    </ul>
+  </div>
+</div>
+<div class="pad30 page-content">
 <% content_for :head do %>
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
-<% end %>
-<% if !@current_tenant.nil? %>
-<h3>New User</h3>
-<% else %>
-<h3>Sign Up</h3>
 <% end %>
 <div id="stripe_error" class="alert alert-error" style="display:none" >
 </div>
@@ -44,9 +46,10 @@
   <% end %>
   <%= f.hidden_field :stripe_token %>
   <% if !@current_tenant.nil? %>
-  <%= f.button :submit, 'Create User' %>
+  <%= f.button :submit, 'Create User', :class => 'btn-primary' %>
   <%else%>
-  <%= f.button :submit, 'Sign up' %>
+  <%= f.button :submit, 'Sign up', :class => 'btn-primary' %>
   <%end%>
 <% end %>
 </div>
+ </div>

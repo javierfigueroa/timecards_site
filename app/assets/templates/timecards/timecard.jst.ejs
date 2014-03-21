@@ -6,6 +6,16 @@
                 <h3><%= model.getFullName()  %></h3>
             </div>
         </div>
+        <% if (role) {  %>
+        <div class="row-fluid" style="padding:20px 0px 20px 0px">
+            <div class="span5">
+                <div class="">
+                    <a href="#" id="save" class="action" style="margin-right:10px;">Save</a>
+                    <a href="#" id="edit" class="action">Edit</a>
+                </div>
+            </div>
+        </div>
+        <% } %>
         <div class="timecard-label">
             <div class="row-fluid">
                 <div class="span12"><label class="timecard-label"><%= model.getTimespanLabel() %></label></div>
@@ -31,7 +41,7 @@
             <div class="row-fluid">
                 <div class="span5">
                     <div class="avatar avatar-in timecard-square"></div>
-                    <label class="file-container timecards-action">
+                    <label class="file-container action">
                         Set photo
                         <input id="fileupload-in" type="file" name="timecard[photo_in]" data-url="timecards/<%= model.get('id') %>" data-method="PUT">
                     </label>
@@ -39,7 +49,7 @@
                 </div>
                 <div class="span5 offset1">
                     <div id="map_in" class="map"></div>
-                    <a id="browser-in" class="location-link timecards-action" href="#" style="display:none;">Set location<a/>
+                    <a id="browser-in" class="location-link action" href="#" style="display:none;">Set location<a/>
                 </div>
             </div>
         </div>
@@ -57,7 +67,7 @@
             <div class="row-fluid">
                 <div class="span5">
                     <div class="avatar avatar-out timecard-square"></div>
-                    <label class="file-container timecards-action">
+                    <label class="file-container action">
                         Set photo
                         <input id="fileupload-out" type="file" name="timecard[photo_out]" data-url="timecards/<%= model.get('id') %>" data-method="PUT">
                     </label>
@@ -65,19 +75,9 @@
                 </div>
                 <div class="span5 offset1">
                     <div id="map_out" class="map"></div>
-                    <a id="browser-out" class="location-link timecards-action" href="#" style="display:none;">Set location<a/>
+                    <a id="browser-out" class="location-link action" href="#" style="display:none;">Set location<a/>
                 </div>
             </div>
-        </div>
-    </div>
-	<div class="row-fluid" style="padding:20px 0px 20px 0px">
-	    <div class="span5">
-        <% if (role) {  %>
-            <div class="">
-                <a href="#" id="save" class="timecards-action">Save</a>
-                <a href="#" id="edit" class="timecards-action">Edit</a>
-            </div>
-        <% } %>
         </div>
     </div>
 </div>

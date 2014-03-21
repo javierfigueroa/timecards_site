@@ -1,10 +1,8 @@
 <h3 style="padding-left: 30px;">Projects</h3>
 
-<div class="timecards-action signup-button-container">
-<%= link_to 'Add new', new_project_path %>
-</div>
-<% if @projects.length > 0 %>
 <div class="span12">
+  <%= link_to 'Add new', new_project_path, :class => 'action' %>
+  <% if @projects.length > 0 %>
 <table class="table table-condensed">
   <thead>
     <tr>
@@ -20,18 +18,14 @@
         <td><%= project.name %></td>
       	<td><%= project.created_at.to_date %></td>
         <td style="width: 125px;">
-          <div class="timecards-action">
-            <%= link_to 'Edit', edit_project_path(project) %>
-          </div>
+            <%= link_to 'Edit', edit_project_path(project), :class => 'action' %>
         </td>
         <td style="width: 125px;">
-          <div class="timecards-action">
-            <%= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you sure?' } %>
-          </div>
+            <%= link_to 'Delete', project, method: :delete, data: { confirm: 'Are you sure?' }, :class => 'action' %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+  <% end %>
 </div>
-<% end %>

@@ -52,6 +52,10 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    super
+  end
+
   def update_plan
     @user = current_user
     role = Role.find(params[:user][:role_ids]) unless params[:user][:role_ids].nil?

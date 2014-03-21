@@ -49,6 +49,10 @@ tr:nth-child(even) {
   margin-bottom: 0px;
 }
 
+.content {
+  min-height: 500px;
+}
+
 .navbar .brand {
   color: $font-color;
   text-shadow: 0 0 0 white;
@@ -136,6 +140,7 @@ tr:nth-child(even) {
   margin: 10px;
   position: absolute;
   right: 0;
+  max-width: 300px;
 }
 
 input[type=submit] {
@@ -207,7 +212,7 @@ li {
   padding-bottom: 10px;
 }
 
-.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus {
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus{
   background-color: rgb(69,74,79);
 }
 .nav-list > li > a, .nav-list .nav-header {

@@ -106,10 +106,6 @@ $hover-blue-bg: rgb(8,117,130);
   padding: 5px;
 }
 
-.full-timecard {
-    font-family: "Open Sans Regular";
-}
-
 .timecard_header label{
   font-size: 20px;
   font-family: "Open Sans Regular";
@@ -117,6 +113,7 @@ $hover-blue-bg: rgb(8,117,130);
 
 .timecards-container {
   margin-bottom: 20px;
+  min-height: 500px;
 }
 
 .timecard {
@@ -124,7 +121,26 @@ $hover-blue-bg: rgb(8,117,130);
   padding: 20px;
 }
 
+.file-container {
+  font-size: 15px;
+  font-weight: 300;
+}
 
+.location-link:hover {
+  color: $hover-blue-bg;
+}
+
+.picker-switch {
+  padding: 10px;
+}
+
+td.active, td > .btn-primary {
+  background-color: $hover-blue-bg !important;
+  background-image: none !important;
+}
+.picker-switch:hover {
+  background-color: $hover-blue-bg;
+}
 div.overlay {
   display:        table;
   position:        fixed;
