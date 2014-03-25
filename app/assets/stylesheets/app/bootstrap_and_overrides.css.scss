@@ -1,0 +1,110 @@
+@import "bootstrap";
+@import "app/variables";
+@import "bootstrap-responsive";
+
+body {
+  font-family: "Open Sans Regular";
+  color: $dark-blue !important;
+  height: 100%;
+}
+
+.navbar {
+  margin-bottom: 0px;
+}
+
+.content {
+  min-height: 500px;
+  position: relative;
+}
+
+.navbar .brand {
+  color: $font-color;
+  text-shadow: none;
+}
+
+.brand .login-logo {
+  width: 40px;
+}
+
+.navbar .nav > li > a, .navbar .nav > li > a:hover {
+  color: $font-color;
+  text-shadow: none;
+}
+
+.navbar-inner {
+  height: 80px;
+  background-image: none;
+  background-color: $dark-blue;
+  border: 0px;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+}
+
+
+.alert {
+  float: right;
+  margin: 10px;
+  position: absolute;
+  right: 0;
+  max-width: 300px;
+}
+
+.container-fluid {
+  padding: 0px;
+}
+
+.container {
+  margin: 0px;
+  width: 100%;
+  min-height: 500px;
+}
+
+.sidebar-nav {
+  background-color: $dark-background;
+  font-family: "Open Sans Regular";
+  font-weight: bold;
+  font-size: 16px;
+}
+
+li {
+  padding-bottom: 10px;
+}
+
+.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus{
+  background-color: rgb(69,74,79);
+}
+.nav-list > li > a, .nav-list .nav-header {
+  text-shadow: none !important;
+  color: $menu-font-color;
+}
+
+.nav-list {
+  padding-top: 30px;
+}
+
+.breadcrumb {
+  color: $menu-font-color;
+  padding: 0px 0px;
+  margin: 0 0 0px;
+  padding-top:6px;
+  list-style: none;
+  background-color: $dark-background;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px; 
+}
+.breadcrumb > li {
+  display: inline-block;
+  *display: inline;
+  /* IE7 inline-block hack */
+  *zoom: 1;
+  text-shadow: 0 0px 0 white; 
+}
+.breadcrumb > li > .divider {
+  padding: 0 5px;
+  color: $menu-font-color; 
+}
+.breadcrumb .active, .breadcrumb a {
+  color: $menu-font-color; 
+}

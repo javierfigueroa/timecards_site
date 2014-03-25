@@ -14,7 +14,7 @@ class Tenant < ActiveRecord::Base
       self.class.connection.execute("drop table #{self.class.table_name}")
       connection.execute("drop table sessions")
       YAML.load(ENV['ROLES']).each do |role|
-        Role.find_or_create_by_name({ :name => role })
+        Role.find_or_create_by(name: role)
       end
     end
   end

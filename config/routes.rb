@@ -15,7 +15,6 @@ RailsStripeMembershipSaas::Application.routes.draw do
     authenticated :user do
       root :to => 'content#index', as: :authenticated_root
     end
-    #root :to => 'devise/sessions#new'
     root :to => 'home#index'
   end
 

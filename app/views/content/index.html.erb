@@ -1,14 +1,14 @@
 <div id="backbone-app" class="container-fluid full-height" auth-token="<%= current_user.authentication_token %>" email="<%= current_user.email %>">
-	<div class="row-fluid full-height">
-		<div class="span2 full-height sidebar-container">
-          <div class="sidebar-nav full-height">
-            <ul class="nav nav-list">
-              <li  id="by-users"><a href="#">By Users</a></li>
-              <li id="by-projects"><a href="#">By Projects</a></li>
-            </ul>
-          </div>
-        </div>
-		<div class="span9 offset2">
+  <div class="side-menu">
+    <div class="sidebar-nav full-height">
+      <ul class="nav nav-list">
+        <li  id="by-users"><a href="#">By Users</a></li>
+        <li id="by-projects"><a href="#">By Projects</a></li>
+      </ul>
+    </div>
+  </div>
+	<div class="row-fluid page-content">
+		<div class="span9">
 			<div class="row-fluid" style="padding-top: 30px;">		
 				<div class="span12" style="margin-left: 0px;">
 					<div id="app-navigation">

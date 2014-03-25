@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
   
   def create_tenant
     if tenant_id.nil? && !roles.first.nil? && !roles.first.name.include?("admin")
-      tenant = Tenant.find_or_create_by_subdomain(:subdomain => self.company_name)     
+      tenant = Tenant.find_or_create_by(subdomain: self.company_name)
       tenant.save!      
       create_admin_in_tenant(tenant)  
     end
@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   
   def destroy_tenant
     if PgTools.search_path == PgTools.default_search_path
-      tenant = Tenant.find_or_create_by_subdomain(:subdomain => self.company_name)   
+      tenant = Tenant.find_or_create_by(subdomain: self.company_name)
       tenant.destroy
     end
   end

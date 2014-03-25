@@ -1,105 +1,142 @@
-<div id="howto" class="container-fluid" style="margin-top: 100px; text-align: center;">
-  <div class="row-fluid">
-    <span class="span12"> <h2>Time management simplified</h2></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="Your description goes here." />
+  <title>Timecards.io</title>
+  <link rel="shortcut icon" href="img/favicon.ico" />
+
+  <%= stylesheet_link_tag "home/application", :media => "all" %>
+  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,800">
+
+  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body id="home">
+
+<%= render 'home/navigation' %>
+
+<div class="wrapper">
+  <div id="slides">
+    <div class="slides_container">
+      <div class="slide">
+        <img src="<%=asset_path "images/slider-01.png"%>" alt="" class="slide-image" />
+      </div><!-- /slide -->
+
+      <div class="slide">
+        <img src="<%=asset_path "images/slider-02.png"%>" alt="" class="slide-image" />
+      </div><!-- /slide -->
+
+      <div class="slide">
+        <img src="<%=asset_path "images/slider-03.png"%>" alt="" class="slide-image" />
+
+        <div class="two-thirds right">
+          <h2>Theme for <strong>Desktop Software</strong> and <strong>Mobile Apps</strong></h2>
+
+          <p>Use this theme to promote your software and apps for all the devices.</p>
+
+          <p>You can use the included PSD file to build up these slides. Just paste screenshots of your product and save the file. This text content can be easily edited in the HTML file.</p>
+        </div>
+      </div><!-- /slide -->
+    </div><!-- /slides_container -->
+
+    <!-- slider arrows -->
+    <a href="#" class="prev">&#8249;</a>
+    <a href="#" class="next">&#8250;</a>
+  </div><!-- /slides -->
+</div><!-- /wrapper -->
+
+<div class="features">
+  <div class="wrapper">
+    <div class="one-fourth">
+      <h3><img src="<%=asset_path "images/features-01.png"%>" alt="" /> Happy Employees</h3>
+
+      <p>Your people will be happy to clock in and out. Timecards is the easiest-to-use time management tool.</p>
+    </div>
+
+    <div class="one-fourth">
+      <h3><img src="<%=asset_path "images/features-02.png"%>" alt="" /> In the cloud</h3>
+
+      <p>Because timecards lives in the cloud you can use it to manage time world wide.</p>
+    </div>
+
+    <div class="one-fourth">
+      <h3><img src="<%=asset_path "images/features-03.png"%>" alt="" /> Peace of mind</h3>
+
+      <p>You will know where everyone is at the time they clock in and out.</p>
+    </div>
+
+    <div class="one-fourth last">
+      <h3><img src="<%=asset_path "images/features-04.png"%>" alt="" /> Total control</h3>
+
+      <p>Easily know how much your people have worked. You pick the dates, and we'll do the rest.</p>
+
+    </div>
   </div>
-  <div class="row-fluid" style="margin-top: 50px">
-    <span class="span5">
-        <p>
-          Your people use a smartphone. You get their time, location and picture. Time management made simple and reliable.
-        </p>
-        <p>
-          <%= link_to 'GET STARTED', new_user_registration_path(:plan => 'silver'), :class => 'button get-started orange-gradient' %>
-        </p> </span>
-    <span class="span6"> <img src="http://placehold.it/640x385" style="position: relative;"/> </span>
+</div><!-- /features -->
+
+<div class="wrapper">
+  <div class="one-third">
+    <h2>Mobile clock in and out</h2>
+    <p><img src="<%=asset_path "images/01.png"%>" alt="" /></p>
   </div>
-	<div class="row-fluid">
-		<div class="span12" style="padding: 0px 50px 50px 50px;">
-			<h1>A smartphone, it's all you need.</h1>
-			<small>Timecards is the easiest, more user-friendly time management ever.</small>
-		</div>
-	</div>
-	<div class="row-fluid">
-		<div class="span4">
-			<img src="http://placehold.it/300x200" alt="ALT NAME">
-			<div class="caption">
-				<p>Your people use a smartphone</p>
-			</div>
-		</div>
-		<div class="span4">
-			<img src="http://placehold.it/300x200" alt="ALT NAME">
-			<div class="caption">
-				<p>A timecard is generated in your account</p>
-			</div>
-		</div>
-		<div class="span4">
-			<img src="http://placehold.it/300x200" alt="ALT NAME">
-			<div class="caption">
-				<p>You manage their time easily and reliably</p>
-			</div>
-		</div>
-	</div>
+
+  <div class="one-third">
+    <h2>Timecards are created</h2>
+    <p><img src="<%=asset_path "images/02.png"%>" alt="" /></p>
+  </div>
+
+  <div class="one-third last">
+    <h2>Time management, easy.</h2>
+    <p><img src="<%=asset_path "images/02.png"%>" alt="" /></p>
+  </div><div class="clear"></div>
+
+  <h2>Screencast Video</h2>
+
+  <div class="one-fourth">
+    <a href="<%=asset_path "images/placeholder.jpg"%>" title="Donec eu libero sit amet quam egestas." rel="tag" class="fancybox"><img src="<%=asset_path "images/placeholder.jpg"%>" alt="" /></a>
+
+    <p>Donec eu libero sit amet quam egestas vitae est.</p>
+  </div>
+
+  <div class="one-fourth">
+    <a href="<%=asset_path "images/placeholder.jpg"%>" title="Aenean ultricies mi vitae est placerat." rel="tag" class="fancybox"><img src="<%=asset_path "images/placeholder.jpg"%>" alt="" /></a>
+
+    <p>Aenean ultricies mi vitae est placerat ultricies.</p>
+  </div>
+
+  <div class="one-fourth">
+    <a href="<%=asset_path "images/placeholder.jpg"%>" title="Eu libero sit amet quam egestas semper." rel="tag" class="fancybox"><img src="<%=asset_path "images/placeholder.jpg"%>" alt="" /></a>
+
+    <p>Eu libero sit amet quam egestas semper amet.</p>
+  </div>
+
+  <div class="one-fourth last">
+    <a href="<%=asset_path "images/placeholder.jpg"%>" title="Semper aenean ultricies mi vitae est." rel="tag" class="fancybox"><img src="<%=asset_path "images/placeholder.jpg"%>" alt="" /></a>
+
+    <p>Semper aenean ultricies mi vitae est aenean libero sit amet.</p>
+  </div><div class="clear"></div>
+</div><!-- /wrapper -->
+
+<%= render 'home/footer' %>
+<!-- Content for the login modal window -->
+<div style="display:none">
+  <div id="login">
+    <form method="post" id="login-form" action="#">
+      <label>Username or email</label>
+      <input name="username" type="text" value="username" />
+
+      <label>Password <a href="#">Forgot?</a></label>
+      <input name="password" type="password" value="12345678" />
+
+      <button id="login_submit" value="Login" type="submit">Login</button>
+    </form>
+  </div><!-- /login -->
 </div>
-<div id="features" class="container-fluid" style="margin: 100px; text-align: center;">
-	<div class="row-fluid">
-		<div class="span12" style="padding: 0px 50px 50px 50px;">
-			<h1>Everything you expect.</h1>
-			<small>Timecards provides all the features you would expect out of managing time. We just made it better.</small>
-		</div>
-	</div>
-	<div class="row-fluid" style="text-align: left;">
-		<div class="offset1 span6">
-			<div class="row-fluid">
-				<div class="span2">
-					<img src="http://placehold.it/100x100" alt="ALT NAME">
-				</div>
-				<div class="span8">
-					<div class="caption">
-						<h4>Happy employees</h4>
-						<p>Your people will be happy to clock in and out because timecards is the easiest-to-use time management tool.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="span5">
-			<div class="row-fluid">
-				<div class="span2">
-					<img src="http://placehold.it/100x100" alt="ALT NAME">
-				</div>
-				<div class="span8">
-					<div class="caption">
-						<h4>Peace of mind</h4>
-						<p>You will know where everyone is at the time they clock in and out, instantly.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	<div class="row-fluid">
-		<div class="offset1 span6">
-			<div class="row-fluid">
-				<div class="span2">
-					<img src="http://placehold.it/100x100" alt="ALT NAME">
-				</div>
-				<div class="span8">
-					<div class="caption">
-						<h4>In the cloud</h4>
-						<p>Because timecards lives in the cloud, you can use timecards to manage time world wide.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="span5">
-			<div class="row-fluid">
-				<div class="span2">
-					<img src="http://placehold.it/100x100" alt="ALT NAME">
-				</div>
-				<div class="span8">
-					<div class="caption">
-						<h4>Total control</h4>
-						<p>Easily know how much time your people have worked. You pick the dates, and we do the rest.</p>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-</div>
+
+<!-- JavaScript -->
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<%= javascript_include_tag "home/application" %>
+</body>
+</html>

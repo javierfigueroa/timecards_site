@@ -1,0 +1,145 @@
+
+@import "app/variables";
+
+h3.underscore {
+  border-bottom: 1px solid $font-color;
+  width: 400px;
+}
+
+tr:nth-child(even) {
+  background: $light-background;
+}
+
+
+.pad20 {
+  padding: 20px;
+}
+
+.pad30 {
+  padding: 30px;
+}
+
+.pad10t {
+  padding-top: 10px;
+}
+
+.pad15t {
+  padding-top: 15px;
+}
+
+.pad30l {
+  padding-left: 30px;
+}
+
+.height25 {
+  height: 25px !important;
+}
+
+.full-height {
+  min-height: 100%;
+}
+
+.btn-green
+{
+  width: 300px;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px; background-color: #6ca413;
+  -webkit-box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  -moz-box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  border: 0px;
+}
+
+.btn-grey
+{
+  width: 120px;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #7f848a;
+  -webkit-box-shadow: inset 0 -1px rgba(100,100,100,.72);
+  -moz-box-shadow: inset 0 -1px rgba(100,100,100,.72);
+  box-shadow: inset 0 -1px rgba(100,100,100,.72);
+}
+
+
+.textfield
+{
+  width: 300px;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  border: solid 1px #e4e4e4;
+}
+
+.textfield-active {
+  width: 300px;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px; background-color: #f7f7f7;
+  -webkit-box-shadow: inset 0 0 8px #d1d1d1;
+  -moz-box-shadow: inset 0 0 8px #d1d1d1;
+  box-shadow: inset 0 0 8px #d1d1d1;
+  border: solid 2px #04adc0;
+}
+
+
+input[type=submit] {
+  color: $font-color;
+  font-family: "Open Sans";
+  font-weight: inherit;
+}
+
+form {
+  padding: 10px 0px 0px 0px
+}
+
+.simple_form label {
+  display: none;
+}
+.simple_form input {
+  width: 300px;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  border: solid 1px #e4e4e4;
+  font-size: $font-size !important;
+  padding-top: 6px !important;
+  text-align: center !important;
+  font-family: "Open Sans";
+  box-sizing: border-box;
+}
+
+.simple_form input[type=submit]  {
+  background-image: none !important;
+  width: 300px !important;
+  height: 50px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px; background-color: #6ca413;
+  -webkit-box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  -moz-box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  box-shadow: inset 0 -1px rgba(53,84,3,.72);
+  border: 0px;
+  color: $font-color;
+  font-size: $font-size !important;
+  font-family: "Open Sans";
+  font-weight: lighter;
+}
+.simple_form .help-inline {
+  padding-left: 30px;
+  margin-top: -15px;
+}
+
+.form-actions {
+  background-color: none;
+  border-top: 0px;
+}

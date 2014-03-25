@@ -26,8 +26,8 @@ ActiveRecord::Schema.define(version: 20140221030809) do
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20140221030809) do
   create_table "sessions", force: true do |t|
     t.string   "session_id", null: false
     t.text     "data"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "sessions", ["session_id"], name: "index_sessions_on_session_id", using: :btree
@@ -46,8 +46,8 @@ ActiveRecord::Schema.define(version: 20140221030809) do
   create_table "tenants", force: true do |t|
     t.string   "subdomain"
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "timecards", force: true do |t|
@@ -66,8 +66,8 @@ ActiveRecord::Schema.define(version: 20140221030809) do
     t.string   "photo_out_content_type"
     t.integer  "photo_out_file_size"
     t.datetime "photo_out_updated_at"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "project_id"
   end
 
@@ -93,8 +93,8 @@ ActiveRecord::Schema.define(version: 20140221030809) do
     t.string   "unlock_token"
     t.datetime "locked_at"
     t.string   "authentication_token"
-    t.datetime "created_at",                                                   null: false
-    t.datetime "updated_at",                                                   null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "first_name"
     t.string   "last_name"
     t.string   "company_name"

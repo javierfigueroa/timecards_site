@@ -11,7 +11,9 @@ class RegistrationsController < Devise::RegistrationsController
     
     #for when we are on the main website
     if @current_tenant.nil? && @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
-      super
+      build_resource({})
+      @resource = self.resource
+      render :new_tenant, :layout => false
     #for when an admin is creating users within their tenant
     elsif !@current_tenant.nil? && (current_user.has_role? :admin)
       super
@@ -32,7 +34,15 @@ class RegistrationsController < Devise::RegistrationsController
   def create    
     #we are in the main website, let devise handle it
     if @current_tenant.nil?
-      super
+      build_resource(sign_up_params)
+
+      if resource.valid?
+        super
+      else
+        clean_up_passwords resource
+        @resource = resource
+        render :new_tenant, :layout => false
+      end
     #we have a defined tenant, create a user within the tenant
     else      
       build_resource(sign_up_params)  

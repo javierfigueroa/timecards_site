@@ -8,8 +8,8 @@
 //= require jquery.externalscript
 //= require jquery.readyselector
 //= require registrations
-//= require ./time-utils
-//= require ./timecards
+//= require time-utils
+//= require timecards
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections

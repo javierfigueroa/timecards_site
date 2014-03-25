@@ -1,0 +1,21 @@
+
+<header>
+  <div id="header-inner">
+    <!-- The name of your website -->
+    <div class="brand">
+      <div class="logo">
+      </div>
+      <div class="title">
+        <div class="header">
+          <%=link_to( 'Timecards', root_url(host: request.domain)) %></div>
+      </div>
+    </div>
+    <!-- Secondary navigation -->
+    <ul id="sec-navi">
+      <li><%= link_to 'Sign up', new_user_registration_path(:plan => "silver"), :class => 'register' %></li>
+
+      <li>
+        <%= link_to 'Sign in', new_user_session_path, :class => 'signin' %></li>
+    </ul>
+  </div><!-- /header-inner -->
+</header>

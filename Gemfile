@@ -5,7 +5,7 @@ group :assets do
   # gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier'
 end
-gem 'rails', '4'
+gem 'rails', '4.0.4'
 gem 'pg'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
@@ -28,6 +28,7 @@ gem 'simple_form', :git => 'git://github.com/plataformatec/simple_form.git'
 gem 'activerecord-session_store'#, :git => 'git://github.com/javierfigueroa/activerecord-session_store.git'
 gem 'protected_attributes'
 gem 'i18n'
+gem 'sprockets', '2.11.0'
 
 group :development do
   gem 'better_errors'
