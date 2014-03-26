@@ -3,12 +3,7 @@
 </div>
 <div class="login-form">
 	<div class="brand" style="padding-bottom: 20px;">
-		<div class="login-logo">
-          <%=link_to( image_tag("logo.png"), root_url(host: request.domain)) %>
-		</div>
-		<div class="login-title">
-			<div class="login-header"><%=link_to("Timecards", root_url(host: request.domain))%></div>
-		</div>
+      <div id="logo"> <%=link_to( image_tag("logo.png"), root_url(host: request.domain), :class => "login-logo") %></div>
 	</div>
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
 	  	<div class="controls">

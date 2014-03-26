@@ -2125,27 +2125,19 @@
 <section id="home">
   <div class="container">
     <div class="row">
-      <div id="homescreen" class="col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1">
+      <div id="homescreen"class="col-sm-12 col-md-12 col-lg-12">
         <div id="logo"><a href="#home"><img src="<%= image_path("logo.png") %>" alt="logo" width="120"></a></div>
         <div id="logo_header"><h5>Timecards</h5></div>
         <div id="slogan"><h1>Time management, affordable.</h1></div>
         <a href="#" class="cta1" id="button_more">Learn More</a>
         <a href="#" class="cta2" id="button_download">Sign Up</a>
         <%=link_to("Sign In", new_user_session_path, :class => "cta2 cta3", :id => "button_download" )%>
+        <img src="<%= image_path("home/homescreen.png") %>" class="img-responsive" id="home_image" alt="img">
 
       </div> <div class="clearfix"></div>
     </div>
   </div>
-  <div id="video_pattern"></div>
-  <div id="video-fallback"></div>
-  <div id="video-container">
-    <video autoplay loop class="fillWidth" width="896" height="504">
-      <source src="<%= video_url("home/video.mp4") %>" type="video/mp4"/>
-      <source src="<%= video_url("home/video.ogg") %>"  type="video/ogg"/>
-      <source src="<%= video_url("home/video.webm") %>"  type="video/webm"/>
-      Your browser does not support the video tag. I suggest you upgrade your browser.
-    </video>
-  </div><!-- end video-container -->
+
 </section>
 
 
