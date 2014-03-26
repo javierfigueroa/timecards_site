@@ -1,10 +1,13 @@
+<div class="ui_dialog_lock"></div>
+<div id="fullscreen_post_bg" class="fullscreen_post_bg" style="background-image:url(/assets/login-bg.jpg);">
+</div>
 <div class="login-form">
-	<div style="padding-bottom: 20px;">
+	<div class="brand" style="padding-bottom: 20px;">
 		<div class="login-logo">
-          <%=link_to( image_tag("iTunesArtwork512.png"), root_url(host: request.domain)) %>
+          <%=link_to( image_tag("logo.png"), root_url(host: request.domain)) %>
 		</div>
 		<div class="login-title">
-			<div class="login-header">Timecards</div>
+			<div class="login-header"><%=link_to("Timecards", root_url(host: request.domain))%></div>
 		</div>
 	</div>
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>

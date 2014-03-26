@@ -9,7 +9,13 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require home/jquery.fancybox-1.3.4
+ *= require home/bootstrap
  *= require home/style
- *= require home/custom
+ *= require home/animate
+ *= require home/owl.carousel
+ *= require home/owl.theme
+ *= require home/nivo-lightbox
+ *= require home/nivo_lightbox_themes/default/default
+ *= require home/colors/green
+ *= require home/responsive
 */
