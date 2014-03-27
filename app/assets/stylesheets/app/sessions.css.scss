@@ -97,3 +97,7 @@ body {
 .sessions.new .content {
   min-height: 100%;
 }
+
+.sessions.new #main {
+  background-color: inherit;
+}
