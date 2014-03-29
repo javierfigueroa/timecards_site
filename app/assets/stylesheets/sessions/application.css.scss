@@ -9,11 +9,7 @@
  * compiled file, but it's generally better to create a new file per style scope.
  *
  *= require_self
- *= require datepicker
- *= require bootstrap-datetimepicker.min
- *= require app/bootstrap_and_overrides
  *= require app/globals
- *= require app/timecards
- *= require app/users
- *= require app/account
+ *= require sessions/globals
+ *= require sessions/login
 */

@@ -1,79 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="description" content="Your description goes here." />
-  <title>Timecards.io</title>
-  <link rel="shortcut icon" href="img/favicon.ico" />
+<div class="form registrations">
+<div class="brand" style="padding-bottom: 20px;">
+  <div id="logo"> <%=link_to( image_tag("logo.png"), root_url(host: request.domain), :class => "logo") %></div>
+</div>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'card_form form-vertical' },) do |f| %>
+    <%= hidden_field_tag 'plan', params[:plan] %>
+    <%= display_base_errors resource %>
+    <%= f.input :first_name, :placeholder => "First name", :autofocus => true %>
+    <%= f.input :last_name, :placeholder => "Last name" %>
+    <%= f.input :email, :placeholder => "Email" %>
+    <%= f.input :company_name, :placeholder => "Company name"  %>
+    <div class="pad20">
+        <%= f.input :password, :placeholder => "Password" %>
+        <%= f.input :password_confirmation, :placeholder => "Confirm passsword" %>
+    </div>
 
-  <%= stylesheet_link_tag "home/application", :media => "all" %>
-  <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,700,400italic,800">
-
-  <!--[if lt IE 9]><script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-
-  <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
-</head>
-
-<body>
-
-<%= render 'home/navigation' %>
-
-<div class="wrapper registrations">
-  <div id="main">
-    <h1>Sign up</h1>
-    <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'card_form form-vertical' }) do |f| %>
-        <%= hidden_field_tag 'plan', params[:plan] %>
-        <%= display_base_errors resource %>
-        <%= f.input :first_name, :placeholder => "First name", :autofocus => true %>
-        <%= f.input :last_name, :placeholder => "Last name" %>
-        <%= f.input :email, :placeholder => "Email", :required => true %>
-        <%= f.input :password, :placeholder => "Password", :required => true %>
-        <%= f.input :password_confirmation, :placeholder => "Confirm passsword", :required => true %>
-        <% if @current_tenant.nil?  %>
-            <%= f.input :company_name, :required => true, :placeholder => "company name"  %>
-        <% end %>
-        <% if @user.stripe_token && @current_tenant.nil? %>
-            <p class="info-message">Credit card acceptance is pending.</p>
-        <% elsif @current_tenant.nil? %>
-            <div class="field">
-              <%= label_tag :card_number, "Credit Card Number" %>
-              <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
-            </div>
-            <div class="field">
-              <%= label_tag :card_code, "Card Security Code (CVV)" %>
-              <%= text_field_tag :card_code, nil, name: nil, :placeholder => "credit card code" %>
-            </div>
-            <div class="field">
-              <%= label_tag :card_month, "Card Expiration" %>
-              <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>
-              <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>
-            </div>
-            <div class="field">
-            </div>
-        <% end %>
-        <%= f.hidden_field :stripe_token %>
-
-        <div id="stripe_error" class="info-message" style="display:none" ></div>
-        <button type="submit" name="commit" style="margin: 10px;">Sign up</button>
+    <% if @user.stripe_token && @current_tenant.nil? %>
+        <p class="info-message">Credit card acceptance is pending.</p>
+    <% elsif @current_tenant.nil? %>
+        <div class="field">
+          <%= label_tag :card_number, "Credit Card Number" %>
+          <%= text_field_tag :card_number, nil, name: nil, :placeholder => "Credit card number", :class => "form-field" %>
+        </div>
+        <div class="field">
+          <%= label_tag :card_code, "Card Security Code (CVV)" %>
+          <%= text_field_tag :card_code, nil, name: nil, :placeholder => "Credit card code", :class => "form-field" %>
+        </div>
+        <div class="field">
+          <%= label_tag :card_month, "Card Expiration" %>
+          <%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>
+        </div>
+        <div class="field">
+          <%= label_tag :card_month, "Card Expiration" %>
+          <%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>
+        </div>
     <% end %>
-  </div><!-- /main -->
+    <%= f.hidden_field :stripe_token %>
 
-  <aside>
-
-    <h2>Time Management <strong>Easy</strong> and <strong>Affordable</strong></h2>
-
-    <p>Using timecards your employees will be love to clock in and out.</p>
-
-    <p>It's easy to use and it won't affect your bottom line. Designed with startups in mind and big business at heart.</p>
-
-  </aside>
-</div><!-- /wrapper -->
-
-<%= render 'home/footer' %>
-
-<!-- JavaScript -->
-
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<%= javascript_include_tag "home/application" %>
-</body>
-</html>
+      <div class="field button-field">
+        <div id="stripe_error" class="info-message" style="display:none" ></div>
+        <input class="submit-button btn-green" name="commit" type="submit" value="Sign up">
+      </div>
+<% end %>
+</div>

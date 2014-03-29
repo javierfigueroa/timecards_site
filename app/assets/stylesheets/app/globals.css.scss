@@ -104,8 +104,8 @@ form {
   display: none;
 }
 .simple_form input {
-  width: 300px;
-  height: 50px;
+  width: 240px;
+  height: 40px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
@@ -120,8 +120,8 @@ form {
 
 .simple_form input[type=submit]  {
   background-image: none !important;
-  width: 300px !important;
-  height: 50px;
+  width: 240px !important;
+  height: 40px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px; background-color: #6ca413;
@@ -142,4 +142,19 @@ form {
 .form-actions {
   background-color: none;
   border-top: 0px;
+}
+
+.alert {
+  position: absolute;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: #fde073;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden;
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow:    0 0 5px black;
+  box-shadow:         0 0 5px black;
 }

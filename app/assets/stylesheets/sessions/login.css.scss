@@ -1,0 +1,68 @@
+@import "sessions/variables";
+
+
+.logo img {
+  width: 120px;
+  display: inline-block;
+}
+
+.login-title {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.login-header {
+  font-size: 30px;
+  padding: 12px;
+}
+
+
+.fullscreen_post_bg {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: 50% 50%;
+}
+.fullscreen_post_bg:before {
+  content: '';
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: url('/assets/vignetter.png');
+  background-size: 100% 100%;
+  opacity: .6;
+  background-color: rgba(0,0,0,0.3);
+  background-image: none;
+}
+
+.ui_dialog_lock {
+  display: none;
+  z-index: 9000;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.content {
+  min-height: 100%;
+}
+
+#main {
+  background-color: inherit;
+}
+
+.login
+.button-field {
+  margin-right: 0px;
+}
+
+.login label {
+  min-width: 100px;
+}

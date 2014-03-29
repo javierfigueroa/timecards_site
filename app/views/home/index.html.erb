@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Hype - Mobile App Landing Page</title>
+<title>Timecards.io</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -2130,7 +2130,7 @@
         <div id="logo_header"><h5>Timecards</h5></div>
         <div id="slogan"><h1>Time management, affordable.</h1></div>
         <a href="#" class="cta1" id="button_more">Learn More</a>
-        <a href="#" class="cta2" id="button_download">Sign Up</a>
+        <%=link_to("Sign Up", new_user_registration_path(:plan => "silver"), :class => "cta2", :id => "button_download" )%>
         <%=link_to("Sign In", new_user_session_path, :class => "cta2 cta3", :id => "button_download" )%>
         <img src="<%= image_path("home/homescreen.png") %>" class="img-responsive" id="home_image" alt="img">
 
@@ -2151,8 +2151,8 @@
     <div class="row" id="about_intro">
       <div class="col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 col-lg-6 col-lg-offset-3" >
 
-        <h2>Everything for $1.99</h2>
-        <p>All the time management for the most affordable price in the market.
+        <h2>Everything for <span class="line-through">$1.99</span> Free</h2>
+        <p>Time management for the most affordable price on the market.
         </p>
 
       </div>
@@ -2162,20 +2162,20 @@
 
       <div class="col-sm-4 col-md-4 col-lg-4" id="service_1">
         <svg viewBox="0 0 32 32" class="services_icon"><use xlink:href="#presentation"></use></svg>
-        <h3>Productive</h3>
-        <p>Easily know how much your people have worked. You pick the dates, and we'll do the rest.</p>
+        <h3>Efficient</h3>
+        <p>Determining hours worked is easy. Just select the dates and we do the rest.</p>
       </div>
 
       <div class="col-sm-4 col-md-4 col-lg-4" id="service_2">
         <svg viewBox="0 0 32 32" class="services_icon"><use xlink:href="#globe"></use></svg>
-        <h3>Everywhere</h3>
-        <p>Because timecards lives in the cloud you can use it to manage time in your projects world wide.</p>
+        <h3>Global</h3>
+        <p>Because timecards lives in the cloud you can use it to manage time world wide.</p>
       </div>
 
       <div class="col-sm-4 col-md-4 col-lg-4" id="service_3">
         <svg viewBox="0 0 32 32" class="services_icon"><use xlink:href="#pin"></use></svg>
         <h3>Location Savy</h3>
-        <p>You will know where everyone is at the time they clock in and out.</p>
+        <p>You will know where everyone is when they clock in and out.</p>
       </div>
 
     </div>
@@ -2217,7 +2217,7 @@
             <use xlink:href="#heart"></use></svg>
           <div>
             <h4>Easy to use</h4>
-            <p>Enable your workforce to intuitively log their time, using the same user friendly experience they are used to in their phones.</p>
+            <p>Enable your workforce to intuitively log their time, using the same user friendly experience they are used to on their phones.</p>
           </div>
         </div>
 
@@ -2226,7 +2226,7 @@
             <use xlink:href="#speed"></use></svg>
           <div>
             <h4>Fast to use</h4>
-            <p>Enable your workforce to quickly log their time, without long multi-step time input.</p>
+            <p>Enable your workforce to quickly log their time, without a long multi-step input process.</p>
           </div>
         </div>
 

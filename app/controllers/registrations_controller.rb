@@ -13,7 +13,7 @@ class RegistrationsController < Devise::RegistrationsController
     if @current_tenant.nil? && @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
       build_resource({})
       @resource = self.resource
-      render :new_tenant, :layout => false
+      render :new_tenant, :layout => "devise/application"
     #for when an admin is creating users within their tenant
     elsif !@current_tenant.nil? && (current_user.has_role? :admin)
       super
