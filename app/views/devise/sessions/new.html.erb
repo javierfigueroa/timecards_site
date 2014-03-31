@@ -1,11 +1,8 @@
-<!--<div class="ui_dialog_lock"></div>-->
-<!--<div id="fullscreen_post_bg" class="fullscreen_post_bg" style="background-image:url(/assets/login-bg.jpg);">-->
-<!--</div>-->
-
 <div class="form login">
 	<div class="brand" style="padding-bottom: 20px;">
       <div id="logo"> <%=link_to( image_tag("logo.png"), root_url(host: request.domain), :class => "logo") %></div>
 	</div>
+
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' },  :defaults =>  { :input_html => { :class => "form-field" } }) do |f| %>
 	 <%= f.input :email, :placeholder => "Email", :autofocus => true %>
       <%= f.input :password, :placeholder => "Password" %>
@@ -15,6 +12,8 @@
       <div class="field button-field">
 	  <input class="submit-button btn-green" name="commit" type="submit" value="Sign in">
       </div>
+      <div class="field button-field">
+      <%= render "devise/shared/links" %>
+      </div>
 	<% end %>
-<%= render "devise/shared/links" %>
 </div>

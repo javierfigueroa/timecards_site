@@ -15,6 +15,9 @@ class RegistrationsController < Devise::RegistrationsController
       @resource = self.resource
       render :new_tenant, :layout => "devise/application"
     #for when an admin is creating users within their tenant
+    elsif !@current_tenant.nil? && current_user.nil?
+      redirect_to root_url(host: request.domain)
+    #for when an admin is creating users within their tenant
     elsif !@current_tenant.nil? && (current_user.has_role? :admin)
       super
     #for when an employee tries to create users
@@ -41,7 +44,7 @@ class RegistrationsController < Devise::RegistrationsController
       else
         clean_up_passwords resource
         @resource = resource
-        render :new_tenant, :layout => false
+        render :new_tenant, :layout => "devise/application"
       end
     #we have a defined tenant, create a user within the tenant
     else      

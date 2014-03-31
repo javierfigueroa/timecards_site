@@ -1,9 +1,17 @@
 @import "sessions/variables";
 
+html {
+    height: 100%;
+}
 body {
-  background-color: $background;
+    background-color: $background;
     margin: 0;
     padding: 0;
+    height: 100%;
+}
+
+.container {
+    height: 100%;
 }
  
  a, a:hover {
@@ -23,12 +31,9 @@ body {
 
 .form{
   text-align: center !important;
-  color: $font-color;
   font-family: "Open Sans";
   height: 100%;
-  padding: 50px;
   position: absolute;
-  margin-bottom: 100px;
 }
 
 a, a:visited{
@@ -66,8 +71,8 @@ select {
 }
 
 label {
-    display: inline-block !important;
-    text-align: left;
+    display: inline-block;
+    text-align: right;
     min-width: 200px;
 }
 
@@ -75,11 +80,23 @@ label {
     display:  inline-block;
 }
 
-.button-field {
-    margin-right: 18px;
-    text-align: right;
-}
-
 .simple_form input {
     margin: 5px;
+}
+
+.brand {
+    padding-bottom: 20px;
+    padding-top: 80px;
+}
+
+form a {
+    color: #000000 !important;
+    font-weight: inherit !important;
+    font-size: 14px;
+    display: block;
+    padding-top: 20px;
+}
+
+.help-inline {
+    color: $font-color;
 }

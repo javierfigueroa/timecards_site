@@ -4,7 +4,7 @@ RailsStripeMembershipSaas::Application.routes.draw do
   get '/features', :to => 'home#features'
   get '/examples', :to => 'home#examples'
   get '/about', :to => 'home#about'
-  devise_for :users, :controllers => { :registrations => 'registrations', :sessions => "sessions" }
+  devise_for :users, :controllers => { :registrations => 'registrations', :sessions => "sessions", :passwords => "passwords" }
   devise_scope :user do
     put 'update_plan', :to => 'registrations#update_plan'
     put 'update_card', :to => 'registrations#update_card'

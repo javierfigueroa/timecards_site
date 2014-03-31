@@ -52,6 +52,7 @@
 
 .content {
   min-height: 100%;
+    padding-bottom: 80px;
 }
 
 #main {
@@ -64,5 +65,18 @@
 }
 
 .login label {
-  min-width: 100px;
+  display: none;
+}
+
+.login, .registrations {
+  height: 100%;
+  position:relative;
+  z-index:0;
+  overflow:hidden;
+
+  background: url(<%= image_path("home/bg.jpg") %>) no-repeat center center;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }

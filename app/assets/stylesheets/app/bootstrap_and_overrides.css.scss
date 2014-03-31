@@ -6,6 +6,7 @@ body {
   font-family: "Open Sans Regular";
   color: $dark-blue !important;
   height: 100%;
+  background-color: $dark-blue;
 }
 
 .navbar {
@@ -20,10 +21,17 @@ body {
 .navbar .brand {
   color: $font-color;
   text-shadow: none;
+  padding: 8px 20px 0px;
+  line-height: 10px;
 }
 
 .brand .login-logo {
-  width: 40px;
+   width: 40px;
+   display: inline-block;
+ }
+
+.brand .login-title {
+  display: inline-block;
 }
 
 .navbar .nav > li > a, .navbar .nav > li > a:hover {
@@ -107,4 +115,22 @@ li {
 }
 .breadcrumb .active, .breadcrumb a {
   color: $menu-font-color; 
+}
+
+select {
+  padding: 5px;
+  line-height: 1;
+  -webkit-appearance: none;
+  width: 240px;
+  height: 40px;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  background-color: #f7f7f7;
+  border: solid 1px #e4e4e4;
+  font-size: $font-size !important;
+  padding-top: 6px !important;
+  text-align: center !important;
+  font-family: "Open Sans";
+  box-sizing: border-box;
 }
