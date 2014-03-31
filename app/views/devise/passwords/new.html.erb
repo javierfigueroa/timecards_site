@@ -1,0 +1,21 @@
+<div class="form">
+  <div class="pad30">
+
+    <p>Forgot your password?</p>
+
+    <%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+
+
+        <div class="form-inputs">
+          <%= f.input :email, required: true, autofocus: true, placeholder: "Email" %>
+        </div>
+
+        <div class="form-actions">
+          <%= f.button :submit, "Reset password" %>
+        </div>
+
+        <%= render "devise/shared/links" %>
+    <% end %>
+  </div>
+
+</div>

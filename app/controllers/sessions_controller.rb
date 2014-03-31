@@ -26,12 +26,4 @@ class SessionsController < Devise::SessionsController
       current_user.errors.full_messages
     end
   end
-
-  def new
-    self.resource = resource_class.new(sign_in_params)
-    clean_up_passwords(resource)
-    options = serialize_options(resource)
-    options[:layout] = "devise/application"
-    respond_with(resource, options)
-  end
 end 
