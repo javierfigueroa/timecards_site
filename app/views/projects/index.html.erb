@@ -1,7 +1,9 @@
-<h3 style="padding-left: 30px;">Projects</h3>
-
 <div class="span12">
-  <%= link_to 'Add new', new_project_path, :class => 'action' %>
+  <h3>Projects</h3>
+
+  <div class="table-actions">
+    <%= link_to 'Add new', new_project_path, :class => 'action' %>
+    </div>
   <% if @projects.length > 0 %>
 <table class="table table-condensed">
   <thead>

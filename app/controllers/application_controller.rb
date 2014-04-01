@@ -8,17 +8,17 @@ class ApplicationController < ActionController::Base
   helper_method :current_tenant
   # This is our new function that comes before Devise's one
   before_filter :authenticate_user_from_token!
-  layout :layout_by_resource
-
-  protected
-
-  def layout_by_resource
-    if devise_controller?
-      "devise/application"
-    else
-      "application"
-    end
-  end
+  #layout :layout_by_resource
+  #
+  #protected
+  #
+  #def layout_by_resource
+  #  if devise_controller?
+  #    "devise/application"
+  #  else
+  #    "application"
+  #  end
+  #end
 
   private
   

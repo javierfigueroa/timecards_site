@@ -56,7 +56,6 @@ class RegistrationsController < Devise::RegistrationsController
       
       if resource.save
         expire_session_data_after_sign_in!
-        set_flash_message :notice, :signed_up if is_navigational_format?
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         clean_up_passwords resource

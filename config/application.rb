@@ -85,6 +85,11 @@ module RailsStripeMembershipSaas
     config.assets.version = '1.0'
     
     config.assets.initialize_on_precompile = false
+
+    config.to_prepare do
+      Devise::PasswordsController.layout "devise/application"
+      Devise::SessionsController.layout "devise/application"
+    end
         
     # config.session_store :active_record_store, :domain => :all
     

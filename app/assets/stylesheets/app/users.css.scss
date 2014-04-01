@@ -21,8 +21,8 @@ $light-background: rgb(241,241,241);
   color: $dark-blue;
 }
 
-.users .table th, .users .table td, .projects .table th, .projects .table td {
-  padding: 15px !important;
+.table td, .table th {
+  padding: 15px;
   border: 0px;
 }
 
