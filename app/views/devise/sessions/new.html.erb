@@ -4,7 +4,10 @@
 	</div>
 
 	<%= simple_form_for(resource, :as => resource_name, :url => session_path(resource_name), :html => {:class => 'form-vertical' },  :defaults =>  { :input_html => { :class => "form-field" } }) do |f| %>
-	 <%= f.input :email, :placeholder => "Email", :autofocus => true %>
+      <%- flash.each do |name, msg| -%>
+          <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
+      <%- end -%>
+      <%= f.input :email, :placeholder => "Email", :autofocus => true %>
       <%= f.input :password, :placeholder => "Password" %>
 
       <!--<%= f.input :remember_me, :as => :boolean if devise_mapping.rememberable? %>-->
