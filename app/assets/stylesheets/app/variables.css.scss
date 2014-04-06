@@ -14,6 +14,15 @@
   }
 }
 
+@font-face{
+  font-family: 'Lane';
+  src: url('fonts/LANENAR_-webfont.eot');
+  src: url('fonts/LANENAR_-webfont.eot?iefix') format('eot'),
+  url('fonts/LANENAR_-webfont.woff') format('woff'),
+  url('fonts/LANENAR_-webfont.ttf') format('truetype'),
+  url('fonts/LANENAR_-webfont.svg#webfont') format('svg');
+}
+
 @include declare-font-face('Open Sans', 'OpenSans-Light', 400);
 @include declare-font-face('Open Sans Regular', 'OpenSans-Regular', 400);
 $font-color: rgb(217,227,237);

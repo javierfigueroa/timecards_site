@@ -1,29 +1,23 @@
-<div class="side-menu">
-  <div class="sidebar-nav full-height">
-    <ul class="nav nav-list">
-      <li class="active"><a href="/users/edit">Account</a></li>
-      <li><a href="/users/billing">Billing</a></li>
-    </ul>
-  </div>
-</div>
-<div class="pad30 page-content">
+<%= render 'layouts/sidebar' %>
+<div id="main-wrapper" class="col-md-10">
+  <div id="main" class="page-content">
     <% content_for :head do %>
       <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
     <% end %>
     <h3 class="underscore">Account Details</h3>
-    <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
     <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => { :method => :put, :class => 'form-vertical' }) do |f| %>
-      <%= f.error_notification %>
+
       <%= display_base_errors resource %>
       <%= f.input :first_name, :autofocus => true, :placeholder => "first name"  %>
       <%= f.input :last_name, :placeholder => "last name"  %>
       <%= f.input :email, :required => true, :placeholder => "email"  %>
       <%= f.input :password, :placeholder => "password", :autocomplete => "off", :hint => "leave it blank if you don't want to change it", :required => false %>
       <%= f.input :password_confirmation, :required => false, :placeholder => "confirm password"  %>
-      <%= f.input :current_password, :hint => "we need your current password to confirm your changes", :placeholder => "current password", :required => true %>
+      <%= f.input :current_password, :hint => "type password to confirm your changes", :placeholder => "current password", :required => true %>
       <%= f.button :submit, 'Update', :class => 'btn-primary' %>
     <% end %>
     <% if @current_user.has_role? :admin  %>
     <p>Unhappy? <%= link_to "Cancel my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'action' %></p>
     <% end %>
 </div>
+    </div>

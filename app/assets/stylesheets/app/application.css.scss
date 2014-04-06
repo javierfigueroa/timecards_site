@@ -10,10 +10,11 @@
  *
  *= require_self
  *= require datepicker
- *= require bootstrap-datetimepicker.min
  *= require app/bootstrap_and_overrides
+ *= require bootstrap-datetimepicker
  *= require app/globals
  *= require app/timecards
  *= require app/users
  *= require app/account
+ *= require app/responsive
 */

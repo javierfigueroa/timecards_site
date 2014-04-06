@@ -2,8 +2,6 @@ Timecards.Views.Timecard = Backbone.View.extend({
     _browserLocation: null,
     _locationIn: null,
     _locationOut: null,
-    _dateTimeIn: null,
-    _dateTimeOut: null,
     _photoIn: null,
     _photoOut: null,
     editing: false,
@@ -113,18 +111,14 @@ Timecards.Views.Timecard = Backbone.View.extend({
         navigator.geolocation.getCurrentPosition($.proxy(function (location) {
             this._browserLocation = location;
             //show loading message and hide maps
-            $("div.overlay").fadeOut();
-            $("div.map").fadeIn();
-            $("div.picker").fadeIn();
-            $("#gps-error").hide();
-            $(".timecards-action").fadeIn();
+            $(".overlay").fadeOut();
+            $(".full-timecard").fadeIn();
             callback(true, location);
         }, this), function(error) {
             //show gps errors
             $("#gps-error").show();
-            $("div.overlay").fadeOut();
-            $(".timecards-action").fadeIn();
-            $("div.map").fadeIn();
+            $(".overlay").fadeOut();
+            $(".full-timecard").fadeIn();
             callback(false);
         }, {
             enableHighAccuracy: true,
@@ -134,13 +128,13 @@ Timecards.Views.Timecard = Backbone.View.extend({
     },
 
     _setPickerFields: function() {
-        var to = this._dateTimeOut = $('#to-timecard').datetimepicker({
+        var to = $('#to-timecard').datetimepicker({
                 language: 'en',
                 maskInput: true,
                 pick12HourFormat: true
             }).data('datetimepicker');
 
-        this._dateTimeIn = $('#from-timecard').datetimepicker({
+        $('#from-timecard').datetimepicker({
                 language: 'en',
                 maskInput: true,
                 pick12HourFormat: true
@@ -205,10 +199,8 @@ Timecards.Views.Timecard = Backbone.View.extend({
     },
 
     _setBrowserLocation: function(scope, inOrOut) {
-        $("div.map").fadeOut();
-        $("div.picker").fadeOut();
-        $(".timecards-action").fadeOut();
-        $("div.overlay").fadeIn();
+        $(".full-timecard").fadeOut();
+        $(".overlay").fadeIn();
         this._fetchBrowserLocation(function (status, location) {
             if (status) {
                 if (inOrOut) {
@@ -227,11 +219,11 @@ Timecards.Views.Timecard = Backbone.View.extend({
     _update: function() {
         var data = {},
             self = this,
-            from = this._dateTimeIn,
-            to = this._dateTimeOut;
+            from = $('#from-timecard').data("DateTimePicker"),
+            to = $('#to-timecard').data("DateTimePicker");
 
         if (from.getDate()) {
-            var date = moment(from.getDate()).utc();
+            var date = from.getDate();
 
             data["timecard[timestamp_in(1i)]"] = moment(date).year();
             data["timecard[timestamp_in(2i)]"] = moment(date).month() + 1;
@@ -241,7 +233,7 @@ Timecards.Views.Timecard = Backbone.View.extend({
         }
 
         if (to.getDate()) {
-            var date = moment(to.getDate()).utc();
+            var date = to.getDate();
 
             data["timecard[timestamp_out(1i)]"] = moment(date).year();
             data["timecard[timestamp_out(2i)]"] = moment(date).month() + 1;

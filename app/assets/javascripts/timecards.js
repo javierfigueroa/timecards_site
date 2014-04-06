@@ -10,20 +10,20 @@ window.Timecards = {
 };
 
 $(document).ready(function(){
-	if ($("#backbone-app").length > 0) {
+	if ($("#wrapper").length > 0) {
 		Timecards.init();
 		
 		//navigation events		
 		$("#by-users").on("click", function() {
 			Backbone.history.navigate("users", true);
-			$(".nav li").removeClass("active");
+			$("#sidebar a").removeClass("active");
 			$(this).addClass("active");
 			return false;
 		});
 		
 		$("#by-projects").on("click", function() {
 			Backbone.history.navigate("projects", true);
-			$(".nav li").removeClass("active");
+			$("#sidebar a").removeClass("active");
 			$(this).addClass("active");
 			return false;
 		});

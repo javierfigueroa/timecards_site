@@ -1,16 +1,14 @@
-<div class="span3 polaroid">
+<div class="col-md-3 col-xs-12 polaroid">
 	<div class="polaroid polaroid-inner <%= model.isMissingClockOut() ? 'no-clock-out' : '' %>">
-		<div class="text">
-			<label><%= model.getFormattedDate() %></label>
+		<div class="row-fluid">
+			<label class="date col-md-12"><%= model.getFormattedDate() %></label>
+		    <div class="avatar timecard-square"></div>
 		</div>
-        <label style="position: absolute;
-                      top: 0;
-                      right: 0;
-                      margin: 5px;"><%= model.getTimeOwedLabel() %></label>
-		<div class="avatar timecard-square"></div>
-		<div class="text">
-			<label class="name"><%= model.getFullName() %></label>
-			<label><%= model.getTimespanLabel() %></label>
+		<div class="text row-fluid">
+			<label class="col-md-12"><%= model.getFullName() %></label>
+			<label class="col-md-12"><%= model.getTimespanLabel() %></label>
+            <label class="col-md-12"><%= model.getTimeOwedLabel() %></label>
+		</div>
 		</div>
 	</div>
 </div>

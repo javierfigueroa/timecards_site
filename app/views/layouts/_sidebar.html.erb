@@ -1,0 +1,11 @@
+<div id="sidebar-wrapper" class="col-md-2">
+  <div id="sidebar">
+    <ul class="nav list-group">
+      <% @menu_items.each do |item| %>
+          <li>
+            <a class="list-group-item active" href="<%= item[:url] %>"><i class="icon-home icon-1x"></i><%= item[:name] %></a>
+          </li>
+      <% end %>
+    </ul>
+  </div>
+</div>

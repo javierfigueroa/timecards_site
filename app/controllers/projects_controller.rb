@@ -25,10 +25,14 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "New Project"}
   end
 
   # GET /projects/1/edit
   def edit
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "Edit Project"}
   end
   
   # GET /projects/in_date/out_date.json
@@ -52,6 +56,8 @@ class ProjectsController < ApplicationController
   # POST /projects
   def create
     @project = Project.new(project_params)
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "New Project"}
 
     if @project.save
       redirect_to projects_url, notice: 'Project was successfully created.'
@@ -63,6 +69,8 @@ class ProjectsController < ApplicationController
 
   # PATCH/PUT /projects/1
   def update
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "Edit Project"}
     if @project.update(project_params)
       redirect_to projects_url, notice: 'Project was successfully updated.'
     else

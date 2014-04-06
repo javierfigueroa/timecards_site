@@ -4,16 +4,17 @@
 
 @import "app/variables";
 
-#main {
+#main-wrapper {
+  background-color: $light-background;
+  height: 100%;
+}
+
+#main-wrapper .login{
   background-color: $light-background;
 }
 
-#main .login{
-  background-color: $light-background;
-}
 
-
-#main h3 {
+#main-wrapper h3 {
   padding: 0px 0px 5px;
 }
 
@@ -26,12 +27,11 @@
 
 .timecards-action a, .timecards-action a:hover, .timecards-action, .timecards-action:hover {
   color: $font-color !important;
-  font-family: "Open Sans Regular";
   text-decoration: none !important;
 }
 
-#timecards { 
-  padding-bottom: 40px;  
+#timecards {
+  padding-top: 20px;
 }
 
 .timecard-square, .map {
@@ -48,6 +48,8 @@
 
 .user-row {
   background: white;
+  padding: 30px;
+  min-height: 135px;
  }
  
 .user-row:hover {
@@ -68,14 +70,12 @@
  }
  
  .polaroid { 
-    height: 175px;
-    margin: 10px;  
-    font-family: "Open Sans Regular";
+    height: 195px;
+    margin: 0px 0px 10px 0px;
  }
  
  .polaroid-inner {
    background: $hover-bg;
-   padding: 10px;
    position: relative;
    margin-left: 0px;
  }
@@ -117,10 +117,21 @@
   cursor: pointer;  
 }
 
+.text {
+  padding: 10px;
+}
+
 .text label {
-  padding-top:5px; 
   padding-left: 5px;
   font-size: 12px;
+  display: block;
+}
+
+label.date {
+  padding-left: 5px;
+  font-size: 12px;
+  color: white;
+  position: absolute;
 }
 
 .polaroid-inner .name {
@@ -133,16 +144,13 @@
 
 .timecard_header label{
   font-size: 20px;
-  font-family: "Open Sans Regular";
-}
-
-.timecards-container {
-  margin-bottom: 20px;
 }
 
 .timecard {
   background: white;
-  padding: 20px;
+  padding: 0px;
+  margin-left: 0px;
+  margin-right: 10px;
 }
 
 .file-container {
@@ -157,43 +165,15 @@
 .picker-switch {
   padding: 10px;
 }
-
-td.active, td > .btn-primary {
-  background-color: $hover-blue-bg !important;
-  background-image: none !important;
-}
-.picker-switch:hover {
-  background-color: $hover-blue-bg;
-}
-div.overlay {
-  display:        table;
-  position:        fixed;
-  top:            0;
-  left:            0;
-  width:            100%;
-  height:            100%;
-}
-div.overlay > div {
-  display:        table-cell;
-  width:            100%;
-  height:            100%;
-  background:        #ccc;
-  opacity:        1.5;
-  text-align:        center;
-  vertical-align:    middle;
-}
-
-
-.sidebar-container {
-  display: inline-block;
-  height: 100%;
-  position: absolute;
+.bootstrap-datetimepicker-widget td span {
+  height: auto;
+  line-height: normal;
 }
 
 .file-container {
   overflow: hidden;
   position: relative;
-  margin: 10px 0px;
+  margin: 10px 0px 0px 10px;
 }
 
 .file-container [type=file] {
@@ -210,23 +190,16 @@ div.overlay > div {
   top: 0;
 }
 
-/* Example stylistic flourishes */
-
-.file-container {
-  float: left;
-  padding: .5em;
+.location-link, .location-link {
   color: $font-color;
-}
-
-.file-container [type=file] {
-  cursor: pointer;
 }
 
 .location-link, .location-link:hover {
-  color: $font-color;
-  top: 15px;
-  padding: 7px;
-  position: relative;
+  text-decoration: none;
+  color: $hover-blue-bg;
+  padding-top: 10px;
+  display: block;
+  padding-left: 10px;
 }
 
 .timepicker {
@@ -237,6 +210,39 @@ div.overlay > div {
   color: $hover-blue-bg;
 }
 
+.timecard-details .col-md-6{
+  padding: 0px;
+}
+
+.bootstrap-datetimepicker-widget>ul {
+  padding-left: 0px;
+}
+
+.overlay {
+  opacity: 1;
+  padding-top: 20px;
+}
+
 .table-actions {
-  float: right;
+  padding-bottom: 10px;
+  padding-top: 10px;
+}
+
+.other-actions {
+  padding-left: 50px;
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (max-width: 768px) {
+  .filter-elements {
+    padding-bottom: 20px;
+  }
+
+  .timecards-action {
+    margin-top: 20px;
+  }
+
+  .polaroid {
+    height: 180px;
+  }
 }

@@ -1,7 +1,15 @@
-<div class="row-fluid user-row" style="padding:20px;margin-top:10px;">
-	<div class="span12">
-		<label class="name"><%= model.getName()  %></label>
-		<label><%= model.getTimespanLabel() %></label>
-		<label><%= model.getTimeOwedLabel() %></label>
+<div class="row-fluid user-row">
+	<div class="col-md-12">
+	    <div class="row-fluid">
+		    <label class="name"><%= model.getName()  %></label>
+		</div>
+
+	    <div class="row-fluid">
+		    <label><%= model.getTimespanLabel() %></label>
+		</div>
+
+        <div class="row-fluid">
+            <label><%= model.getTimeOwedLabel() %></label>
+		</div>
 	</div>
 </div>

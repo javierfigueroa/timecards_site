@@ -112,10 +112,11 @@ form {
   background-color: #f7f7f7;
   border: solid 1px #e4e4e4;
   font-size: $font-size !important;
-  padding-top: 6px !important;
   text-align: center !important;
   font-family: "Open Sans";
   box-sizing: border-box;
+  margin: 5px;
+  display: inline-block;
 }
 
 .simple_form input[type=submit]  {
@@ -135,11 +136,26 @@ form {
   font-weight: lighter;
 }
 .simple_form .help-inline {
-  padding-left: 30px;
+  color: red;
   margin-top: -15px;
 }
+
 
 .form-actions {
   background-color: none;
   border-top: 0px;
+}
+
+@media (max-width: 768px) {
+  .simple_form input {
+    display: block;
+  }
+
+  .field {
+    display: inline-block;
+  }
+
+  .help-inline {
+    padding-left: 50px;
+  }
 }

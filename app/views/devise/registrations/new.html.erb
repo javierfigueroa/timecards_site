@@ -1,11 +1,6 @@
-<div class="side-menu">
-  <div class="sidebar-nav full-height">
-    <ul class="nav nav-list">
-      <li class="active"><a href="#">New User</a></li>
-    </ul>
-  </div>
-</div>
-<div class="pad30 page-content">
+<%= render 'layouts/sidebar' %>
+<div id="main-wrapper" class="col-md-10">
+  <div id="main" class="page-content">
 <% content_for :head do %>
   <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
 <% end %>
@@ -53,3 +48,4 @@
 <% end %>
 </div>
  </div>
+</div>

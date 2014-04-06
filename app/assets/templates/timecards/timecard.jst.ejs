@@ -1,6 +1,6 @@
 <div class="overlay"><div>Getting location from browser...</div></div>
-<div class="full-timecard">
-    <div class="timecard_header">
+<div class="full-timecard col-md-12">
+    <div class="timecard_header row-fluid">
         <div class="row-fluid">
             <div class="span12">
                 <h3><%= model.getFullName()  %></h3>
@@ -27,19 +27,19 @@
     </div>
     <div class="timecard_body row-fluid">
         <p id="gps-error" style="display:none">Browser GPS location unavailable</p>
-        <div class="span5 timecard"  style="margin-left: 0px;">
+        <div class="col-md-5 timecard"  style="margin-left: 0px;">
             <div class="row-fluid text">
                  <label class="timecard-label"> <%= model.getTimestampInFormatted() %></label>
                  <div id="from-timecard" class="input-append picker" style="display:none;">
                      <input class="height25" data-format="MM/dd/yyyy HH:mm:ss PP" type="text" value="<%= model.getTimestampInFormatted() %>"></input>
                      <span class="add-on height25">
-                       <i data-time-icon="icon-time" data-date-icon="icon-calendar">
+                       <i data-time-icon="glyphicon glyphicon-time" data-date-icon="glyphicon glyphicon-calendar">
                        </i>
                      </span>
                    </div>
             </div>
-            <div class="row-fluid">
-                <div class="span5">
+            <div class="row-fluid timecard-details">
+                <div class="col-md-6">
                     <div class="avatar avatar-in timecard-square"></div>
                     <label class="file-container action">
                         Set photo
@@ -47,13 +47,13 @@
                     </label>
                     <div id="upload-in" class="upload-area"></div>
                 </div>
-                <div class="span5 offset1">
+                <div class="col-md-6">
                     <div id="map_in" class="map"></div>
                     <a id="browser-in" class="location-link action" href="#" style="display:none;">Set location<a/>
                 </div>
             </div>
         </div>
-        <div class="span5 timecard" id="timecard-out">
+        <div class="col-md-5 timecard" id="timecard-out">
             <div class="row-fluid text">
                  <label class="timecard-label"> <%= model.getTimestampOutFormatted() %></label>
                  <div id="to-timecard" class="input-append picker" style="display:none;">
@@ -64,8 +64,8 @@
                       </span>
                     </div>
             </div>
-            <div class="row-fluid">
-                <div class="span5">
+            <div class="row-fluid timecard-details">
+                <div class="col-md-6">
                     <div class="avatar avatar-out timecard-square"></div>
                     <label class="file-container action">
                         Set photo
@@ -73,7 +73,7 @@
                     </label>
                     <div id="upload-out" class="upload-area"></div>
                 </div>
-                <div class="span5 offset1">
+                <div class="col-md-6">
                     <div id="map_out" class="map"></div>
                     <a id="browser-out" class="location-link action" href="#" style="display:none;">Set location<a/>
                 </div>

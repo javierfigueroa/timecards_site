@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
-  
+
   # GET /users/in_date/out_date.json
   # get user between a date range
   def date
@@ -35,6 +35,8 @@ class UsersController < ApplicationController
   #-------------------------------------------------------------------
   def edit
     @user = User.find(params[:id])
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "Edit User"}
     respond_to do |format|
       format.json { render :json => @user }
       format.xml  { render :xml => @user }
@@ -46,6 +48,8 @@ class UsersController < ApplicationController
     authorize! :update, @user, :message => 'Not authorized as an administrator.'
     @user = User.find(params[:id])
     role = Role.find(params[:user][:role_ids]) unless params[:user][:role_ids].nil?
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "Edit User"}
 
     if params[:user][:password].blank?
       params[:user].delete("password")

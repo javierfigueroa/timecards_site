@@ -1,17 +1,10 @@
-<div class="side-menu">
-  <div class="sidebar-nav full-height">
-    <ul class="nav nav-list">
-      <li><a href="/users/edit">Account</a></li>
-      <li class="active"><a href="/users/billing">Billing</a></li>
-    </ul>
-  </div>
-</div>
-<div class="pad30 page-content">
+<%= render 'layouts/sidebar' %>
+<div id="main-wrapper" class="col-md-10">
+  <div id="main" class="page-content">
     <% content_for :head do %>
       <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
     <% end %>
     <h3 class="underscore">Change Credit Card</h3>
-    <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
     <%= simple_form_for resource, :as => resource_name, :url => update_card_path, :html => {:method => :put, :class => 'form-vertical card_form' } do |f| %>
         <div>
           <div class="controls">
@@ -36,7 +29,9 @@
           <%= f.hidden_field :stripe_token %>
         </div>
         <div>
+          <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
           <%= f.submit "Change Credit Card", :class => "btn btn-primary" %>
         </div>
     <% end %>
 </div>
+    </div>

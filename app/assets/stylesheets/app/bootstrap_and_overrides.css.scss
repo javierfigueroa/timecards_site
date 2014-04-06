@@ -1,122 +1,115 @@
 @import "bootstrap";
 @import "app/variables";
-@import "bootstrap-responsive";
 
 body {
-  font-family: "Open Sans Regular";
+  font-family: "Lane";
   color: $dark-blue !important;
   height: 100%;
   background-color: $dark-blue;
 }
 
-.navbar {
+.navbar, .navbar a, .nav a:hover, .nav a:focus {
   margin-bottom: 0px;
-}
-
-.content {
-  min-height: 500px;
-  position: relative;
-}
-
-.navbar .brand {
-  color: $font-color;
+  background-color: $dark-blue !important;
+  border: 0px;
   text-shadow: none;
-  padding: 8px 20px 0px;
+  color: $light-background !important;
+  border: 0px;
+}
+
+
+.navbar-brand {
+  color: $light-background !important;
+  text-shadow: none;
   line-height: 10px;
 }
 
-.brand .login-logo {
-   width: 40px;
+.logo, .logo img {
+   width: 20px;
    display: inline-block;
  }
 
-.brand .login-title {
+.title {
   display: inline-block;
 }
 
-.navbar .nav > li > a, .navbar .nav > li > a:hover {
-  color: $font-color;
-  text-shadow: none;
-}
-
-.navbar-inner {
-  height: 80px;
-  background-image: none;
-  background-color: $dark-blue;
-  border: 0px;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px;
-}
+//.navbar-inner {
+//  height: 80px;
+//  background-image: none;
+//  background-color: $dark-blue;
+//  border: 0px;
+//  -webkit-border-radius: 0px;
+//  -moz-border-radius: 0px;
+//  border-radius: 0px;
+//}
 
 
 .alert {
-  float: right;
-  margin: 10px;
-  position: absolute;
-  right: 0;
-  max-width: 300px;
-}
-
-.container-fluid {
-  padding: 0px;
-}
-
-.container {
+  color: red;
   margin: 0px;
-  width: 100%;
-  min-height: 500px;
+  padding: 15px;
 }
-
-.sidebar-nav {
+//
+//.container-fluid {
+//  padding: 0px;
+//}
+//
+//.container {
+//  margin: 0px;
+//  width: 100%;
+//  min-height: 500px;
+//}
+//
+#sidebar {
   background-color: $dark-background;
-  font-family: "Open Sans Regular";
   font-weight: bold;
   font-size: 16px;
 }
-
-li {
-  padding-bottom: 10px;
+//
+//li {
+//  padding-bottom: 10px;
+//}
+//
+.nav .active{
+  border: 0px;
+  color: $dark-blue !important;
+  background-color: $light-background !important;
 }
-
-.nav-list > .active > a, .nav-list > .active > a:hover, .nav-list > .active > a:focus{
-  background-color: rgb(69,74,79);
-}
-.nav-list > li > a, .nav-list .nav-header {
-  text-shadow: none !important;
-  color: $menu-font-color;
-}
-
-.nav-list {
-  padding-top: 30px;
-}
-
-.breadcrumb {
-  color: $menu-font-color;
-  padding: 0px 0px;
-  margin: 0 0 0px;
-  padding-top:6px;
-  list-style: none;
-  background-color: $dark-background;
-  -webkit-border-radius: 0px;
-  -moz-border-radius: 0px;
-  border-radius: 0px; 
-}
-.breadcrumb > li {
-  display: inline-block;
-  *display: inline;
-  /* IE7 inline-block hack */
-  *zoom: 1;
-  text-shadow: 0 0px 0 white; 
-}
-.breadcrumb > li > .divider {
-  padding: 0 5px;
-  color: $menu-font-color; 
-}
-.breadcrumb .active, .breadcrumb a {
-  color: $menu-font-color; 
-}
-
+//.nav-list > li > a, .nav-list .nav-header {
+//  text-shadow: none !important;
+//  color: $menu-font-color;
+//}
+//
+//.nav-list {
+//  padding-top: 30px;
+//}
+//
+//.breadcrumb {
+//  color: $menu-font-color;
+//  padding: 0px 0px;
+//  margin: 0 0 0px;
+//  padding-top:6px;
+//  list-style: none;
+//  background-color: $dark-background;
+//  -webkit-border-radius: 0px;
+//  -moz-border-radius: 0px;
+//  border-radius: 0px;
+//}
+//.breadcrumb > li {
+//  display: inline-block;
+//  *display: inline;
+//  /* IE7 inline-block hack */
+//  *zoom: 1;
+//  text-shadow: 0 0px 0 white;
+//}
+//.breadcrumb > li > .divider {
+//  padding: 0 5px;
+//  color: $menu-font-color;
+//}
+//.breadcrumb .active, .breadcrumb a {
+//  color: $menu-font-color;
+//}
+//
 select {
   padding: 5px;
   line-height: 1;
@@ -131,6 +124,34 @@ select {
   font-size: $font-size !important;
   padding-top: 6px !important;
   text-align: center !important;
-  font-family: "Open Sans";
   box-sizing: border-box;
+}
+
+.table > thead > tr > th {
+  border-bottom: 0px;
+}
+ .table > tbody > tr > td {
+  border-top: 0px;
+  padding: 10px;
+}
+
+.list-group {
+  margin-bottom: 0px;
+}
+.dropdown-menu {
+  padding: 0px 0;
+  border: 0px;
+}
+
+#flash_notice {
+  color: #ffffff;
+}
+
+.alert #flash_notice {
+  color: $dark-background;
+}
+
+.alert-error {
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
 }

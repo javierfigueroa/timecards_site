@@ -8,6 +8,8 @@ class RegistrationsController < Devise::RegistrationsController
     
   def new
     @plan = params[:plan]
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "New User"}
     
     #for when we are on the main website
     if @current_tenant.nil? && @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
@@ -28,13 +30,31 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def edit
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+  end
+
   def billing
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
     @user = current_user
     render :billing
   end
+
+  def update
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    super
+  end
   
   # POST /resource
-  def create    
+  def create
+    @menu_items = []
+    @menu_items[0] = { :url => "#", :name => "New User"}
     #we are in the main website, let devise handle it
     if @current_tenant.nil?
       build_resource(sign_up_params)
