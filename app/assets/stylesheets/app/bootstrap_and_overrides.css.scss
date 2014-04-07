@@ -143,6 +143,10 @@ select {
   border: 0px;
 }
 
+.dropdown-menu > li > a {
+  padding: 10px 20px;
+}
+
 #flash_notice {
   color: #ffffff;
 }
@@ -154,4 +158,8 @@ select {
 .alert-error {
   background-color: #dff0d8;
   border-color: #d6e9c6;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: transparent;
 }

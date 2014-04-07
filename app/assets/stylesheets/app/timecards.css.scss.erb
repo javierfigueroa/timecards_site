@@ -48,8 +48,8 @@
 
 .user-row {
   background: white;
-  padding: 30px;
-  min-height: 135px;
+  padding: 20px;
+  min-height: 120px;
  }
  
 .user-row:hover {
@@ -87,7 +87,11 @@
 }
 
 .polaroid-inner.no-clock-out {
-  border: 1px solid lightsalmon;
+    background-image: url(<%= image_path("app/16missing-clockout.png") %>);
+    background-repeat: no-repeat;
+    background-size: 16px;
+    background-position-x: 95%;
+    background-position-y: 110px;
 }
 
 
@@ -106,13 +110,13 @@
   height: 33px;
   margin-left: 10px !important;
   margin-right: 10px !important;
+  padding: 10px;
 }
 
 .date-picker .timecards-action {
   position: relative;
   width: 80px;
   display: inline-block;
-  top: -2px;
   left: 10px;
   cursor: pointer;  
 }
@@ -229,7 +233,49 @@ label.date {
 }
 
 .other-actions {
-  padding-left: 50px;
+  width: 240px;
+  text-align: center;
+}
+
+#by-users,
+#by-projects {
+    padding-left: 40px;
+}
+
+.users-icon {
+    background-image: url(<%= image_path("app/32users-normal.png") %>);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 10px;
+    background-position-y: 6px;
+}
+
+.users-icon:hover {
+    background-image: url(<%= image_path("app/32users-selected.png") %>);
+}
+
+.projects-icon {
+    background-image: url(<%= image_path("app/32projects-normal.png") %>);
+    background-size: 30px;
+    background-repeat: no-repeat;
+    background-position-x: 10px;
+    background-position-y: 6px;
+    padding-left: 40px;
+}
+
+.projects-icon:hover {
+    background-image: url(<%= image_path("app/32projects-selected.png") %>);
+}
+
+li.users-icon, li.projects-icon {
+    padding-left: 40px;
+    background-position-y: 9px;
+}
+
+h3.users-icon, h3.projects-icon {
+    padding-left: 30px;
+    background-position-x: 0px;
+    background-position-y: 0px;
 }
 
 /* Small devices (tablets, 768px and up) */
@@ -245,4 +291,10 @@ label.date {
   .polaroid {
     height: 180px;
   }
+
+    li.users-icon, li.projects-icon {
+        padding-left: 40px;
+        background-position-y: 6px;
+    }
+
 }

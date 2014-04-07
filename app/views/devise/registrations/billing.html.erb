@@ -1,6 +1,7 @@
 <%= render 'layouts/sidebar' %>
 <div id="main-wrapper" class="col-md-10">
   <div id="main" class="page-content">
+    <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
     <% content_for :head do %>
       <%= tag :meta, :name => "stripe-key", :content => STRIPE_PUBLIC_KEY %>
     <% end %>
@@ -29,7 +30,6 @@
           <%= f.hidden_field :stripe_token %>
         </div>
         <div>
-          <div id="stripe_error" class="alert alert-error" style="display:none" ></div>
           <%= f.submit "Change Credit Card", :class => "btn btn-primary" %>
         </div>
     <% end %>
