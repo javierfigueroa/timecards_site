@@ -33,13 +33,20 @@ class RegistrationsController < Devise::RegistrationsController
   def edit
     @menu_items = []
     @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    end
   end
 
   def billing
     @menu_items = []
     @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    end
+
     @user = current_user
     render :billing
   end
@@ -47,7 +54,11 @@ class RegistrationsController < Devise::RegistrationsController
   def update
     @menu_items = []
     @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-    @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    end
+
     super
   end
   
