@@ -134,6 +134,7 @@ form {
   font-size: $font-size !important;
   font-family: "Open Sans";
   font-weight: lighter;
+  -webkit-appearance: none;
 }
 .simple_form .help-inline {
   color: red;
