@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   prepend_before_filter :scope_current_tenant #used for devise sessions
-  # around_filter :scope_current_tenant #general tenancy scope
+  #around_filter :scope_current_tenant #general tenancy scope
   helper_method :current_tenant
   # This is our new function that comes before Devise's one
   before_filter :authenticate_user_from_token!

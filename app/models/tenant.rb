@@ -5,6 +5,7 @@ class Tenant < ActiveRecord::Base
   has_many :users
   after_create :create_schema
   before_destroy :destroy_schema
+  validates :subdomain, :uniqueness => true
   
   #create new schema once the schema is created
   def create_schema
@@ -30,5 +31,9 @@ class Tenant < ActiveRecord::Base
   
   def destroy_schema
     self.class.connection.execute("drop schema tenant#{id} cascade")
+  end
+
+  def self.create_by(options)
+    # code here
   end
 end

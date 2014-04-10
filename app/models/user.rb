@@ -20,10 +20,10 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me, :stripe_token,
                   :company_name, :encrypted_password, :tenant_id, :wage
   attr_accessor :stripe_token, :coupon
-  before_save :update_stripe
-  before_destroy :cancel_subscription
-  before_destroy :destroy_tenant
-  after_create :create_tenant
+  #before_save :update_stripe
+  #before_destroy :cancel_subscription
+  #before_destroy :destroy_tenant
+  #before_create :create_tenant
 
   # You likely have this before callback set up for the token.
   before_save :ensure_authentication_token
@@ -31,9 +31,13 @@ class User < ActiveRecord::Base
   
   def create_tenant
     if tenant_id.nil? && !roles.first.nil? && !roles.first.name.include?("admin")
-      tenant = Tenant.find_or_create_by(subdomain: self.company_name)
-      tenant.save!      
-      create_admin_in_tenant(tenant)  
+      tenant = Tenant.create(subdomain: self.company_name)
+      if tenant.save
+        create_admin_in_tenant(tenant)
+      else
+        errors.add :base, "Web address already exists"
+        return false
+      end
     end
   end
   

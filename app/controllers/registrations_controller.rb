@@ -69,28 +69,28 @@ class RegistrationsController < Devise::RegistrationsController
     #we are in the main website, let devise handle it
     if @current_tenant.nil?
       build_resource(sign_up_params)
-
-      if resource.valid?
+      if resource.valid? && resource.create_tenant
         super
       else
+        #something failed show errors
         clean_up_passwords resource
         @resource = resource
         render :new_tenant, :layout => "devise/application"
       end
     #we have a defined tenant, create a user within the tenant
     else      
-      build_resource(sign_up_params)  
-      
+      build_resource(sign_up_params)
       resource.company_name = current_user.company_name
       resource.tenant_id = @current_tenant.id
       resource.add_role("employee")
-      
+
       if resource.save
         expire_session_data_after_sign_in!
         respond_with resource, :location => after_sign_up_path_for(resource)
       else
         clean_up_passwords resource
-        respond_with resource
+        @resource = resource
+        respond_with (resource)
       end
     end
   end

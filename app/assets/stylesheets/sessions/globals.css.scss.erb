@@ -36,8 +36,9 @@ body {
     position:relative;
     z-index:0;
     overflow:hidden;
+    color: $font-color;
 
-    background: url(<%= image_path("home/bg.jpg") %>) no-repeat center center;
+    /*background: url(<%= image_path("home/bg.jpg") %>) no-repeat center center;*/
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -109,5 +110,9 @@ form a, .devise-links a {
 }
 
 p, .info-message, #flash_alert {
-    color: white;
+    color: $font-color;;
+}
+
+form .alert button {
+    display: none;
 }

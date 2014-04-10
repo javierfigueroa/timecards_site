@@ -137,7 +137,6 @@ form {
   -webkit-appearance: none;
 }
 .simple_form .help-inline {
-  color: red;
   margin-top: -15px;
 }
 
@@ -145,6 +144,10 @@ form {
 .form-actions {
   background-color: none;
   border-top: 0px;
+}
+
+#flash_alert {
+  color: $font-color;;
 }
 
 @media (max-width: 768px) {

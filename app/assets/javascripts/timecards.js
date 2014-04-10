@@ -10,7 +10,7 @@ window.Timecards = {
 };
 
 $(document).ready(function(){
-	if ($("#wrapper").length > 0) {
+	if ($("#app-content").length > 0) {
 		Timecards.init();
 		
 		//navigation events		
