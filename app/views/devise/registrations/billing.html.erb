@@ -8,6 +8,11 @@
     <h3 class="underscore">Change Credit Card</h3>
     <%= simple_form_for resource, :as => resource_name, :url => update_card_path, :html => {:method => :put, :class => 'form-vertical card_form' } do |f| %>
         <div>
+          <% if @user.last_4_digits %>
+          <div class="field" style="padding:0px 0px 20px 0px">
+            <span>Using card ending with <%= @user.last_4_digits %></span>
+          </div>
+          <% end%>
           <div class="controls">
             <%= text_field_tag :card_number, nil, name: nil, :placeholder => "credit card number" %>
           </div>

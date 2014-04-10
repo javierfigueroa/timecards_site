@@ -3,9 +3,12 @@
 <div class="brand" style="padding-bottom: 20px;">
   <div id="logo"> <%=link_to( image_tag("logo.png"), root_url(host: request.domain), :class => "logo") %></div>
 </div>
+
 <%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'card_form form-vertical' },) do |f| %>
     <%= hidden_field_tag 'plan', params[:plan] %>
-    <%= display_base_errors resource %>
+    <%= f.hidden_field :stripe_token %>
+
+        <%= display_base_errors resource %>
     <%= f.input :first_name, :placeholder => "First name", :autofocus => true %>
     <%= f.input :last_name, :placeholder => "Last name" %>
     <%= f.input :email, :placeholder => "Email" %>
@@ -36,7 +39,7 @@
           <!--<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>-->
         <!--</div>-->
     <!--<% end %>-->
-    <!--<%= f.hidden_field :stripe_token %>-->
+    <%= f.hidden_field :stripe_token %>
 
       <div class="field button-field">
         <div id="stripe_error" class="info-message" style="display:none" ></div>
