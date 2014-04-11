@@ -91,4 +91,8 @@
         display: none;
     }
 
+    .form-actions      {
+        display: inline-block;
+    }
+
 }
