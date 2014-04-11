@@ -1,7 +1,7 @@
 Stripe.api_key = ENV["STRIPE_API_KEY"] || 'fake-api-key-for-testing'
 STRIPE_PUBLIC_KEY = ENV["STRIPE_PUBLIC_KEY"] || 'fake-api-key-for-testing'
 
-StripeEvent.setup do |events|
+StripeEvent.setup do
   subscribe 'customer.subscription.deleted' do |event|
     user = User.find_by_customer_id(event.data.object.customer)
     user.expire
