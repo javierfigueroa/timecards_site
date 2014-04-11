@@ -29,10 +29,10 @@ StripeEvent.setup do
     Rails.logger.info event
     Rails.logger.info '**************************************************'
 
-    user = User.find_by_customer_id(event.data.object.customer)
-    if (!event.data.object.delinquent)
-      user.activate
-    end
+    #user = User.find_by_email(event.data.object.email)
+    #if (!event.data.object.delinquent)
+    #  user.activate
+    #end
   end
 
   subscribe 'customer.subscription.trial_will_end' do |event|
