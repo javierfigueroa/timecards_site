@@ -152,8 +152,17 @@ class User < ActiveRecord::Base
     destroy
   end
 
+  def activate
+    UserMailer.actived_email(self).deliver
+    #restore(id, :recursive => true)
+  end
+
+  def de_activate
+    UserMailer.de_actived_email(self).deliver
+  end
+
   def warn
-    UserMailer.deliver_trial_ending_soon(self)
+    UserMailer.trial_ending_soon(self).deliver
   end
   
   def photo_url

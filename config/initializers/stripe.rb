@@ -17,12 +17,22 @@ StripeEvent.setup do
     Rails.logger.info '**************************************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
+
+    if (event.data.object.delinquent)
+      user = User.find_by_customer_id(event.data.object.customer)
+      user.de_activate
+    end
   end
 
-  subscribe 'invoice.payment_succeeded' do |event|
+  subscribe 'customer.updated' do |event|
     Rails.logger.info '**************************************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
+
+    user = User.find_by_customer_id(event.data.object.customer)
+    if (!event.data.object.delinquent)
+      user.activate
+    end
   end
 
   subscribe 'customer.subscription.trial_will_end' do |event|
@@ -31,10 +41,11 @@ StripeEvent.setup do
     Rails.logger.info '**************************************************'
 
     #send email with notice
-
     user = User.find_by_customer_id(event.data.object.customer)
     user.warn
 
   end
+
+
 
 end
