@@ -1,6 +1,7 @@
 require 'PgTools'
 
 class User < ActiveRecord::Base
+  acts_as_paranoid
   rolify
   has_many :timecards
   scope :on_dates, lambda { |in_date, out_date| 
@@ -30,8 +31,8 @@ class User < ActiveRecord::Base
   validates :wage, :numericality => { :greater_than_or_equal_to => 0 }
   
   def create_tenant
-    if tenant_id.nil? && !roles.first.nil? && !roles.first.name.include?("admin")
-      tenant = Tenant.create(subdomain: self.company_name)
+    if tenant_id.nil? && !(has_role? :admin)
+      tenant = Tenant.create(subdomain: company_name)
       if tenant.save
         create_admin_in_tenant(tenant)
       else
@@ -158,6 +159,20 @@ class User < ActiveRecord::Base
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
+    end
+  end
+
+  def active_for_authentication?
+    if PgTools.search_path != PgTools.default_search_path
+      #check if the tenant's account is active or not
+      user = self
+      PgTools.default_scope_schema do
+        tenant = Tenant.find_by_subdomain(user.company_name)
+        client = User.where("company_name = ?", user.company_name).first
+        super && client
+      end
+    else
+      super && !deleted_at
     end
   end
 

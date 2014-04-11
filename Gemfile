@@ -31,6 +31,7 @@ gem 'activerecord-session_store'#, :git => 'git://github.com/javierfigueroa/acti
 gem 'protected_attributes'
 gem 'i18n'
 gem 'sprockets', '2.11.0'
+gem "paranoia", "~> 2.0"
 
 group :development do
   gem 'better_errors'
@@ -48,4 +49,5 @@ group :test do
   gem 'database_cleaner'
   gem 'email_spec'
   gem 'launchy'
+  gem 'webmock'
 end
