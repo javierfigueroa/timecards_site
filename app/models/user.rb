@@ -151,6 +151,10 @@ class User < ActiveRecord::Base
     UserMailer.expire_email(self).deliver
     destroy
   end
+
+  def warn
+    UserMailer.deliver_trial_ending_soon(self)
+  end
   
   def photo_url
     timecards.first ? timecards.first.photo_in_url : ""

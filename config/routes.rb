@@ -1,9 +1,9 @@
 RailsStripeMembershipSaas::Application.routes.draw do
 
-  mount StripeEvent::Engine => '/stripe'
   get '/features', :to => 'home#features'
   get '/examples', :to => 'home#examples'
   get '/about', :to => 'home#about'
+  mount StripeEvent::Engine => '/stripe'
   devise_for :users, :controllers => {
       :registrations => 'registrations',
       :sessions => "sessions",

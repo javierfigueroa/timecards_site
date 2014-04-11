@@ -12,4 +12,29 @@ StripeEvent.setup do
     Rails.logger.info event
     Rails.logger.info '**************************************************'
   end
+
+  subscribe 'invoice.payment_failed' do |event|
+    Rails.logger.info '**************************************************'
+    Rails.logger.info event
+    Rails.logger.info '**************************************************'
+  end
+
+  subscribe 'invoice.payment_succeeded' do |event|
+    Rails.logger.info '**************************************************'
+    Rails.logger.info event
+    Rails.logger.info '**************************************************'
+  end
+
+  subscribe 'customer.subscription.trial_will_end' do |event|
+    Rails.logger.info '**************************************************'
+    Rails.logger.info event
+    Rails.logger.info '**************************************************'
+
+    #send email with notice
+
+    user = User.find_by_customer_id(event.data.object.customer)
+    user.warn
+
+  end
+
 end

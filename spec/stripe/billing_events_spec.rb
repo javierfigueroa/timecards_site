@@ -12,7 +12,7 @@ describe "Billing Events" do
     end
 
     it "is successful" do
-      post '/_billing_events', id: 'evt_customer_created'
+      post '/stripe', id: 'event_customer_created'
       expect(response.code).to eq "200"
 
       # Additional expectations...

@@ -29,7 +29,7 @@ RailsStripeMembershipSaas::Application.configure do
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
   # ActionMailer::Base.deliveries array.
-  config.action_mailer.delivery_method = :test
+  #config.action_mailer.delivery_method = :test
 
   # Raise exception on mass assignment protection for Active Record models
   config.active_record.mass_assignment_sanitizer = :strict
@@ -37,7 +37,23 @@ RailsStripeMembershipSaas::Application.configure do
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
 
+
+  config.action_mailer.default_url_options = { :host => 'timecards.io' }
   # ActionMailer Config
-  config.action_mailer.default_url_options = { :host => 'example.com' }
+  # Setup for production - deliveries, no errors raised
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
+  config.action_mailer.default :charset => "utf-8"
+
+  config.action_mailer.smtp_settings = {
+      address: "smtp.mandrillapp.com",
+      port: 587,
+      domain: "timecards.io",
+      authentication: "plain",
+      enable_starttls_auto: true,
+      user_name: ENV["GMAIL_USERNAME"],
+      password: ENV["GMAIL_PASSWORD"]
+  }
 
 end

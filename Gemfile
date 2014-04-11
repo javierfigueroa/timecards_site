@@ -32,6 +32,7 @@ gem 'protected_attributes'
 gem 'i18n'
 gem 'sprockets', '2.11.0'
 gem "paranoia", "~> 2.0"
+gem 'rspec-rails'
 
 group :development do
   gem 'better_errors'
