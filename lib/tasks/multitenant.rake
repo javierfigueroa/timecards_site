@@ -4,10 +4,12 @@ namespace :multitenant do
   db_tasks.each do |task_name|
     desc "Run #{task_name} for each tenant"
       task task_name => %w[environment db:load_config] do
-        Tenant.find_each do |tenant|
-          puts "Running #{task_name} for tenant#{tenant.id} (#{tenant.subdomain})"
-          tenant.scope_schema do
-            Rake::Task[task_name].execute
+        if Tenant.table_exists?
+          Tenant.find_each do |tenant|
+            puts "Running #{task_name} for tenant#{tenant.id} (#{tenant.subdomain})"
+            tenant.scope_schema do
+              Rake::Task[task_name].execute
+            end
           end
         end
       end

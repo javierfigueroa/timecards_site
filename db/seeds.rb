@@ -9,17 +9,18 @@
 # See http://railsapps.github.io/rails-environment-variables.html
 puts 'ROLES'
 YAML.load(ENV['ROLES']).each do |role|
-  r = Role.find_or_create_by_name(role)
+  r = Role.find_or_create_by(name: role)
   puts 'role: ' << role
 end
 puts 'DEFAULT USERS'
-user = User.find_or_create_by_email :first_name => ENV['ADMIN_FIRST_NAME'].dup, 
-                                    :last_name => ENV['ADMIN_LAST_NAME'].dup, 
-                                    :email => ENV['ADMIN_EMAIL'].dup, 
-                                    :password => ENV['ADMIN_PASSWORD'].dup, 
-                                    :password_confirmation => ENV['ADMIN_PASSWORD'].dup
+user = User.create(:first_name => ENV['ADMIN_FIRST_NAME'].dup,
+                  :last_name => ENV['ADMIN_LAST_NAME'].dup,
+                  :email => ENV['ADMIN_EMAIL'].dup,
+                  :password => ENV['ADMIN_PASSWORD'].dup,
+                  :password_confirmation => ENV['ADMIN_PASSWORD'].dup)
 puts 'user: ' << user.first_name
 user.add_role :admin
+Tenant.delete_all
 # user2 = User.find_or_create_by_email :name => 'Silver User', :email => 'user2@example.com', :password => 'changeme', :password_confirmation => 'changeme'
 # user2.add_role :silver
 # user3 = User.find_or_create_by_email :name => 'Gold User', :email => 'user3@example.com', :password => 'changeme', :password_confirmation => 'changeme'
