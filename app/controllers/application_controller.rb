@@ -8,17 +8,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_tenant
   # This is our new function that comes before Devise's one
   before_filter :authenticate_user_from_token!
-  #layout :layout_by_resource
-  #
-  #protected
-  #
-  #def layout_by_resource
-  #  if devise_controller?
-  #    "devise/application"
-  #  else
-  #    "application"
-  #  end
-  #end
+  #before_filter :redirect_on_subdomain
 
   private
   
@@ -33,6 +23,12 @@ class ApplicationController < ActionController::Base
       if user && Devise.secure_compare(user.authentication_token, params[:auth_token])
         sign_in user
       end
+    end
+  end
+
+  def redirect_on_subdomain
+    if request.subdomain.present? && (request.fullpath == root_path) && current_user.nil?
+      redirect_to new_user_session_path
     end
   end
   
@@ -50,11 +46,9 @@ class ApplicationController < ActionController::Base
   end
   
   def current_subdomain
-      if request.subdomains.first.present? && request.subdomains.first != "www"
-        current_subdomain = current_tenant.company_name
-      else 
-        current_subdomain = nil
-      end
+      current_subdomain = request.subdomains.first.present? && request.subdomains.first != "www" ?
+                          current_tenant.company_name : nil
+
       return current_subdomain
   end   
   
