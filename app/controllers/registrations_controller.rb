@@ -101,6 +101,13 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update_plan
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    end
+
     @user = current_user
     role = Role.find(params[:user][:role_ids]) unless params[:user][:role_ids].nil?
     if @user.update_plan(role)
@@ -112,6 +119,13 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update_card
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+    end
+
     @user = current_user
     @user.stripe_token = params[:user][:stripe_token]
     #@user.update_stripe

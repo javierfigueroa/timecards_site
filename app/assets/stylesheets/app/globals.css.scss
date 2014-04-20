@@ -154,6 +154,10 @@ form {
   color: $font-color;;
 }
 
+.alert-error #flash_alert {
+  color: red;;
+}
+
 @media (max-width: 768px) {
   .help-inline {
     padding-left: 50px;
