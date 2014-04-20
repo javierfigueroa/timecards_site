@@ -65,7 +65,7 @@ RailsStripeMembershipSaas::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => 'timecards.com' }
+  config.action_mailer.default_url_options = { :host => 'timecards.io' }
   # ActionMailer Config
   # Setup for production - deliveries, no errors raised
   config.action_mailer.delivery_method = :smtp
@@ -76,7 +76,7 @@ RailsStripeMembershipSaas::Application.configure do
   config.action_mailer.smtp_settings = {
     address: "smtp.mandrillapp.com",
     port: 587,
-    domain: "timecards.com",
+    domain: "timecards.io",
     authentication: "plain",
     enable_starttls_auto: true,
     user_name: ENV["GMAIL_USERNAME"],
