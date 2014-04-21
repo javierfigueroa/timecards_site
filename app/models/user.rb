@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   before_save :update_stripe
   before_destroy :cancel_subscription
   before_destroy :destroy_tenant
-  #before_create :create_tenant
+  before_save :strip_whitespace
 
   # You likely have this before callback set up for the token.
   before_save :ensure_authentication_token
@@ -190,6 +190,11 @@ class User < ActiveRecord::Base
   end
 
   private
+
+  def strip_whitespace
+    self.company_name.gsub!(/\s+/, '')
+    # etc...
+  end
 
   def generate_authentication_token
     loop do

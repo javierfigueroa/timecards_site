@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   #-------------------------------------------------------------------
   def edit
     @user = User.find(params[:id])
+    @user.wage = @user.wage == 0 ? nil : @user.wage
     @menu_items = []
     @menu_items[0] = { :url => "#", :name => "Edit User"}
     respond_to do |format|

@@ -14,30 +14,15 @@
       <%= f.input :password, :placeholder => "Password" %>
       <%= f.input :password_confirmation, :placeholder => "Confirm passsword" %>
 
-      <%= f.input :company_name, :placeholder => "Web Address"  %>
+      <div class="control-group string optional user_company_name">
+        <label class="string optional control-label" for="user_company_name">Company name</label>
+        <div class="controls">
+          <input class="string optional" id="user_company_name" name="user[company_name]" placeholder="Web Address" type="text" style="width: 135px;
+          margin-left: 0px;">
+          <span class="add-on">.timecards.io</span>
+        </div>
+      </div>
 
-    <!--<% if @user.stripe_token && @current_tenant.nil? %>-->
-        <!--<p class="info-message">Credit card acceptance is pending.</p>-->
-    <!--<% elsif @current_tenant.nil? %>-->
-
-          <!--<p>Credit Card Information</p>-->
-        <!--<div class="field">-->
-          <!--<%= label_tag :card_number, "Credit Card Number" %>-->
-          <!--<%= text_field_tag :card_number, nil, name: nil, :placeholder => "Credit card number", :class => "form-field" %>-->
-        <!--</div>-->
-        <!--<div class="field">-->
-          <!--<%= label_tag :card_code, "Card Security Code (CVV)" %>-->
-          <!--<%= text_field_tag :card_code, nil, name: nil, :placeholder => "Credit card code", :class => "form-field" %>-->
-        <!--</div>-->
-        <!--<div class="field">-->
-          <!--<%= label_tag :card_month, "Card Expiration" %>-->
-          <!--<%= select_month nil, {add_month_numbers: true}, {name: nil, id: "card_month"}%>-->
-        <!--</div>-->
-        <!--<div class="field">-->
-          <!--<%= label_tag :card_month, "Card Expiration" %>-->
-          <!--<%= select_year nil, {start_year: Date.today.year, end_year: Date.today.year+10}, {name: nil, id: "card_year"}%>-->
-        <!--</div>-->
-    <!--<% end %>-->
     <%= f.hidden_field :stripe_token %>
 
       <div class="field button-field">

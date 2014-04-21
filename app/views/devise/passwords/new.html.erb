@@ -7,7 +7,15 @@
 
         <% if !request.subdomain.present? %>
         <div class="form-inputs">
-          <%= f.input :company_name, required: true, autofocus: true, placeholder: "Web Address" %>
+          <div class="control-group string required user_company_name">
+            <label class="string required control-label" for="user_company_name">
+              <abbr title="required">*</abbr> Company name</label>
+            <div class="controls">
+              <input autofocus="autofocus" class="string required" id="user_company_name" name="user[company_name]" placeholder="Web Address" type="text"  style="width: 135px;
+                      margin-left: 0px;">
+              <span class="add-on">.timecards.io</span>
+            </div>
+          </div>
         </div>
         <% end %>
 
