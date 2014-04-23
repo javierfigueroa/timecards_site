@@ -3,7 +3,7 @@
     <ul class="nav list-group">
       <% @menu_items.each do |item| %>
           <li>
-            <a class="list-group-item active" href="<%= item[:url] %>"><i class="icon-home icon-1x"></i><%= item[:name] %></a>
+            <a class="list-group-item <%= request.url.include?(item[:url]) || item[:url] == "#" ? "active" : "" %>" href="<%= item[:url] %>"><i class="icon-home icon-1x"></i><%= item[:name] %></a>
           </li>
       <% end %>
     </ul>

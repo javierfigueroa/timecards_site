@@ -1,5 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :update_sanitized_params, if: :devise_controller?
+  before_filter :build_side_menu
   skip_before_filter :require_no_authentication, :only => [ :new, :create ]
   
   def update_sanitized_params
@@ -10,7 +11,7 @@ class RegistrationsController < Devise::RegistrationsController
   def new
     @plan = params[:plan]
     @menu_items = []
-    @menu_items[0] = { :url => "#", :name => "New User"}
+    @menu_items[0] = { :url => "#", :name => "New User", :state => "active"}
     
     #for when we are on the main website
     if @current_tenant.nil? && @plan && ENV["ROLES"].include?(@plan) && @plan != "admin"
@@ -31,42 +32,15 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
-  def edit
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
-    end
-  end
-
   def billing
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
-    end
-
     @user = current_user
     render :billing
-  end
-
-  def update
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
-    end
-
-    super
   end
   
   # POST /resource
   def create
     @menu_items = []
-    @menu_items[0] = { :url => "#", :name => "New User"}
+    @menu_items[0] = { :url => "#", :name => "New User", :state => "active"}
     #we are in the main website, let devise handle it
     if @current_tenant.nil?
       build_resource(sign_up_params)
@@ -101,13 +75,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update_plan
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
-    end
-
     @user = current_user
     role = Role.find(params[:user][:role_ids]) unless params[:user][:role_ids].nil?
     if @user.update_plan(role)
@@ -119,13 +86,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def update_card
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
-
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
-    end
-
     @user = current_user
     @user.stripe_token = params[:user][:stripe_token]
     #@user.update_stripe
@@ -142,6 +102,15 @@ class RegistrationsController < Devise::RegistrationsController
     super
     if params[:plan]
       resource.add_role(params[:plan])
+    end
+  end
+
+  def build_side_menu
+    @menu_items = []
+    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+
+    if current_user.has_role? :admin
+      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
     end
   end
 end
