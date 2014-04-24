@@ -192,7 +192,9 @@ class User < ActiveRecord::Base
   private
 
   def strip_whitespace
-    self.company_name.gsub!(/\s+/, '')
+    if !self.company_name.nil?
+      self.company_name.gsub!(/\s+/, '')
+    end
     # etc...
   end
 
