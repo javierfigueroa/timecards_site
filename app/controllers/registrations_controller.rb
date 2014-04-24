@@ -106,11 +106,13 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def build_side_menu
-    @menu_items = []
-    @menu_items[0] = { :url => "/users/edit", :name => "Account"}
+    if !current_user.nil?
+      @menu_items = []
+      @menu_items[0] = { :url => "/users/edit", :name => "Account"}
 
-    if current_user.has_role? :admin
-      @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+      if current_user.has_role? :admin
+        @menu_items[1] = { :url => "/users/billing", :name => "Billing"}
+      end
     end
   end
 end
