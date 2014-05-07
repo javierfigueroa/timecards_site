@@ -50,7 +50,18 @@ class RegistrationsController < Devise::RegistrationsController
         #something failed show errors
         clean_up_passwords resource
         @resource = resource
-        render :new_tenant, :layout => "devise/application"
+
+        respond_to do |format|
+          format.html {
+            render :new_tenant, :layout => "devise/application"
+          }
+          format.json {
+            render json:  {
+                :user => @resource,
+                :errors => @resource.errors
+            }
+          }
+        end
       end
     #we have a defined tenant, create a user within the tenant
     else      

@@ -89,6 +89,7 @@ module RailsStripeMembershipSaas
     config.to_prepare do
       Devise::PasswordsController.layout "devise/application"
       Devise::SessionsController.layout "devise/application"
+      DeviseController.respond_to :html, :json
     end
         
     # config.session_store :active_record_store, :domain => :all
