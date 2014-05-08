@@ -47,7 +47,11 @@ class TimecardsController < ApplicationController
     else
       respond_to do |format|
         format.html # show.html.erb
-        format.json { render json: @timecard.to_json(:methods => [:photo_in_url, :photo_out_url]) }
+        format.json { render json: @timecard.to_json(
+            :methods => [:photo_in_url, :photo_out_url],
+            :include => [:project => { :only =>[:id, :name]}]
+            )
+        }
       end
     end
   end
@@ -138,10 +142,10 @@ class TimecardsController < ApplicationController
       if @timecard.update_attributes(params[:timecard])
         format.html { redirect_to @timecard, notice: 'Timecard was successfully updated.' }
         format.json { render json: @timecard.to_json(
-          :methods => [:photo_in_url, :photo_out_url],
-          :include => { :user => { :only => [:first_name, :last_name, :wage] } }
-          ) 
-      }
+            :methods => [:photo_in_url, :photo_out_url],
+            :include => [:project => { :only =>[:id, :name]}]
+        )
+        }
       else
         format.html { render action: "edit" }
         format.json { render json: @timecard.errors, status: :unprocessable_entity }
