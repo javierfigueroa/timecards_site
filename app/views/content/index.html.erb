@@ -1,11 +1,26 @@
-  <div id="sidebar-wrapper" class="col-md-2">
+
+<div id="sidebar-wrapper" class="col-md-2">
     <div id="sidebar">
       <ul class="nav list-group">
         <li>
-          <a class="list-group-item users-icon" href="#" id="by-users"><i class="icon-home icon-1x"></i>By Users</a>
+          <a class="list-group-item users-icon" href="#" id="by-users">
+            <i class="icon-home icon-1x"></i>
+            <% if current_user.has_role? :admin %>
+                By Users
+            <% else %>
+                Timecards
+            <% end %>
+          </a>
         </li>
         <li>
-          <a class="list-group-item projects-icon" href="#" id="by-projects"><i class="icon-home icon-1x"></i>By Projects</a>
+          <a class="list-group-item projects-icon" href="#" id="by-projects">
+            <i class="icon-home icon-1x"></i>
+            <% if current_user.has_role? :admin %>
+                By Projects
+            <% else %>
+                Projects
+            <% end %>
+          </a>
         </li>
       </ul>
     </div>
@@ -25,5 +40,8 @@
 </div>
 
 <script type="text/javascript">
-    var role = <%= current_user.has_role? :admin %>;
+    var current_user =  {
+        admin: <%= current_user.has_role? :admin %>,
+        id: <%= current_user.id %>
+    };
 </script>

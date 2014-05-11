@@ -1,3 +1,7 @@
+if (window.location.href.indexOf("auth_token") > -1) {
+    window.location.href = window.location.href.replace(/\?auth_token=.*id=[0-9]*/i, "");
+}
+
 window.Timecards = {
   Models: {},
   Collections: {},

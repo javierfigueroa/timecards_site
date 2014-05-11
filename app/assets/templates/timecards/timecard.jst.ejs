@@ -6,7 +6,7 @@
                 <h3><%= model.getFullName()  %></h3>
             </div>
         </div>
-        <% if (role) {  %>
+        <% if (current_user.admin) {  %>
         <div class="row-fluid" style="padding:0px 0px 20px 0px">
             <div class="span5">
                 <div class="">

@@ -12,20 +12,37 @@ Timecards.Routers.Timecards = Backbone.Router.extend({
 	},
 	
 	index: function() {
-		this.getUsers();
+        if (current_user.admin) {
+            this.getUsers();
+        }else{
+            this.getTimecards();
+        }
 	},
 
 	getUsers: function() {
-		var el = $("#backbone-app"),
-			getUsers = this.getUsers;
-			
-		var from = $('#from').val(),
-	  		to = $('#to').val(),
-	  		now = moment(), 
-			nowFormatted = now.format("MM-DD-YYYY").toString();
+        if (!current_user.admin) {
+            this.getTimecards();
+        }else{
+            var from = $('#from').val(),
+                to = $('#to').val(),
+                now = moment(),
+                nowFormatted = now.format("MM-DD-YYYY").toString(),
+                tomorrowFormatted = now.add('d', 1).format("MM-DD-YYYY").toString();
 
-		Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || nowFormatted), true);
-	},
+            Backbone.history.navigate("users/" + (from || nowFormatted) + "/" + (to || tomorrowFormatted), true);
+        }
+    },
+
+    getTimecards: function() {
+        var from = $('#from').val(),
+            to = $('#to').val(),
+            now = moment(),
+            nowFormatted = now.format("MM-DD-YYYY").toString(),
+            tomorrowFormatted = now.add('d', 1).format("MM-DD-YYYY").toString();
+
+        Backbone.history.navigate("timecards/" + (from || nowFormatted) + "/" + (to || tomorrowFormatted) + "/user/" + current_user.id, true);
+
+    },
 	
 	getProjects: function() {
 		var from = $('#from').val(),

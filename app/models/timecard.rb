@@ -24,9 +24,7 @@ class Timecard < ActiveRecord::Base
   # validates_attachment :photo_out, :content_type => { :content_type => "image/jpeg" }
     
   # validates :timestamp_out, :date => {:after => :timestamp_in, :message => 'check out time must be after check in time'}
-  # validates :timestamp_in, :date => {:before => :timestamp_out, :message => 'check in time must be after check out time'} 
-  validates :latitude_in, :presence => true
-  validates :longitude_in, :presence => true
+  # validates :timestamp_in, :date => {:before => :timestamp_out, :message => 'check in time must be after check out time'}
   validates :timestamp_in, :presence => true
 
   has_attached_file :photo_in,

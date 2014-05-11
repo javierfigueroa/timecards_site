@@ -5,6 +5,7 @@
     <%= link_to("Add new", new_user_registration_path, :class => 'action') %>
     </div>
   <div class="table-responsive">
+    <% if @users.length > 1%>
     <table class="table">
       <thead>
         <tr>
@@ -17,23 +18,23 @@
       </thead>
       <tbody>
       <% @users.each do |user| %>
+         <% if !(user == current_user) %>
         <tr>
           <td><%= link_to user.first_name, edit_user_path(user), :class => 'action' %></td>
           <td><%= user.email %></td>
           <td><%= user.created_at.to_date %></td>
           <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
           <td>
-            <% if !(user == current_user) %>
-            <%= link_to 'Edit', edit_user_path(user), :class => 'action' %>
-            <% end %>
             <% if @current_tenant.nil? && !(user.has_role? :admin) %>
             <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
             <%= render user %>
             <% end %>
           </td>
         </tr>
+          <% end %>
       <% end %>
       </tbody>
     </table>
+    <% end %>
   </div>
 </div>
