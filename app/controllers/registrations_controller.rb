@@ -1,8 +1,9 @@
 class RegistrationsController < Devise::RegistrationsController
   before_filter :update_sanitized_params, if: :devise_controller?
   before_filter :build_side_menu
-  skip_before_filter :require_no_authentication, :only => [ :new, :create ]
-  
+  skip_before_filter :require_no_authentication, :only => [ :new, :create, :update ]
+
+
   def update_sanitized_params
     devise_parameter_sanitizer.for(:sign_up) {|u| u.permit( :first_name, :last_name, :email, :password, :password_confirmation, :remember_me, :stripe_token, :company_name, :encrypted_password, :tenant_id)}
     devise_parameter_sanitizer.for(:account_update) {|u| u.permit( :first_name, :last_name, :email, :password, :password_confirmation, :encrypted_password, :current_password)}
@@ -81,6 +82,10 @@ class RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def update
+    super
+  end
+
   def destroy
     super
   end
@@ -109,6 +114,11 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   private
+
+  def respond_with(resource, opts = {})
+    render json: resource # Triggers the appropriate serializer
+  end
+
   def build_resource(*args)
     super
     if params[:plan]
