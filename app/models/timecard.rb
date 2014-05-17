@@ -29,13 +29,13 @@ class Timecard < ActiveRecord::Base
 
   has_attached_file :photo_in,
     :storage => :s3,
-    :default_url => "http://placehold.it/300x300.jpg&text=No%20Image",
+    :default_url => ActionController::Base.helpers.asset_path("Profile-Avatar.png"),
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
     :path => '/:tenant_id/:user_id/:id/photo_in.jpg'
   
   has_attached_file :photo_out,
     :storage => :s3,
-    :default_url => "http://placehold.it/300x300.jpg&text=No%20Image",
+    :default_url => ActionController::Base.helpers.asset_path("Profile-Avatar.png"),
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
     :path => '/:tenant_id/:user_id/:id/photo_out.jpg'
 
