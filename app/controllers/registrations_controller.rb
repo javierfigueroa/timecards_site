@@ -115,10 +115,6 @@ class RegistrationsController < Devise::RegistrationsController
 
   private
 
-  def respond_with(resource, opts = {})
-    render json: resource # Triggers the appropriate serializer
-  end
-
   def build_resource(*args)
     super
     if params[:plan]
