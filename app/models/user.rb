@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me, :stripe_token,
                   :company_name, :encrypted_password, :tenant_id, :wage
   attr_accessor :stripe_token, :coupon
-  before_save :update_stripe
+  after_save :update_stripe
   before_destroy :cancel_subscription
   before_destroy :destroy_tenant
   before_save :strip_whitespace
