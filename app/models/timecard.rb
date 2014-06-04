@@ -29,18 +29,23 @@ class Timecard < ActiveRecord::Base
 
   has_attached_file :photo_in,
     :storage => :s3,
-    :default_url => ActionController::Base.helpers.asset_path("Profile-Avatar.png"),
+    :default_url => lambda { |avatar| avatar.instance.set_default_url},
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
     :path => '/:tenant_id/:user_id/:id/photo_in.jpg'
   
   has_attached_file :photo_out,
     :storage => :s3,
-    :default_url => ActionController::Base.helpers.asset_path("Profile-Avatar.png"),
+    :default_url => lambda { |avatar| avatar.instance.set_default_url},
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
     :path => '/:tenant_id/:user_id/:id/photo_out.jpg'
 
   validates_attachment_content_type :photo_in, :content_type => ["image/jpg", "image/jpeg", "image/png"]
   validates_attachment_content_type :photo_out, :content_type => ["image/jpg", "image/jpeg", "image/png"]
+
+
+  def set_default_url
+    ActionController::Base.helpers.asset_path('Profile-Avatar.png')
+  end
 
   def photo_in_url
     photo_in.url(:medium)
