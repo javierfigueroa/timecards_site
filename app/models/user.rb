@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
                   :password_confirmation, :remember_me, :stripe_token,
                   :company_name, :encrypted_password, :tenant_id, :wage
   attr_accessor :stripe_token, :coupon
-  after_save :update_stripe
-  before_destroy :cancel_subscription
+  before_create :update_stripe
+  #before_destroy :cancel_subscription
   before_destroy :destroy_tenant
   before_save :strip_whitespace
 
@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
           :email => email,
           :description => [first_name, last_name].join(' '),
           :card => stripe_token,
-          #:plan => roles.first.name
+          :plan => "silver"
         )
       else
         customer = Stripe::Customer.create(
@@ -133,11 +133,16 @@ class User < ActiveRecord::Base
   end
   
   def cancel_subscription
-    unless customer_id.nil?
-      customer = Stripe::Customer.retrieve(customer_id)
-      unless customer.nil? or customer.respond_to?('deleted')
-        if customer.subscription.status == 'active'
-          customer.cancel_subscription
+    user = self
+    tenant = Tenant.find_by_subdomain(user.company_name)
+    tenant.scope_schema do
+      tenant_user = User.where("company_name = ? AND tenant_id = ?", user.company_name, tenant.id).first
+      unless tenant_user.customer_id.nil?
+        customer = Stripe::Customer.retrieve(tenant_user.customer_id)
+        unless customer.nil? or customer.respond_to?('deleted')
+          #if customer.subscription.status == 'active'
+            customer.cancel_subscription
+          #end
         end
       end
     end

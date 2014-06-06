@@ -87,6 +87,8 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
+    @user = current_user
+    @user.cancel_subscription
     super
   end
 
@@ -104,7 +106,7 @@ class RegistrationsController < Devise::RegistrationsController
   def update_card
     @user = current_user
     @user.stripe_token = params[:user][:stripe_token]
-    #@user.update_stripe
+    @user.update_stripe
     if @user.save
       redirect_to users_billing_path, :notice => 'Updated card.'
     else

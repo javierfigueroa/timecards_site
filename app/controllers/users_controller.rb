@@ -70,7 +70,13 @@ class UsersController < ApplicationController
     authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
     user = User.find(params[:id])
     unless user == current_user
+
+      if current_user.email.include?(ENV['ADMIN_EMAIL'])
+        user.cancel_subscription
+      end
+
       user.really_destroy!
+
       redirect_to users_path, :notice => "User deleted."
     else
       redirect_to users_path, :notice => "Can't delete yourself."
