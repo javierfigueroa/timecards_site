@@ -7,6 +7,21 @@
       <%- flash.each do |name, msg| -%>
           <%= content_tag :div, msg, :id => "flash_#{name}" if msg.is_a?(String) %>
       <%- end -%>
+
+      <% if !request.subdomain.present? %>
+          <div class="form-inputs">
+            <div class="control-group string required user_company_name">
+              <label class="string required control-label" for="user_company_name">
+                <abbr title="required">*</abbr> Company name</label>
+              <div class="controls">
+                <input autofocus="autofocus" class="string required" id="user_company_name" name="user[company_name]" placeholder="Web Address" type="text"  style="width: 135px;
+                        margin-left: 0px;">
+                <span class="add-on">.timecards.io</span>
+              </div>
+            </div>
+          </div>
+      <% end %>
+
       <%= f.input :email, :placeholder => "Email", :autofocus => true %>
       <%= f.input :password, :placeholder => "Password" %>
 

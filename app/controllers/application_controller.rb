@@ -33,7 +33,14 @@ class ApplicationController < ActionController::Base
   end
   
   def current_tenant
-    @current_tenant ||= Tenant.find_by_subdomain(request.subdomain)
+    subdomain = request.subdomain
+    if subdomain.nil? || subdomain.empty?
+      company_name = params[:user].nil? ? nil : params[:user][:company_name]
+      unless company_name.nil?
+        subdomain = company_name
+      end
+    end
+    @current_tenant ||= Tenant.find_by_subdomain(subdomain)
   end
   
   def scope_current_tenant(&block)
@@ -46,20 +53,26 @@ class ApplicationController < ActionController::Base
   end
   
   def current_subdomain
-      current_subdomain = request.subdomains.first.present? && request.subdomains.first != "www" ?
-                          current_tenant.company_name : nil
+      if request.subdomains.first.present? && request.subdomains.first != "www"
+        return current_tenant.company_name
+      end
 
-      return current_subdomain
+      unless current_tenant.nil?
+        return current_tenant.subdomain
+      end
+
+      return nil;
   end   
   
   def redirect_tenant
-    tenant = Tenant.find_by_subdomain(current_user.company_name)
-    tenant.scope_schema do
-      user = User.where("company_name = ? AND tenant_id = ?", current_user.company_name, tenant.id).first
-      user.ensure_authentication_token
-      user.save!
-      root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :id => user.id)
-    end
+    #tenant = Tenant.find_by_subdomain(current_user.company_name)
+    #tenant.scope_schema do
+    #  user = User.where("company_name = ? AND tenant_id = ?", current_user.company_name, tenant.id).first
+    #  user.ensure_authentication_token
+    #  user.save!
+    #  root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :id => user.id)
+      root_url(:subdomain => current_subdomain)
+    #end
   end
   
   rescue_from CanCan::AccessDenied do |exception|
@@ -67,14 +80,15 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    case current_user.roles.first.name
-      when 'admin'
-        users_path
-      when 'silver'
+    #case
+      if current_user.roles.first.name == 'admin' && !current_tenant.nil?
         redirect_tenant
-      when 'employee'
+      elsif current_user.roles.first.name == 'admin' && current_tenant.nil?
+        users_path
+      else current_user.roles.first.name == 'employee'
         authenticated_root_path
-    end
+      end
+    #end
   end
 
   def after_sign_out_path_for(resource_or_scope)
