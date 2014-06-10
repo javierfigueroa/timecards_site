@@ -54,7 +54,7 @@ class ApplicationController < ActionController::Base
   
   def current_subdomain
       if request.subdomains.first.present? && request.subdomains.first != "www"
-        return current_tenant.company_name
+        return current_tenant.subdomain
       end
 
       unless current_tenant.nil?
