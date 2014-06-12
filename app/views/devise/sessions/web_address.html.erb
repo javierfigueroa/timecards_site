@@ -1,0 +1,25 @@
+<div class="form">
+  <div class="brand" style="padding-bottom: 20px;">
+    <div id="logo"> <%=link_to( image_tag("logo.png"), root_url(host: request.domain), :class => "logo") %></div>
+  </div>
+
+  <%= simple_form_for({}, :as => resource_name, :url => "sessions/redirect", :html => {:class => 'form-vertical' },  :defaults =>  { :input_html => { :class => "form-field" } }) do |f| %>
+       <div class="form-inputs">
+        <div class="control-group string required user_company_name">
+          <label class="string required control-label" for="user_company_name">
+            <abbr title="required">*</abbr> Company name</label>
+          <div class="controls">
+            <input autofocus="autofocus" class="string required" id="user_company_name" name="company_name" placeholder="Web Address" type="text"  style="width: 135px;
+                    margin-left: 0px;">
+            <span class="add-on">.timecards.io</span>
+          </div>
+        </div>
+      </div>
+      <div class="field button-field">
+        <input class="submit-button btn-green" name="commit" type="submit" value="Go">
+      </div>
+      <div class="field button-field">
+        <%= render "devise/shared/links" %>
+      </div>
+  <% end %>
+</div>

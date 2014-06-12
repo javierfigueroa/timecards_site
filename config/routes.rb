@@ -13,6 +13,7 @@ RailsStripeMembershipSaas::Application.routes.draw do
     put 'update_plan', :to => 'registrations#update_plan'
     put 'update_card', :to => 'registrations#update_card'
     get 'users/billing', :to => 'registrations#billing'
+    post 'users/sessions/redirect', :to => 'sessions#redirect'
     namespace :api do
       resources :sessions, :only => [:create, :destroy]
     end
