@@ -52,15 +52,15 @@ class ApplicationController < ActionController::Base
       return current_subdomain
   end   
   
-  def redirect_tenant
-    tenant = Tenant.find_by_subdomain(current_user.company_name)
-    tenant.scope_schema do
-      user = User.where("company_name = ? AND tenant_id = ?", current_user.company_name, tenant.id).first
-      user.ensure_authentication_token
-      user.save!
-      root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :id => user.id)
-    end
-  end
+  #def redirect_tenant
+  #  tenant = Tenant.find_by_subdomain(current_user.company_name)
+  #  tenant.scope_schema do
+  #    user = User.where("company_name = ? AND tenant_id = ?", current_user.company_name, tenant.id).first
+  #    user.ensure_authentication_token
+  #    user.save!
+  #    root_url(:subdomain => user.company_name, :auth_token => user.authentication_token, :id => user.id)
+  #  end
+  #end
   
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message
@@ -71,7 +71,7 @@ class ApplicationController < ActionController::Base
       when 'admin'
         users_path
       when 'silver'
-        redirect_tenant
+        users_path
       when 'employee'
         authenticated_root_path
     end
