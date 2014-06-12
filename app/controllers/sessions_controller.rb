@@ -27,7 +27,7 @@ class SessionsController < Devise::SessionsController
   end
 
   def new
-    if request.subdomain.nil? || request.subdomain.empty?
+    if request.subdomain.nil? || request.subdomain.empty? || request.subdomain == "www"
        render "devise/sessions/web_address"
     else
       super
