@@ -36,7 +36,7 @@ class SessionsController < Devise::SessionsController
 
   def redirect
     web_address = params[:company_name]
-    redirect_to request.protocol + web_address + "." + request.host_with_port + "/users/sign_in"
+    redirect_to request.protocol + web_address + "."  + request.domain + (request.port.nil? ? '' : ":#{request.port}") + "/users/sign_in"
   end
 
 end 
