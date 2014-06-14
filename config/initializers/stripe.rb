@@ -11,7 +11,7 @@ StripeEvent.setup do
     Rails.logger.info '**************************************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
-    render :status => :ok
+    render nothing: true
   end
 
   subscribe 'invoice.payment_failed' do |event|
