@@ -31,13 +31,15 @@ class Timecard < ActiveRecord::Base
     :storage => :s3,
     :default_url => lambda { |avatar| avatar.instance.set_default_url},
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
-    :path => '/:tenant_id/:user_id/:id/photo_in.jpg'
+    :path => '/:tenant_id/:user_id/:id/photo_in.jpg',
+    :s3_protocol => :https
   
   has_attached_file :photo_out,
     :storage => :s3,
     :default_url => lambda { |avatar| avatar.instance.set_default_url},
     :s3_credentials => Rails.root.join('config', 's3_photos.yml').to_s,  
-    :path => '/:tenant_id/:user_id/:id/photo_out.jpg'
+    :path => '/:tenant_id/:user_id/:id/photo_out.jpg',
+    :s3_protocol => :https
 
   validates_attachment_content_type :photo_in, :content_type => ["image/jpg", "image/jpeg", "image/png"]
   validates_attachment_content_type :photo_out, :content_type => ["image/jpg", "image/jpeg", "image/png"]
