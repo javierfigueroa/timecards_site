@@ -53,14 +53,17 @@ StripeEvent.setup do
 
 
   def find_user(event)
-    user = nil
     Tenant.all.each do |tenant|
       tenant.scope_schema do
-        user = User.find_by_customer_id(event.data.object.customer)
+        user =  User.find_by_customer_id(event.data.object.customer)
+        if !(user.nil?)
+          Rails.logger.info user.email
+          return user
+        end
       end
     end
 
-    return user
+    return nil
   end
 
 end
