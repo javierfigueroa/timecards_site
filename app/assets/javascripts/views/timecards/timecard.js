@@ -263,8 +263,6 @@ Timecards.Views.Timecard = Backbone.View.extend({
         }
 
 
-        self.model.save();
-
         $.ajax({
             type: "PUT",
             url: "timecards/" + this.model.get('id') + ".json",
@@ -273,6 +271,7 @@ Timecards.Views.Timecard = Backbone.View.extend({
             success: function (data) {
                 self.model.set('timestamp_in', moment(data.timestamp_in).utc().format('MM/DD/YYYY hh:mm:ss A'));
                 self.model.set('timestamp_out', moment(data.timestamp_out).utc().format('MM/DD/YYYY hh:mm:ss A'));
+                self.model.save();
             },
             error:function(){
                 alert("something went wrong");
