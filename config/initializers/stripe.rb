@@ -8,6 +8,7 @@ StripeEvent.setup do
         user = User.find_by_customer_id(event.data.object.customer)
         if !user.nil?
           user.expire
+          break
         end
       end
     end
@@ -30,6 +31,7 @@ StripeEvent.setup do
           user = User.find_by_customer_id(event.data.object.customer)
           if !user.nil?
             user.de_activate
+            break
           end
         end
       end
@@ -58,6 +60,7 @@ StripeEvent.setup do
         user = User.find_by_customer_id(event.data.object.customer)
         if !user.nil?
           user.warn
+          break
         end
       end
     end
