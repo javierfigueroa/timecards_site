@@ -8,13 +8,13 @@ StripeEvent.setup do
   end
 
   subscribe 'customer.created' do |event|
-    Rails.logger.info '**************************************************'
+    Rails.logger.info '********************** customer.created ****************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
   end
 
   subscribe 'invoice.payment_failed' do |event|
-    Rails.logger.info '**************************************************'
+    Rails.logger.info '********************* invoice.payment_failed *****************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
 
@@ -25,7 +25,7 @@ StripeEvent.setup do
   end
 
   subscribe 'customer.updated' do |event|
-    Rails.logger.info '**************************************************'
+    Rails.logger.info '********************* customer.updated *****************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
 
@@ -36,7 +36,7 @@ StripeEvent.setup do
   end
 
   subscribe 'customer.subscription.trial_will_end' do |event|
-    Rails.logger.info '**************************************************'
+    Rails.logger.info '******************* customer.subscription.trial_will_end *******************************'
     Rails.logger.info event
     Rails.logger.info '**************************************************'
 
