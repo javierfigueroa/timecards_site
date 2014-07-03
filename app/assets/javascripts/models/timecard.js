@@ -5,6 +5,31 @@ Timecards.Models.Timecard = Backbone.RelationalModel.extend({
 
     idAttribute: "id",
 
+    toJSON: function() {
+        var attr = Backbone.Model.prototype.toJSON.call(this);
+
+        var from = moment(attr.timestamp_in);
+
+        attr["timecard[timestamp_in(1i)]"] = moment(from).year();
+        attr["timecard[timestamp_in(2i)]"] = moment(from).month() + 1;
+        attr["timecard[timestamp_in(3i)]"] = moment(from).date();
+        attr["timecard[timestamp_in(4i)]"] = moment(from).hours();
+        attr["timecard[timestamp_in(5i)]"] = moment(from).minutes();
+
+
+        var to = moment(attr.timestamp_out);
+
+        attr["timecard[timestamp_out(1i)]"] = moment(to).year();
+        attr["timecard[timestamp_out(2i)]"] = moment(to).month() + 1;
+        attr["timecard[timestamp_out(3i)]"] = moment(to).date();
+        attr["timecard[timestamp_out(4i)]"] = moment(to).hours();
+        attr["timecard[timestamp_out(5i)]"] = moment(to).minutes();
+
+        delete attr.timestamp_in;
+        delete attr.timestamp_out;
+        return attr;
+    },
+
     getPhotoUrl: function () {
         return this.get('photo_in_url');
     },

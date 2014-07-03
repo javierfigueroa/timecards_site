@@ -217,41 +217,40 @@ Timecards.Views.Timecard = Backbone.View.extend({
     },
 
     _update: function() {
-        var data = {},
-            self = this,
-            from = $('#from-timecard').data("DateTimePicker"),
-            to = $('#to-timecard').data("DateTimePicker");
+//        var self = this,
+//            from = $('#from-timecard').data("DateTimePicker"),
+//            to = $('#to-timecard').data("DateTimePicker");
 
-        if (from.getDate()) {
-            var date = from.getDate();
+//        if (from.getDate()) {
+//            var date = from.getDate();
+//
+//            data["timecard[timestamp_in(1i)]"] = moment(date).year();
+//            data["timecard[timestamp_in(2i)]"] = moment(date).month() + 1;
+//            data["timecard[timestamp_in(3i)]"] = moment(date).date();
+//            data["timecard[timestamp_in(4i)]"] = moment(date).hours();
+//            data["timecard[timestamp_in(5i)]"] = moment(date).minutes();
+//        }
 
-            data["timecard[timestamp_in(1i)]"] = moment(date).year();
-            data["timecard[timestamp_in(2i)]"] = moment(date).month() + 1;
-            data["timecard[timestamp_in(3i)]"] = moment(date).date();
-            data["timecard[timestamp_in(4i)]"] = moment(date).hours();
-            data["timecard[timestamp_in(5i)]"] = moment(date).minutes();
-        }
-
-        if (to.getDate()) {
-            var date = to.getDate();
-
-            data["timecard[timestamp_out(1i)]"] = moment(date).year();
-            data["timecard[timestamp_out(2i)]"] = moment(date).month() + 1;
-            data["timecard[timestamp_out(3i)]"] = moment(date).date();
-            data["timecard[timestamp_out(4i)]"] = moment(date).hours();
-            data["timecard[timestamp_out(5i)]"] = moment(date).minutes();
-        }
+//        if (to.getDate()) {
+//            var date = to.getDate();
+//
+//            data["timecard[timestamp_out(1i)]"] = moment(date).year();
+//            data["timecard[timestamp_out(2i)]"] = moment(date).month() + 1;
+//            data["timecard[timestamp_out(3i)]"] = moment(date).date();
+//            data["timecard[timestamp_out(4i)]"] = moment(date).hours();
+//            data["timecard[timestamp_out(5i)]"] = moment(date).minutes();
+//        }
 
         if (this._locationIn) {
             var location = this._locationIn;
-            self.model.set('latitude_in', location.coords.latitude);
-            self.model.set('longitude_in', location.coords.longitude);
+            this.model.set('latitude_in', location.coords.latitude);
+            this.model.set('longitude_in', location.coords.longitude);
         }
 
         if (this._locationOut) {
             var location = this._locationOut;
-            self.model.set('latitude_out', location.coords.latitude);
-            self.model.set('longitude_out', location.coords.longitude);
+            this.model.set('latitude_out', location.coords.latitude);
+            this.model.set('longitude_out', location.coords.longitude);
         }
 
         if (this._photoIn) {
@@ -263,20 +262,20 @@ Timecards.Views.Timecard = Backbone.View.extend({
         }
 
 
-        $.ajax({
-            type: "PUT",
-            url: "timecards/" + this.model.get('id') + ".json",
-            data: data,
-            cache: false,
-            success: function (data) {
-                self.model.set('timestamp_in', moment(data.timestamp_in).utc().format('MM/DD/YYYY hh:mm:ss A'));
-                self.model.set('timestamp_out', moment(data.timestamp_out).utc().format('MM/DD/YYYY hh:mm:ss A'));
-                self.model.save();
-            },
-            error:function(){
-                alert("something went wrong");
-            }
-        })  ;
+//        $.ajax({
+//            type: "PUT",
+//            url: "timecards/" + this.model.get('id') + ".json",
+//            data: data,
+//            cache: false,
+//            success: function (data) {
+//                self.model.set('timestamp_in', moment(data.timestamp_in).utc().format('MM/DD/YYYY hh:mm:ss A'));
+//                self.model.set('timestamp_out', moment(data.timestamp_out).utc().format('MM/DD/YYYY hh:mm:ss A'));
+                this.model.save();
+//            },
+//            error:function(){
+//                alert("something went wrong");
+//            }
+//        })  ;
 
         this.editing = false;
         return false;
