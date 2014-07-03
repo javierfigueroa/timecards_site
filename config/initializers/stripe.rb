@@ -3,8 +3,14 @@ STRIPE_PUBLIC_KEY = ENV["STRIPE_PUBLIC_KEY"] || 'fake-api-key-for-testing'
 
 StripeEvent.setup do
   subscribe 'customer.subscription.deleted' do |event|
-    user = User.find_by_customer_id(event.data.object.customer)
-    user.expire
+    Tenant.all.each do |tenant|
+      tenant.scope_schema do
+        user = User.find_by_customer_id(event.data.object.customer)
+        if !user.nil?
+          user.expire
+        end
+      end
+    end
   end
 
   subscribe 'customer.created' do |event|
@@ -19,8 +25,14 @@ StripeEvent.setup do
     Rails.logger.info '**************************************************'
 
     if (event.data.object.delinquent)
-      user = User.find_by_customer_id(event.data.object.customer)
-      user.de_activate
+      Tenant.all.each do |tenant|
+        tenant.scope_schema do
+          user = User.find_by_customer_id(event.data.object.customer)
+          if !user.nil?
+            user.de_activate
+          end
+        end
+      end
     end
   end
 
@@ -41,9 +53,14 @@ StripeEvent.setup do
     Rails.logger.info '**************************************************'
 
     #send email with notice
-    user = User.find_by_customer_id(event.data.object.customer)
-    user.warn
-
+    Tenant.all.each do |tenant|
+      tenant.scope_schema do
+        user = User.find_by_customer_id(event.data.object.customer)
+        if !user.nil?
+          user.warn
+        end
+      end
+    end
   end
 
 
