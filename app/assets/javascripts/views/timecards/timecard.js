@@ -4,7 +4,6 @@ Timecards.Views.Timecard = Backbone.View.extend({
     _locationOut: null,
     _photoIn: null,
     _photoOut: null,
-    editing: false,
 
     template: JST['timecards/timecard'],
 
@@ -24,7 +23,8 @@ Timecards.Views.Timecard = Backbone.View.extend({
         $(".avatar-out", this.el).css({'background-image': 'url(' + this.model.get('photo_out_url') + ')'});
         $("html, body").animate({ scrollTop: "0px" });
 
-        $("#edit", this.el).on('click', $.proxy(this._edit, this));
+        $("#edit", this.el).on('click', $.proxy(this._setEditMode, this));
+        $("#cancel", this.el).on('click', $.proxy(this._setViewMode, this));
         $("#save", this.el).hide().on('click', $.proxy(this._update, this));
         $("#browser-in", this.el).on('click', $.proxy(this._setBrowserLocationIn, this));
         $("#browser-out", this.el).on('click', $.proxy(this._setBrowserLocationOut, this));
@@ -69,42 +69,39 @@ Timecards.Views.Timecard = Backbone.View.extend({
         });
     },
 
-    _edit: function () {
-        this.editing = !this.editing;
+    _setEditMode: function () {
+        $("#edit").hide();
+        $(".timecard-label").hide();
 
+        $(".file-container").show();
+        $("#save").show();
+        $(".location-link").show();
+        $(".picker").show();
+        $("#cancel").show();
+        $("#timecard-out").show();
 
-        if (this.editing) {
-            $(".timecard-label").hide();
-            $(".file-container").show();
-            $("#save").show();
-            $(".location-link").show();
-            $(".picker").show();
-            this._setEditMode();
-        }else{
-            $(".timecard-label").show();
-            $("#save").hide();
-            $(".location-link").hide();
-            $(".picker").hide();
-            $(".file-container").hide();
-            this._setViewMode();
-        }
+        this._setPickerFields();
+        this._setFileUploadFields();
 
         return false;
     },
 
-    _setEditMode: function () {
-        $("#edit").text("Cancel");
-        $("#timecard-out").show();
-        this._setPickerFields();
-        this._setFileUploadFields();
-    },
-
     _setViewMode: function () {
-        $("#edit").text("Edit");
+        $(".timecard-label").show();
+        $("#edit").show();
+
+        $("#save").hide();
+        $(".location-link").hide();
+        $(".picker").hide();
+        $(".file-container").hide();
+        $("#cancel").hide();
         $("#gps-error").hide();
+
         if (this.model.isMissingClockOut()) {
             $("#timecard-out", this.el).hide();
         }
+
+        return false;
     },
 
     _fetchBrowserLocation: function(callback) {
@@ -217,29 +214,18 @@ Timecards.Views.Timecard = Backbone.View.extend({
     },
 
     _update: function() {
-//        var self = this,
-//            from = $('#from-timecard').data("DateTimePicker"),
-//            to = $('#to-timecard').data("DateTimePicker");
+          var from = $('#from-timecard').data("DateTimePicker"),
+                to = $('#to-timecard').data("DateTimePicker");
 
-//        if (from.getDate()) {
-//            var date = from.getDate();
-//
-//            data["timecard[timestamp_in(1i)]"] = moment(date).year();
-//            data["timecard[timestamp_in(2i)]"] = moment(date).month() + 1;
-//            data["timecard[timestamp_in(3i)]"] = moment(date).date();
-//            data["timecard[timestamp_in(4i)]"] = moment(date).hours();
-//            data["timecard[timestamp_in(5i)]"] = moment(date).minutes();
-//        }
+        if (from.getDate()) {
+            var date = from.getDate();
+            this.model.set('timestamp_in', moment(date).utc().format('DD/MM/YYYY hh:mm:ss A'));
+        }
 
-//        if (to.getDate()) {
-//            var date = to.getDate();
-//
-//            data["timecard[timestamp_out(1i)]"] = moment(date).year();
-//            data["timecard[timestamp_out(2i)]"] = moment(date).month() + 1;
-//            data["timecard[timestamp_out(3i)]"] = moment(date).date();
-//            data["timecard[timestamp_out(4i)]"] = moment(date).hours();
-//            data["timecard[timestamp_out(5i)]"] = moment(date).minutes();
-//        }
+        if (to.getDate()) {
+            var date = to.getDate();
+            this.model.set('timestamp_out', moment(date).utc().format('DD/MM/YYYY hh:mm:ss A'));
+        }
 
         if (this._locationIn) {
             var location = this._locationIn;
@@ -261,23 +247,8 @@ Timecards.Views.Timecard = Backbone.View.extend({
             this._photoOut.submit();
         }
 
-
-//        $.ajax({
-//            type: "PUT",
-//            url: "timecards/" + this.model.get('id') + ".json",
-//            data: data,
-//            cache: false,
-//            success: function (data) {
-//                self.model.set('timestamp_in', moment(data.timestamp_in).utc().format('MM/DD/YYYY hh:mm:ss A'));
-//                self.model.set('timestamp_out', moment(data.timestamp_out).utc().format('MM/DD/YYYY hh:mm:ss A'));
-                this.model.save();
-//            },
-//            error:function(){
-//                alert("something went wrong");
-//            }
-//        })  ;
-
-        this.editing = false;
+        this.model.save();
+        this._setViewMode();
         return false;
     }
 });
