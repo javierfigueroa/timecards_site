@@ -5,7 +5,9 @@ class Tenant < ActiveRecord::Base
   has_many :users
   after_create :create_schema
   before_destroy :destroy_schema
-  validates :subdomain, :uniqueness => true
+  validates :subdomain, :presence   => true,
+                        :uniqueness => true,
+                        :subdomain  => true
   
   #create new schema once the schema is created
   def create_schema
