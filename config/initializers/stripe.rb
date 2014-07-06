@@ -20,11 +20,9 @@ StripeEvent.setup do
     Rails.logger.info event
     Rails.logger.info '**************************************************'
 
-    if (event.data.object.delinquent)
-      user = find_user(event)
-      unless user.nil?
-        user.de_activate
-      end
+    user = find_user(event)
+    unless user.nil?
+      user.de_activate
     end
   end
 

@@ -16,7 +16,7 @@ $('.registrations').ready(function() {
         processCard: function() {
           var card;
           card = {
-            name: $('#user_name').val(),
+            name: $('#user_first_name').val() + " " + $('#user_last_name').val(),
             number: $('#card_number').val(),
             cvc: $('#card_code').val(),
             expMonth: $('#card_month').val(),

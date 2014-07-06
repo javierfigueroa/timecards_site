@@ -90,23 +90,14 @@ class User < ActiveRecord::Base
         customer = Stripe::Customer.create(
             :email => email,
             :description => [first_name, last_name].join(' '),
-            #:card => stripe_token,
             :plan => "silver"
-        )
-      elsif coupon.blank?
-        customer = Stripe::Customer.create(
-          :email => email,
-          :description => [first_name, last_name].join(' '),
-          :card => stripe_token,
-          :plan => "silver"
         )
       else
         customer = Stripe::Customer.create(
           :email => email,
           :description => [first_name, last_name].join(' '),
           :card => stripe_token,
-          #:plan => roles.first.name,
-          :coupon => coupon
+          :plan => "silver"
         )
       end
     else
